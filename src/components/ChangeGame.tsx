@@ -20,6 +20,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { Game } from "./enums";
 import { XIcon } from "../utils/svg";
+import { toggleAdd } from "../redux/slices/showAddSlice";
 
 const ChangeGame = () => {
   const dispatch = useAppDispatch();
@@ -33,6 +34,7 @@ const ChangeGame = () => {
   //   dispatch(clear());
   // };
   const handleChangeGame = (game: Game) => {
+    dispatch(toggleAdd());
     console.log("game", game.id);
     dispatch(updateGame(currenGame));
     dispatch(changeGame(game));

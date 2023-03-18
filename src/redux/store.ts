@@ -11,6 +11,7 @@ import logger from "redux-logger";
 import thunk from "redux-thunk";
 import activeSetSlice from "./slices/activeSetSlice";
 import Color from "./slices/colorSlice";
+import showAddSlice from "./slices/showAddSlice";
 
 // ...
 
@@ -21,6 +22,7 @@ const reducers = combineReducers({
   frequency: frequencySlice,
   activeSet: activeSetSlice,
   color: Color,
+  showAdd: showAddSlice,
 });
 
 const persistConfig = {

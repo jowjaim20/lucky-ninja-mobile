@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Platform,
   Pressable,
@@ -39,10 +39,46 @@ import Main from "./routes/screens/Main";
 import TestScreen from "./routes/screens/TestScreen";
 import Settings from "./routes/screens/Settings";
 import Home from "./routes/screens/Home";
+import {
+  BannerAd,
+  BannerAdSize,
+  TestIds,
+  InterstitialAd,
+  AdEventType,
+} from "react-native-google-mobile-ads";
+
+const adUnitId = __DEV__
+  ? TestIds.BANNER
+  : "ca-app-pub-7636907857588942/6591921320";
+
+const adUnitId1 = __DEV__
+  ? TestIds.INTERSTITIAL
+  : "ca-app-pub-7636907857588942/8260489543";
+
+const interstitial = InterstitialAd.createForAdRequest(adUnitId1, {
+  requestNonPersonalizedAdsOnly: true,
+  keywords: ["fashion", "clothing"],
+});
 
 const Tab = createBottomTabNavigator();
 
 const NinjaApp = () => {
+  const showAdd = useAppSelector((state) => state.showAdd);
+
+  useEffect(() => {
+    const unsubscribe = interstitial.addAdEventListener(
+      AdEventType.LOADED,
+      () => {
+        interstitial.show();
+      }
+    );
+
+    // Start loading the interstitial straight away
+    interstitial.load();
+
+    // Unsubscribe from events on unmount
+    return unsubscribe;
+  }, [showAdd]);
   return (
     <SafeAreaView
       style={[
@@ -55,7 +91,13 @@ const NinjaApp = () => {
       ]}
     >
       <View style={{ height: 70 }}>
-        <Text>ads</Text>
+        <BannerAd
+          unitId={adUnitId}
+          size={BannerAdSize.FULL_BANNER}
+          requestOptions={{
+            requestNonPersonalizedAdsOnly: true,
+          }}
+        />
       </View>
 
       <NavigationContainer>

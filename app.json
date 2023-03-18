@@ -12,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#1e1e1e"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -33,5 +31,8 @@
         "projectId": "ec6ac9f8-006a-48e7-a723-e2e61aa9bfd6"
       }
     }
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-7636907857588942~9888168501"
   }
 }

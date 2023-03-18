@@ -4,6 +4,7 @@ import NinjaApp from "./src";
 import store, { persistor } from "./src/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import "expo-dev-client";
 
 export default function App() {
   return (
