@@ -36,6 +36,7 @@ const Main = () => {
 
   const currentFrequency = useAppSelector((state) => state.frequency);
   const color = useAppSelector((state) => state.color);
+  const picks = useAppSelector((state) => state.picks);
 
   const { countColors } = useCountColor();
   const { maxNumber, previousResults, maxCount, name, repeat, id, startZero } =
@@ -120,7 +121,7 @@ const Main = () => {
       />
       <Button
         color="#1e1e1e"
-        title="Color"
+        title="Edit"
         onPress={() => dispatch(setColor(!color))}
       />
       <AllNumbersCard
@@ -133,10 +134,14 @@ const Main = () => {
       />
 
       <View style={{ height: 44, paddingVertical: 2, flexDirection: "row" }}>
-        <Picks />
+        <Picks numbers={picks} />
       </View>
       <View>
-        <ResultsCard allNumbers={allNum} results={previousResults} />
+        <ResultsCard
+          allNumbers={allNum}
+          results={previousResults}
+          edit={true}
+        />
       </View>
     </>
   );

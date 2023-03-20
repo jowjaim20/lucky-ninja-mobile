@@ -4,9 +4,9 @@ import useModifyArray from "../hooks/useModifyArray";
 import { useAppSelector } from "../redux/store";
 import Ball from "./Ball";
 import BallController from "./BallController";
+import { Result } from "./enums";
 
-const Picks = () => {
-  const picks = useAppSelector((state) => state.picks);
+const Picks = ({ numbers }: { numbers: Omit<Result, "id"> }) => {
   const {
     maxNumber,
     previousResults,
@@ -22,8 +22,8 @@ const Picks = () => {
     replaceIndex: -1,
     item: {
       id: "test",
-      numbers: picks.numbers,
-      specialNumber: picks.specialNumber,
+      numbers: numbers.numbers,
+      specialNumber: numbers.specialNumber,
     },
   });
 
@@ -33,7 +33,7 @@ const Picks = () => {
         flexDirection: "row",
       }}
     >
-      {picks.numbers.map((num, index) => (
+      {numbers.numbers.map((num, index) => (
         <BallController
           key={`${num}${index}`}
           currentIndex={-1}
@@ -44,20 +44,20 @@ const Picks = () => {
           )}
         />
       ))}
-      {picks?.specialNumber !== 0 && specialNumberMax && (
+      {numbers?.specialNumber !== 0 && specialNumberMax && (
         <BallController
           key={999}
           notAdd={false}
           {...{
             currentIndex: -1,
-            number: picks.specialNumber,
+            number: numbers.specialNumber,
             prevResults: previousResults,
           }}
           render={(hex, clicked, onClick, activeSet) => (
             <Ball
               onClick={onClick}
               className="w-10 h-10 text-3xl rounded"
-              title={picks.specialNumber || 0}
+              title={numbers.specialNumber || 0}
               hex="#454545"
               clicked={true}
               activeSet={activeSet}

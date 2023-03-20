@@ -32,11 +32,15 @@ const Ball: React.FunctionComponent<BallProps> = ({
 }) => {
   const clickedStyle = {
     bg: {
-      borderColor: !clicked ? `${hex}66` : "#fff",
-      backgroundColor: clicked || activeSet ? hex : `#00000011`,
+      borderColor: clicked || activeSet ? "#fff" : `${hex}22`,
+      borderTopWidth: clicked || activeSet ? 2.5 : 0.5,
+      borderLeftWidth: clicked || activeSet ? 2.5 : 0.5,
+      borderRightWidth: clicked || activeSet ? 2.5 : 0,
+      borderBottomWidth: clicked || activeSet ? 2.5 : 0,
+      backgroundColor: hex,
     },
     text: {
-      color: clicked || activeSet ? "#fff" : hex,
+      color: clicked || activeSet ? "#000" : "#fff",
     },
   };
 
@@ -64,13 +68,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 4,
-    borderTopWidth: 0.5,
-    borderLeftWidth: 0.5,
     margin: 1.5,
   },
   text: {
     fontSize: 16,
-    color: "#fff",
     justifyContent: "center",
     alignItems: "center",
   },

@@ -130,7 +130,7 @@ const AllNumbersCard: React.FunctionComponent<AllNumbersProps> = (props) => {
               paddingVertical: 2,
             }}
           >
-            <Picks />
+            <Picks numbers={picks} />
           </View>
           <View
             style={{
