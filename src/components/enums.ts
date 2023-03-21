@@ -20,6 +20,7 @@ export interface Game {
   repeat: boolean;
   startZero: boolean;
   specialNumberMax: number;
+  saved: Omit<Result, "id">[];
 }
 
 export type LuckyGames = Game[];
@@ -33,4 +34,5 @@ const game: Game = {
   repeat: false,
   startZero: false,
   specialNumberMax: 26,
+  saved: [],
 };

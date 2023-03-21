@@ -1,9 +1,40 @@
-import { View, Text } from "react-native";
+import { useState } from "react";
+import { View, Text, Button, Alert } from "react-native";
+import { Result } from "../../components/enums";
+import Picks from "../../components/Picks";
+import { deletedSave } from "../../redux/slices/currentGame";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 
 const TestScreen = () => {
+  const dispath = useAppDispatch();
+  const saved = useAppSelector((state) => state.currentGame.currentGame.saved);
+  const handleDeleteSaved = (index: number) => {
+    dispath(deletedSave(index));
+  };
   return (
     <View>
-      <Text>TEst</Text>
+      {saved?.map((obj, index) => (
+        <View key={index}>
+          <Picks numbers={obj} overRideHex="#aaa" />
+          <Button
+            title="delete"
+            onPress={() =>
+              Alert.alert("Alert", "Delete Saved?", [
+                {
+                  text: "Delete",
+                  onPress: () => {
+                    handleDeleteSaved(index);
+                  },
+                },
+                {
+                  text: "Cancel",
+                  onPress: () => {},
+                },
+              ])
+            }
+          />
+        </View>
+      ))}
     </View>
   );
 };

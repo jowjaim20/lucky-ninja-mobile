@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Touchable,
   Pressable,
+  Alert,
 } from "react-native";
 import Ball from "./Ball";
 import BallController from "./BallController";
@@ -132,7 +133,18 @@ const renderItem = ({
 
           <Pressable
             android_ripple={{ color: "#fff" }}
-            onPress={() => dispath(deleteResult(item.id))}
+            onPress={() =>
+              Alert.alert("Alert", "Delete Picks?", [
+                {
+                  text: "Delete",
+                  onPress: () => dispath(deleteResult(item.id)),
+                },
+                {
+                  text: "Cancel",
+                  onPress: () => {},
+                },
+              ])
+            }
           >
             <View>
               <XIcon />

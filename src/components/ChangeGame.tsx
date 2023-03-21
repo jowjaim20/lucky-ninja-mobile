@@ -16,6 +16,7 @@ import {
   TextInput,
   Button,
   ScrollView,
+  Alert,
 } from "react-native";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { Game } from "./enums";
@@ -70,7 +71,20 @@ const ChangeGame = () => {
             >
               {game.name}
             </Text>
-            <Pressable onPress={() => handleDeleteGame(game.id)}>
+            <Pressable
+              onPress={() =>
+                Alert.alert("Alert", `Delete ${game.name}?`, [
+                  {
+                    text: "Delete",
+                    onPress: () => handleDeleteGame(game.id),
+                  },
+                  {
+                    text: "Cancel",
+                    onPress: () => {},
+                  },
+                ])
+              }
+            >
               <View>
                 <XIcon />
               </View>

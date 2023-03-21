@@ -6,7 +6,13 @@ import Ball from "./Ball";
 import BallController from "./BallController";
 import { Result } from "./enums";
 
-const Picks = ({ numbers }: { numbers: Omit<Result, "id"> }) => {
+const Picks = ({
+  numbers,
+  overRideHex,
+}: {
+  numbers: Omit<Result, "id">;
+  overRideHex?: string;
+}) => {
   const {
     maxNumber,
     previousResults,
@@ -40,7 +46,7 @@ const Picks = ({ numbers }: { numbers: Omit<Result, "id"> }) => {
           number={num}
           prevResults={newArray}
           render={(hex) => (
-            <Ball className=" w-20 h-20" hex={hex} title={num} />
+            <Ball className=" w-20 h-20" hex={overRideHex || hex} title={num} />
           )}
         />
       ))}

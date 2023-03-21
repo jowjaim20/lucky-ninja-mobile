@@ -18,6 +18,7 @@ const initialState: InitState = {
     repeat: false,
     startZero: false,
     specialNumberMax: 26,
+    saved: [],
   },
 };
 
@@ -59,7 +60,7 @@ export const CurrentGame = createSlice({
     },
     addGame: (
       state,
-      action: PayloadAction<Omit<Game, "id" | "previousResults">>
+      action: PayloadAction<Omit<Game, "id" | "previousResults" | "saved">>
     ) => {
       const newGame: Game = {
         id: uuid.v4().toString(),
@@ -70,6 +71,7 @@ export const CurrentGame = createSlice({
         repeat: action.payload.repeat,
         startZero: action.payload.startZero,
         specialNumberMax: action.payload.specialNumberMax,
+        saved: [],
       };
       state.games.push(newGame);
     },
@@ -84,6 +86,15 @@ export const CurrentGame = createSlice({
       const newArray = [...games];
       state.games = newArray;
     },
+    addPicksTosaved: (state, action: PayloadAction<Omit<Result, "id">>) => {
+      state.currentGame.saved.unshift(action.payload);
+    },
+    deletedSave: (state, action: PayloadAction<number>) => {
+      const newSaved = state.currentGame.saved.filter(
+        (obj, idx) => idx !== action.payload
+      );
+      state.currentGame.saved = newSaved;
+    },
     clear: (state) => {
       return {
         games: [],
@@ -96,6 +107,7 @@ export const CurrentGame = createSlice({
           repeat: false,
           startZero: false,
           specialNumberMax: 26,
+          saved: [],
         },
       };
     },
@@ -113,4 +125,6 @@ export const {
   deleteGame,
   updateGame,
   clear,
+  addPicksTosaved,
+  deletedSave,
 } = CurrentGame.actions;

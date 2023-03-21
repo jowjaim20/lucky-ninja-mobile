@@ -15,7 +15,6 @@ import { toggleAdd } from "../../redux/slices/showAddSlice";
 import Generator from "../../components/Generator";
 
 const Home = () => {
-  const dispatch = useAppDispatch();
 
   const { maxNumber, previousResults, maxCount, name, repeat, id, startZero } =
     useAppSelector((state) => state.currentGame.currentGame);
