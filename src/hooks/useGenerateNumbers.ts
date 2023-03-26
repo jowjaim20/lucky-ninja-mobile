@@ -59,8 +59,10 @@ const useGenerateNumbers = () => {
 
     if (specialNumberMax !== 0) {
       const number = Math.trunc(Math.random() * specialNumberMax) + 1;
+
       specialNumber = number;
     }
+    console.log("specialNumber", specialNumber);
 
     dispath(setPicks(numArr));
     dispath(addSpecialNumber(specialNumber));

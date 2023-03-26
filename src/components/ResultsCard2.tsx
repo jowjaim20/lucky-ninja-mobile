@@ -101,8 +101,7 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
                 <Ball
                   onClick={handleSetClick}
                   title={item.specialNumber || 0}
-                  hex="#454545"
-                  clicked={true}
+                  hex="#fff"
                   size={35}
                 />
               )}

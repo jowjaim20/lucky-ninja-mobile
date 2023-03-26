@@ -25,6 +25,13 @@ const TestScreen = () => {
           {obj.numbers.map((num, idx) => (
             <Ball key={idx} title={num.number} hex={num.hex} />
           ))}
+          {obj?.specialNumber !== 0 && (
+            <Ball
+              onClick={() => {}}
+              title={obj.specialNumber || 0}
+              hex="#fff"
+            />
+          )}
           <Button
             title="delete"
             onPress={() =>
