@@ -13,34 +13,39 @@ import {
 import { Clicked } from "../redux/slices/clickedSlice";
 
 interface BallProps {
-  title: number;
-  className?: string;
+  title: number | string;
   hex?: string;
-  onClick?: (num: number) => void;
+  onClick?: (num: number, hex: string) => void;
   clicked?: boolean;
   ripple?: { color: string; borderless: boolean };
-  activeSet?: boolean;
+  size?: number;
 }
 
 const Ball: React.FunctionComponent<BallProps> = ({
   title,
   hex,
   onClick,
-  clicked = true,
+  clicked = false,
   ripple,
-  activeSet,
+  size = 40,
 }) => {
   const clickedStyle = {
     bg: {
-      borderColor: clicked || activeSet ? "#fff" : `${hex}22`,
-      borderTopWidth: clicked || activeSet ? 2.5 : 0.5,
-      borderLeftWidth: clicked || activeSet ? 2.5 : 0.5,
-      borderRightWidth: clicked || activeSet ? 2.5 : 0,
-      borderBottomWidth: clicked || activeSet ? 2.5 : 0,
-      backgroundColor: hex,
+      width: size,
+      height: size,
+      borderColor: !clicked ? "#0D3341" : "#0D3341",
+      borderTopWidth: 2.5,
+      borderLeftWidth: 2.5,
+      borderRightWidth: 2.5,
+      borderBottomWidth: 2.5,
+      borderRadius: 16,
+
+      backgroundColor: clicked ? `#0D3341` : hex,
     },
     text: {
-      color: clicked || activeSet ? "#000" : "#fff",
+      fontSize: clicked ? 20 : 14,
+
+      color: clicked ? hex : "#0D3341",
     },
   };
 
@@ -48,12 +53,11 @@ const Ball: React.FunctionComponent<BallProps> = ({
     <Pressable
       android_ripple={ripple}
       onPress={() => {
-        onClick && onClick(title);
+        onClick &&
+          onClick(typeof title === "number" ? title : 0, hex ? hex : "");
       }}
     >
-      <View
-        style={[styles.container, styles.shadowProp, { ...clickedStyle.bg }]}
-      >
+      <View style={[styles.container, { ...clickedStyle.bg }]}>
         <Text style={{ ...styles.text, ...clickedStyle.text }}>{title}</Text>
       </View>
     </Pressable>
@@ -62,16 +66,12 @@ const Ball: React.FunctionComponent<BallProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    padding: 4,
-    width: 40,
-    height: 40,
+    display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 4,
-    margin: 1.5,
   },
   text: {
-    fontSize: 16,
+    fontWeight: "900",
     justifyContent: "center",
     alignItems: "center",
   },

@@ -9,6 +9,7 @@ import {
   Text,
   View,
   Switch,
+  ScrollView,
 } from "react-native";
 import Ball from "./Ball";
 import BallController from "./BallController";
@@ -48,7 +49,7 @@ const AddGame: React.FunctionComponent<AddGameProps> = (props) => {
     formState: { errors },
   } = useForm<FormProps>({
     defaultValues: {
-      maxCount: 6,
+      maxCount: 5,
       maxNumber: 42,
       name: "",
       repeat: false,
@@ -69,6 +70,8 @@ const AddGame: React.FunctionComponent<AddGameProps> = (props) => {
         specialNumberMax: +data.specialNumberMax,
       })
     );
+    Alert.alert("Game Added");
+    setModalVisible(false);
   };
 
   //   const onChange = (arg) => {
@@ -89,141 +92,153 @@ const AddGame: React.FunctionComponent<AddGameProps> = (props) => {
         setModalVisible(!modalVisible);
       }}
     >
-      <View style={styles.container}>
-        <Text style={styles.label}>MaxCount</Text>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              keyboardType="numeric"
-              style={styles.input}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-              value={value.toString()}
-            />
-          )}
-          name="maxCount"
-          rules={{ required: true }}
-        />
-        <Text style={styles.label}>MaxNumber</Text>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              keyboardType="numeric"
-              style={styles.input}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-              value={value.toString()}
-            />
-          )}
-          name="maxNumber"
-          rules={{ required: true }}
-        />
-        <Text style={styles.label}>Special Number Max</Text>
-
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              keyboardType="numeric"
-              style={styles.input}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-              value={value.toString()}
-            />
-          )}
-          name="specialNumberMax"
-          rules={{ required: true }}
-        />
-        <Text style={styles.label}>Name</Text>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-              value={value.toString()}
-            />
-          )}
-          name="name"
-          rules={{ required: true }}
-        />
-        <View
-          style={{
-            width: 200,
-            height: 100,
-          }}
-        >
-          <Text style={styles.label}>Repeat</Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => {
-              console.log("value", value);
-              return (
-                <Switch
-                  trackColor={{ false: "#767577", true: "#81b0ff" }}
-                  thumbColor={value ? "#f5dd4b" : "#f4f3f4"}
-                  onValueChange={() => {
-                    console.log("est");
-                    onChange(!value);
-                  }}
-                  value={value}
-                />
-              );
-            }}
-            name="repeat"
-          />
-        </View>
-        <View
-          style={{
-            width: 200,
-            height: 100,
-          }}
-        >
-          <Text style={styles.label}>StartZero</Text>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.label}>Length</Text>
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={value ? "#f5dd4b" : "#f4f3f4"}
-                onValueChange={() => {
-                  console.log("est1");
-                  onChange(!value);
-                }}
-                value={value}
+              <TextInput
+                keyboardType="numeric"
+                style={styles.input}
+                onBlur={onBlur}
+                onChangeText={(value) => onChange(value)}
+                value={value.toString()}
               />
             )}
-            name="startZero"
+            name="maxCount"
+            rules={{ required: true, max: 6 }}
           />
-        </View>
+          <Text style={styles.label}>Last Number</Text>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                keyboardType="numeric"
+                style={styles.input}
+                onBlur={onBlur}
+                onChangeText={(value) => onChange(value)}
+                value={value.toString()}
+              />
+            )}
+            name="maxNumber"
+            rules={{ required: true, max: 99 }}
+          />
+          <Text style={styles.label}>Special Number Last Number</Text>
 
-        <View style={styles.button}>
-          <Button
-            color="#1e1e1e"
-            title="Reset"
-            onPress={() => {
-              reset({
-                maxCount: 6,
-                maxNumber: 42,
-                name: "test",
-                repeat: false,
-                startZero: false,
-              });
-            }}
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                keyboardType="numeric"
+                style={styles.input}
+                onBlur={onBlur}
+                onChangeText={(value) => onChange(value)}
+                value={value.toString()}
+              />
+            )}
+            name="specialNumberMax"
+            rules={{ required: true }}
           />
-        </View>
+          <Text style={styles.label}>Name</Text>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.input}
+                onBlur={onBlur}
+                onChangeText={(value) => onChange(value)}
+                value={value.toString()}
+              />
+            )}
+            name="name"
+            rules={{ required: true }}
+          />
+          <View style={{ display: "flex", flexDirection: "row" }}>
+            <View
+              style={{
+                width: 200,
+                height: 100,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text style={styles.label}>Repeat</Text>
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => {
+                  console.log("value", value);
+                  return (
+                    <Switch
+                      trackColor={{ false: "#767577", true: "#81b0ff" }}
+                      thumbColor={value ? "#f5dd4b" : "#f4f3f4"}
+                      onValueChange={() => {
+                        console.log("est");
+                        onChange(!value);
+                      }}
+                      value={value}
+                    />
+                  );
+                }}
+                name="repeat"
+              />
+            </View>
+            <View
+              style={{
+                width: 200,
+                height: 100,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text style={styles.label}>StartZero</Text>
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Switch
+                    trackColor={{ false: "#767577", true: "#81b0ff" }}
+                    thumbColor={value ? "#f5dd4b" : "#f4f3f4"}
+                    onValueChange={() => {
+                      console.log("est1");
+                      onChange(!value);
+                    }}
+                    value={value}
+                  />
+                )}
+                name="startZero"
+              />
+            </View>
+          </View>
 
-        <View style={styles.button}>
-          <Button
-            color="#1e1e1e"
-            title="Button"
-            onPress={handleSubmit(onSubmit)}
-          />
+          <View style={styles.button}>
+            <Button
+              color="#1e1e1e"
+              title="Reset"
+              onPress={() => {
+                reset({
+                  maxCount: 6,
+                  maxNumber: 42,
+                  name: "test",
+                  repeat: false,
+                  startZero: false,
+                });
+              }}
+            />
+          </View>
+
+          <View style={styles.button}>
+            <Button
+              color="#1e1e1e"
+              title="Add"
+              onPress={handleSubmit(onSubmit)}
+            />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </Modal>
   );
 };

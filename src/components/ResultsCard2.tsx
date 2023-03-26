@@ -25,7 +25,12 @@ import { Button } from "react-native";
 import { setClicked } from "../redux/slices/clickedSlice";
 import { addNumber, setPicks } from "../redux/slices/picksSlice";
 import { setActiveSet } from "../redux/slices/activeSetSlice";
-import { SortIcon, XIcon } from "../utils/svg";
+import {
+  BuyMeACoffeeIcon,
+  ChevronRightIcon,
+  SortIcon,
+  XIcon,
+} from "../utils/svg";
 
 interface ResultsCardProps {
   results: Result[];
@@ -40,11 +45,14 @@ interface RowItemProps {
 
 const RowItem: FunctionComponent<RowItemProps> = (props) => {
   const { item, currIndex } = props;
-  console.log("item", item);
+  const dispatch = useAppDispatch();
   const colorAll = useAppSelector((state) => state.color);
   const { previousResults, specialNumberMax } = useAppSelector(
     (state) => state.currentGame.currentGame
   );
+  const handleSetClick = (num: number, hex: string) => {
+    dispatch(setClicked(num));
+  };
   return (
     <View key={item.id}>
       <ScrollView horizontal>
@@ -52,23 +60,28 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
           style={{
             display: "flex",
             flexDirection: "row",
-            gap: 3,
+            gap: 1,
+            backgroundColor: "#AFBDC2",
+            paddingHorizontal: 3,
+            paddingVertical: 3,
+            borderRadius: 12,
           }}
         >
           {item.numbers.map((num, index) => (
             <BallController
+              notAdd={false}
               key={`${num}${index}`}
               {...{
                 currentIndex: currIndex,
                 number: num,
                 prevResults: previousResults,
               }}
-              render={(hex, clicked, onClick, activeSet) => (
+              render={(hex, clicked, onClick) => (
                 <Ball
-                  onClick={onClick}
+                  onClick={handleSetClick}
                   title={num}
                   hex={hex}
-                  size={40}
+                  size={35}
                   clicked={clicked || colorAll}
                 />
               )}
@@ -77,6 +90,7 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
 
           {specialNumberMax !== 0 && (
             <BallController
+              notAdd={false}
               key={item.id}
               {...{
                 currentIndex: currIndex,
@@ -85,83 +99,37 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
               }}
               render={(hex, clicked, onClick, activeSet) => (
                 <Ball
-                  onClick={onClick}
+                  onClick={handleSetClick}
                   title={item.specialNumber || 0}
                   hex="#454545"
                   clicked={true}
-                  size={40}
+                  size={35}
                 />
               )}
             />
           )}
+          <View
+            style={{
+              borderRadius: 50,
+              overflow: "hidden",
+              width: 35,
+              height: 35,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Pressable android_ripple={{ color: "#0D3341", borderless: true }}>
+              <ChevronRightIcon />
+            </Pressable>
+          </View>
         </View>
       </ScrollView>
     </View>
   );
 };
 
-const renderItem = ({
-  drag,
-  getIndex,
-  isActive,
-  item,
-}: RenderItemParams<Result>) => {
-  const activeIndex = useAppSelector((state) => state.activeSet);
-
-  const currIndex = getIndex() || 0;
-  const dispath = useAppDispatch();
-
-  return (
-    <ScaleDecorator>
-      <TouchableOpacity
-        onPress={() => {
-          dispath(setActiveSet(item.id === activeIndex ? "" : item.id));
-        }}
-        onLongPress={drag}
-        disabled={isActive}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <View
-            style={{
-              padding: 3,
-            }}
-          >
-            <SortIcon />
-          </View>
-
-          <RowItem currIndex={currIndex} item={item} />
-
-          <Pressable
-            android_ripple={{ color: "#fff" }}
-            onPress={() =>
-              Alert.alert("Alert", "Delete Picks?", [
-                {
-                  text: "Delete",
-                  onPress: () => dispath(deleteResult(item.id)),
-                },
-                {
-                  text: "Cancel",
-                  onPress: () => {},
-                },
-              ])
-            }
-          >
-            <View>
-              <XIcon />
-            </View>
-          </Pressable>
-        </View>
-      </TouchableOpacity>
-    </ScaleDecorator>
-  );
-};
-
-const ResultsCard: FunctionComponent<ResultsCardProps> = (props) => {
+const ResultsCard2: FunctionComponent<ResultsCardProps> = (props) => {
   const { results, edit } = props;
   const color = useAppSelector((state) => state.color);
   const dispath = useAppDispatch();
@@ -169,47 +137,35 @@ const ResultsCard: FunctionComponent<ResultsCardProps> = (props) => {
   const handleSort = ({ data }: { data: Result[] }) => {
     dispath(updateArray(data));
   };
-  if (color && edit) {
-    return (
-      <View style={{}}>
-        <DraggableFlatList
-          style={{
-            height: 430,
-            flexDirection: "column",
-          }}
-          onDragEnd={handleSort}
-          keyExtractor={(item) => item.id}
-          data={results}
-          renderItem={(props) => renderItem(props)}
-        />
-      </View>
-    );
-  }
 
   return (
     <View
       style={{
         display: "flex",
         flexDirection: "column",
+        borderRadius: 16,
+        width: 258,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 16,
-        padding: 9,
-        backgroundColor: "#AFBDC2",
-        width: 276,
-        height: 290,
+        height: 510,
         gap: 10,
       }}
     >
-      <Text
+      <View
         style={{
-          color: "#0D3341",
-          fontSize: 16,
-          fontWeight: "bold",
+          marginVertical: 10,
         }}
       >
-        Previous Results
-      </Text>
+        <Text
+          style={{
+            color: "#0D3341",
+            fontSize: 16,
+            fontWeight: "bold",
+          }}
+        >
+          Previous Results
+        </Text>
+      </View>
       <FlatList
         style={{
           flexDirection: "column",
@@ -227,4 +183,4 @@ const ResultsCard: FunctionComponent<ResultsCardProps> = (props) => {
   );
 };
 
-export default ResultsCard;
+export default ResultsCard2;

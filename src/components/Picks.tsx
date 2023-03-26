@@ -37,6 +37,8 @@ const Picks = ({
     <View
       style={{
         flexDirection: "row",
+        display: "flex",
+        gap: 3,
       }}
     >
       {numbers.numbers.map((num, index) => (
@@ -45,15 +47,12 @@ const Picks = ({
           currentIndex={-1}
           number={num}
           prevResults={newArray}
-          render={(hex) => (
-            <Ball className=" w-20 h-20" hex={overRideHex || hex} title={num} />
-          )}
+          render={(hex) => <Ball hex={overRideHex || hex} title={num} />}
         />
       ))}
       {numbers?.specialNumber !== 0 && specialNumberMax && (
         <BallController
           key={999}
-          notAdd={false}
           {...{
             currentIndex: -1,
             number: numbers.specialNumber,
@@ -62,11 +61,9 @@ const Picks = ({
           render={(hex, clicked, onClick, activeSet) => (
             <Ball
               onClick={onClick}
-              className="w-10 h-10 text-3xl rounded"
               title={numbers.specialNumber || 0}
               hex="#454545"
               clicked={true}
-              activeSet={activeSet}
             />
           )}
         />

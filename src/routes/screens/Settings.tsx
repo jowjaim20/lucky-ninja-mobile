@@ -3,8 +3,11 @@ import { Button } from "react-native";
 import { Text, View } from "react-native";
 import AddGame from "../../components/AddGame";
 import ChangeGame from "../../components/ChangeGame";
+import { NavigationProp } from "@react-navigation/native";
 
-const Settings = () => {
+const Settings: React.FunctionComponent<{
+  navigation: NavigationProp<any, any>;
+}> = ({ navigation }) => {
   const [modalVisibleAdd, setModalVisibleAdd] = useState(false);
 
   return (
@@ -19,7 +22,7 @@ const Settings = () => {
         modalVisible={modalVisibleAdd}
         setModalVisible={setModalVisibleAdd}
       />
-      <ChangeGame />
+      <ChangeGame navigation={navigation} />
     </View>
   );
 };

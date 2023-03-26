@@ -1,7 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Result } from "../../components/enums";
 
-const initialState: Omit<Result, "id"> = {
+interface Pick {
+  number: number;
+  hex: string;
+}
+
+interface PicksProps {
+  numbers: Pick[];
+  specialNumber: number;
+}
+const initialState: PicksProps = {
   numbers: [],
   specialNumber: 0,
 };
@@ -9,13 +18,13 @@ export const Picks = createSlice({
   name: "picks",
   initialState,
   reducers: {
-    addNumber: (state, action: PayloadAction<number>) => {
+    addNumber: (state, action: PayloadAction<Pick>) => {
       state.numbers.push(action.payload);
     },
     addSpecialNumber: (state, action: PayloadAction<number>) => {
       state.specialNumber = action.payload;
     },
-    setPicks: (state, action: PayloadAction<number[]>) => {
+    setPicks: (state, action: PayloadAction<Pick[]>) => {
       return { numbers: action.payload, specialNumber: 0 };
     },
     resetPicks: () => {

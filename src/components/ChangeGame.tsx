@@ -23,8 +23,11 @@ import { Game } from "./enums";
 import { XIcon } from "../utils/svg";
 import { toggleAdd } from "../redux/slices/showAddSlice";
 import { resetPicks, setPicks } from "../redux/slices/picksSlice";
+import { NavigationProp } from "@react-navigation/native";
 
-const ChangeGame = () => {
+const ChangeGame: React.FunctionComponent<{
+  navigation: NavigationProp<any, any>;
+}> = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const { games } = useAppSelector((state) => state.currentGame);
   const currenGame = useAppSelector((state) => state.currentGame.currentGame);
@@ -36,6 +39,7 @@ const ChangeGame = () => {
   //   dispatch(clear());
   // };
   const handleChangeGame = (game: Game) => {
+    navigation.navigate("Home");
     dispatch(resetPicks());
     dispatch(toggleAdd());
     console.log("game", game.id);

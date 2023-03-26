@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import useHandleXDraws from "../hooks/useHandleXdraws";
 import { setClicked } from "../redux/slices/clickedSlice";
 import { addNumber, addSpecialNumber } from "../redux/slices/picksSlice";
@@ -31,39 +31,17 @@ const BallController: React.FunctionComponent<BallControllerProps> = (
     notClick = true,
   } = props;
   const dispatch = useAppDispatch();
-  const picks = useAppSelector((state) => state.picks);
   const clicked = useAppSelector((state) => state.clicked);
   const activeSetIndex = useAppSelector((state) => state.activeSet);
 
   const currentFrequency = useAppSelector((state) => state.frequency);
-  const currentGame = useAppSelector((state) => state.currentGame.currentGame);
   const { getXDraws } = useHandleXDraws();
   const isClicked = clicked === number;
   const activeSet = activeSetIndex === prevResults[currentIndex]?.id;
 
-  const handleSetNumbers = (num: number) => {
-    if (currentGame.repeat && currentGame.maxCount !== picks.numbers.length) {
-      notAdd && dispatch(addNumber(num));
-    } else {
-      const includes = picks.numbers.includes(num);
-      if (!includes && currentGame.maxCount !== picks.numbers.length) {
-        notAdd && dispatch(addNumber(num));
-      }
-    }
-
-    if (
-      currentGame.maxCount === picks.numbers.length &&
-      currentGame.specialNumberMax &&
-      !picks.specialNumber
-    ) {
-      if (num <= currentGame.specialNumberMax)
-        notAdd && dispatch(addSpecialNumber(num));
-    }
-
-    notClick && dispatch(setClicked(num === clicked ? -1 : num));
-  };
-
-  const getHex = () => {
+  console.log("ballController");
+  const getHex = useMemo(() => {
+    console.log("getHex");
     const filteredFrequency = currentFrequency.frequency.find((freq) =>
       getXDraws({
         number,
@@ -75,11 +53,11 @@ const BallController: React.FunctionComponent<BallControllerProps> = (
     );
 
     return filteredFrequency?.hex || "#999999"; //change default once done
-  };
+  }, [prevResults]);
 
-  const hex = getHex();
+  const hex = getHex;
 
-  return render(hex, isClicked, handleSetNumbers, activeSet);
+  return render(hex, isClicked, () => {}, activeSet);
 };
 
 export default BallController;

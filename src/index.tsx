@@ -90,7 +90,7 @@ const NinjaApp = () => {
         styles.container,
       ]}
     >
-      <View style={{ height: 70 }}>
+      <View style={{ height: 60, backgroundColor: "#031E29" }}>
         <BannerAd
           unitId={adUnitId}
           size={BannerAdSize.FULL_BANNER}
@@ -110,36 +110,95 @@ const NinjaApp = () => {
               let iconName;
 
               if (route.name === "Home") {
-                return <HomeIcon />;
+                return (
+                  <View
+                    style={{
+                      width: 40,
+                      height: 40,
+                      backgroundColor:
+                        color === "#AFBDC2" ? "#ffffff00" : "#fff",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 50,
+                    }}
+                  >
+                    <HomeIcon color={color} />
+                  </View>
+                );
               }
               if (route.name === "Analyze") {
-                return <FireIcon />;
+                return (
+                  <View
+                    style={{
+                      width: 40,
+                      height: 40,
+                      backgroundColor:
+                        color === "#AFBDC2" ? "#ffffff00" : "#fff",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 50,
+                    }}
+                  >
+                    <FireIcon color={color} />
+                  </View>
+                );
               }
               if (route.name === "Saved") {
-                return <ClockIcon />;
+                return (
+                  <View
+                    style={{
+                      width: 40,
+                      height: 40,
+                      backgroundColor:
+                        color === "#AFBDC2" ? "#ffffff00" : "#fff",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 50,
+                    }}
+                  >
+                    <ClockIcon color={color} />
+                  </View>
+                );
               }
               if (route.name === "Settings") {
-                return <SettingsIcon />;
+                return (
+                  <View
+                    style={{
+                      width: 40,
+                      height: 40,
+                      backgroundColor:
+                        color === "#AFBDC2" ? "#ffffff00" : "#fff",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 50,
+                    }}
+                  >
+                    <SettingsIcon color={color} />
+                  </View>
+                );
               }
 
               return <SettingsIcon />;
 
               // You can return any component that you like here!
             },
-            tabBarActiveTintColor: "#58ceb2",
-            tabBarInactiveTintColor: "gray",
+            tabBarActiveTintColor: "#0D3341",
+            tabBarInactiveTintColor: "#AFBDC2",
             //Tab bar styles can be added here
             tabBarStyle: {
               paddingVertical: 20,
               borderTopLeftRadius: 15,
               borderTopRightRadius: 15,
-              backgroundColor: "#2b2b2b",
+              backgroundColor: "#031E29",
               position: "absolute",
-              height: 50,
+              height: 60,
             },
-            tabBarLabelStyle: { paddingBottom: 3 },
+            tabBarLabelStyle: { paddingBottom: 4 },
             headerShown: false,
-            tabBarActiveBackgroundColor: "#fff",
           })}
         >
           <Tab.Screen name="Home" options={{ title: "" }} component={Home} />
@@ -192,7 +251,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   container: {
-    backgroundColor: "#2D2D2D5c",
+    backgroundColor: "#D5D9DA",
   },
   text: {
     color: "#fff",

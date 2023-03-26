@@ -12,6 +12,7 @@ import thunk from "redux-thunk";
 import activeSetSlice from "./slices/activeSetSlice";
 import Color from "./slices/colorSlice";
 import showAddSlice from "./slices/showAddSlice";
+import allNumbers from "./slices/allNumbersSlice";
 
 // ...
 
@@ -23,6 +24,7 @@ const reducers = combineReducers({
   activeSet: activeSetSlice,
   color: Color,
   showAdd: showAddSlice,
+  allNumbers: allNumbers,
 });
 
 const persistConfig = {
