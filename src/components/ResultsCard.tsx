@@ -40,11 +40,16 @@ interface RowItemProps {
 
 const RowItem: FunctionComponent<RowItemProps> = (props) => {
   const { item, currIndex } = props;
+  const dispatch = useAppDispatch();
   console.log("item", item);
   const colorAll = useAppSelector((state) => state.color);
   const { previousResults, specialNumberMax } = useAppSelector(
     (state) => state.currentGame.currentGame
   );
+
+  const handleSetClick = (num: number, hex: string) => {
+    dispatch(setClicked(num));
+  };
   return (
     <View key={item.id}>
       <ScrollView horizontal>
@@ -65,7 +70,7 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
               }}
               render={(hex, clicked, onClick, activeSet) => (
                 <Ball
-                  onClick={onClick}
+                  onClick={handleSetClick}
                   title={num}
                   hex={hex}
                   size={40}
@@ -85,7 +90,7 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
               }}
               render={(hex, clicked, onClick, activeSet) => (
                 <Ball
-                  onClick={onClick}
+                  onClick={handleSetClick}
                   title={item.specialNumber || 0}
                   hex="#454545"
                   clicked={true}

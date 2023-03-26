@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import uuid from "react-native-uuid";
-import { Game, LuckyGames, Result } from "../../components/enums";
+import { Game, LuckyGames, Result, Saved } from "../../components/enums";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface InitState {
@@ -86,7 +86,7 @@ export const CurrentGame = createSlice({
       const newArray = [...games];
       state.games = newArray;
     },
-    addPicksTosaved: (state, action: PayloadAction<Omit<Result, "id">>) => {
+    addPicksTosaved: (state, action: PayloadAction<Saved>) => {
       state.currentGame.saved.unshift(action.payload);
     },
     deletedSave: (state, action: PayloadAction<number>) => {

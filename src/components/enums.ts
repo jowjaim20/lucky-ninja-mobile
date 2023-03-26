@@ -11,6 +11,15 @@ export interface Frequency {
   id: string;
 }
 
+export interface NumWithColor {
+  number: number;
+  hex: string;
+}
+export interface Saved {
+  numbers: NumWithColor[];
+  specialNumber: number;
+}
+
 export interface Game {
   id: string;
   name: string;
@@ -20,7 +29,7 @@ export interface Game {
   repeat: boolean;
   startZero: boolean;
   specialNumberMax: number;
-  saved: Omit<Result, "id">[];
+  saved: Saved[];
 }
 
 export type LuckyGames = Game[];

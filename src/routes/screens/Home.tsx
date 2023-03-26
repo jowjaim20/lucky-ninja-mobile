@@ -30,7 +30,7 @@ import {
 import NewPicks from "../../components/NewPicks";
 
 const Home = () => {
-  // const picks = useAppSelector((state) => state.picks);
+  const picks = useAppSelector((state) => state.picks);
 
   const { maxNumber, previousResults, maxCount, name, repeat, id, startZero } =
     useAppSelector((state) => state.currentGame.currentGame);
@@ -55,12 +55,12 @@ const Home = () => {
   };
 
   const handleAddSaved = () => {
-    // dispatch(
-    //   addPicksTosaved({
-    //     numbers: picks.numbers.map((nums) => nums.number),
-    //     specialNumber: picks.specialNumber,
-    //   })
-    // );
+    dispatch(
+      addPicksTosaved({
+        numbers: picks.numbers,
+        specialNumber: picks.specialNumber,
+      })
+    );
     Alert.alert("Alert", "Added to saved numbers", [
       {
         text: "Ok",

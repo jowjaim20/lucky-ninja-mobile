@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { View, Text, Button, Alert } from "react-native";
+import Ball from "../../components/Ball";
 import { Result } from "../../components/enums";
 import Picks from "../../components/Picks";
 import { deletedSave } from "../../redux/slices/currentGame";
@@ -14,8 +15,16 @@ const TestScreen = () => {
   return (
     <View>
       {saved?.map((obj, index) => (
-        <View key={index}>
-          <Picks numbers={obj} overRideHex="#aaa" />
+        <View
+          key={index}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          {obj.numbers.map((num, idx) => (
+            <Ball key={idx} title={num.number} hex={num.hex} />
+          ))}
           <Button
             title="delete"
             onPress={() =>
