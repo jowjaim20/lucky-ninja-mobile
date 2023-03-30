@@ -1,47 +1,16 @@
 import React from "react";
-import {
-  TextInput,
-  Text,
-  View,
-  KeyboardTypeOptions,
-  StyleSheet,
-  Switch,
-} from "react-native";
-import {
-  Controller,
-  Control,
-  RegisterOptions,
-  FieldErrors,
-} from "react-hook-form";
+import { Text, View, StyleSheet, Switch } from "react-native";
+import { Controller, Control, FieldValues, Path } from "react-hook-form";
 
-export interface FormProps {
-  maxCount: number;
-  maxNumber: number;
-  name: string;
-  repeat: boolean;
-  startZero: boolean;
-  specialNumberMax: number;
-}
-
-import Constants from "expo-constants";
-
-export type switchNames = "startZero" | "repeat";
-
-export interface SwitchProps<T extends switchNames> {
-  control: Control<FormProps, any>;
+export interface SwitchProps<T extends Path<U>, U extends FieldValues> {
+  control: Control<U, any>;
   label: string;
   name: T;
-  keyboardType?: KeyboardTypeOptions;
-  errors: FieldErrors<FormProps>;
-  rules?:
-    | Omit<
-        RegisterOptions<FormProps, T>,
-        "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
-      >
-    | undefined;
 }
 
-const NinjaSwitch = <T extends switchNames>(props: SwitchProps<T>) => {
+const NinjaSwitch = <T extends Path<U>, U extends FieldValues>(
+  props: SwitchProps<T, U>
+) => {
   const { control, label, name } = props;
 
   return (
@@ -56,7 +25,9 @@ const NinjaSwitch = <T extends switchNames>(props: SwitchProps<T>) => {
       }}
     >
       <Text style={styles.label}>{label}</Text>
+
       <Controller
+        name={name}
         control={control}
         render={({ field: { onChange, onBlur, value } }) => {
           return (
@@ -71,7 +42,6 @@ const NinjaSwitch = <T extends switchNames>(props: SwitchProps<T>) => {
             />
           );
         }}
-        name={name}
       />
     </View>
   );
@@ -84,25 +54,5 @@ const styles = StyleSheet.create({
     color: "white",
     margin: 20,
     marginLeft: 0,
-  },
-  button: {
-    marginTop: 40,
-    color: "white",
-    height: 40,
-    backgroundColor: "#ec5990",
-    borderRadius: 4,
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    paddingTop: Constants.statusBarHeight,
-    padding: 8,
-    backgroundColor: "#0e101c",
-  },
-  input: {
-    backgroundColor: "#fff",
-    height: 40,
-    padding: 10,
-    borderRadius: 4,
   },
 });

@@ -9,23 +9,25 @@ import {
 } from "react-native";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { addGame, addResult } from "../redux/slices/currentGame";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import Constants from "expo-constants";
-import InputBox, { FormProps, InputBoxProps, name } from "./InputBox";
-import NinjaSwitch, { switchNames, SwitchProps } from "./Switch";
+import InputBox, { InputBoxProps } from "./InputBox";
+import NinjaSwitch, { SwitchProps } from "./Switch";
 
-interface AddGameProps {
-  modalVisible: boolean;
-  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+export type names = "name" | "maxCount" | "maxNumber" | "specialNumberMax";
+export type switchNames = "repeat" | "startZero";
+
+export interface FormProps {
+  maxCount: number;
+  maxNumber: number;
+  name: string;
+  repeat: boolean;
+  startZero: boolean;
+  specialNumberMax: number;
 }
 
-type PropsArray<T extends name> = Omit<
-  InputBoxProps<T>,
-  "errors" | "control"
->[];
-
 type SwitchArray<T extends switchNames> = Omit<
-  SwitchProps<T>,
+  SwitchProps<T, FormProps>,
   "errors" | "control" | "keyboardType" | "rules"
 >[];
 
@@ -34,7 +36,11 @@ const switchForms: SwitchArray<switchNames> = [
   { label: "test", name: "startZero" },
 ];
 
-const forms: PropsArray<name> = [
+type PropsArray<T extends names> = Omit<
+  InputBoxProps<T, FormProps>,
+  "errors" | "control"
+>[];
+const forms: PropsArray<names> = [
   {
     name: "name",
     label: "Name",
@@ -71,6 +77,11 @@ const forms: PropsArray<name> = [
     },
   },
 ];
+
+interface AddGameProps {
+  modalVisible: boolean;
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const AddGame: FunctionComponent<AddGameProps> = (props) => {
   const { modalVisible, setModalVisible } = props;
@@ -130,7 +141,7 @@ const AddGame: FunctionComponent<AddGameProps> = (props) => {
           ))}
           <View style={{ display: "flex", flexDirection: "row" }}>
             {switchForms.map((form) => (
-              <NinjaSwitch control={control} errors={errors} {...form} />
+              <NinjaSwitch control={control} {...form} />
             ))}
           </View>
         </View>

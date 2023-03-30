@@ -11,36 +11,27 @@ import {
   Control,
   RegisterOptions,
   FieldErrors,
+  FieldValues,
+  Path,
 } from "react-hook-form";
 
-export interface FormProps {
-  maxCount: number;
-  maxNumber: number;
-  name: string;
-  repeat: boolean;
-  startZero: boolean;
-  specialNumberMax: number;
-}
-
-import Constants from "expo-constants";
-
-export type name = "name" | "maxCount" | "maxNumber" | "specialNumberMax";
-
-export interface InputBoxProps<T extends name> {
-  control: Control<FormProps, any>;
+export interface InputBoxProps<T extends Path<U>, U extends FieldValues> {
+  control: Control<U, any>;
   label: string;
   name: T;
   keyboardType?: KeyboardTypeOptions;
-  errors: FieldErrors<FormProps>;
+  errors: FieldErrors<U>;
   rules?:
     | Omit<
-        RegisterOptions<FormProps, T>,
+        RegisterOptions<U, T>,
         "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
       >
     | undefined;
 }
 
-const InputBox = <T extends name>(props: InputBoxProps<T>) => {
+const InputBox = <T extends Path<U>, U extends FieldValues>(
+  props: InputBoxProps<T, U>
+) => {
   const {
     control,
     label,
@@ -50,6 +41,7 @@ const InputBox = <T extends name>(props: InputBoxProps<T>) => {
     rules,
   } = props;
   console.log("errors", errors);
+
   return (
     <View>
       <Text style={styles.label}>{label}</Text>
@@ -68,7 +60,7 @@ const InputBox = <T extends name>(props: InputBoxProps<T>) => {
         rules={rules}
       />
       {errors[name] && (
-        <Text style={{ color: "#f00" }}>{errors[name]?.message}</Text>
+        <Text style={{ color: "#f00" }}>{errors[name]?.message as string}</Text>
       )}
     </View>
   );
@@ -81,20 +73,6 @@ const styles = StyleSheet.create({
     color: "white",
     margin: 20,
     marginLeft: 0,
-  },
-  button: {
-    marginTop: 40,
-    color: "white",
-    height: 40,
-    backgroundColor: "#ec5990",
-    borderRadius: 4,
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    paddingTop: Constants.statusBarHeight,
-    padding: 8,
-    backgroundColor: "#0e101c",
   },
   input: {
     backgroundColor: "#fff",
