@@ -45,3 +45,14 @@ const game: Game = {
   specialNumberMax: 26,
   saved: [],
 };
+
+export interface Result {
+  numbers: number[];
+  specialNumber: number;
+  id: string;
+}
+
+const megamillions = [
+  { id: "1", numbers: [2, 3, 18, 32, 68], specialNumber: 24 },
+  { id: "2", numbers: [14, 17, 33, 42, 66], specialNumber: 15 },
+];

@@ -31,6 +31,7 @@ import { resetPicks } from "../../redux/slices/picksSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import NewPicks from "../../components/NewPicks";
 import { ChartIcon, RefreshIcon, YoutubeIcon } from "../../utils/svg";
+import AllNumbersCardController from "../../components/AllNumbersCardController";
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -76,13 +77,13 @@ const Main = () => {
         
       </View> */}
 
-      <AllNumbersCard
-        notClick={false}
+      <AllNumbersCardController
         results={previousResults}
         allNumbers={allNum}
         currentIndex={-1}
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
+        render={(props) => <AllNumbersCard {...props} />}
       />
 
       {/* <View style={{ height: 44, paddingVertical: 2, flexDirection: "row" }}>

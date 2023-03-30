@@ -32,8 +32,8 @@ type SwitchArray<T extends switchNames> = Omit<
 >[];
 
 const switchForms: SwitchArray<switchNames> = [
-  { label: "test", name: "repeat" },
-  { label: "test", name: "startZero" },
+  { label: "Reapet?", name: "repeat" },
+  { label: "StartZero?", name: "startZero" },
 ];
 
 type PropsArray<T extends names> = Omit<

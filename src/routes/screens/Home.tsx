@@ -28,6 +28,7 @@ import {
   YoutubeIcon,
 } from "../../utils/svg";
 import NewPicks from "../../components/NewPicks";
+import AllNumbersCardController from "../../components/AllNumbersCardController";
 
 const Home = () => {
   const picks = useAppSelector((state) => state.picks);
@@ -118,14 +119,16 @@ const Home = () => {
           }}
         >
           <ResultsCard edit={false} results={filtered} />
-          <AllNumbersCard
-            notClick={false}
+
+          <AllNumbersCardController
             results={previousResults}
             allNumbers={allNum}
             currentIndex={-1}
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
+            render={(props) => <AllNumbersCard {...props} />}
           />
+
           <View
             style={{
               display: "flex",
