@@ -1,41 +1,78 @@
-import React from "react";
-import useModifyArray from "../hooks/useModifyArray";
+import React, { FunctionComponent } from "react";
 import {
   StyleSheet,
-  TextInput,
   Alert,
-  Button,
   Modal,
-  Text,
   View,
-  Switch,
   ScrollView,
+  Button,
 } from "react-native";
-import Ball from "./Ball";
-import BallController from "./BallController";
-import { Result } from "./enums";
-import Picks from "./Picks";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { addGame, addResult } from "../redux/slices/currentGame";
-import { resetPicks } from "../redux/slices/picksSlice";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Constants from "expo-constants";
+import InputBox, { FormProps, InputBoxProps, name } from "./InputBox";
+import NinjaSwitch, { switchNames, SwitchProps } from "./Switch";
 
 interface AddGameProps {
   modalVisible: boolean;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface FormProps {
-  maxCount: number;
-  maxNumber: number;
-  name: string;
-  repeat: boolean;
-  startZero: boolean;
-  specialNumberMax: number;
-}
+type PropsArray<T extends name> = Omit<
+  InputBoxProps<T>,
+  "errors" | "control"
+>[];
 
-const AddGame: React.FunctionComponent<AddGameProps> = (props) => {
+type SwitchArray<T extends switchNames> = Omit<
+  SwitchProps<T>,
+  "errors" | "control" | "keyboardType" | "rules"
+>[];
+
+const switchForms: SwitchArray<switchNames> = [
+  { label: "test", name: "repeat" },
+  { label: "test", name: "startZero" },
+];
+
+const forms: PropsArray<name> = [
+  {
+    name: "name",
+    label: "Name",
+    rules: {
+      required: { value: true, message: "required" },
+    },
+  },
+  {
+    label: "Length",
+    name: "maxCount",
+    rules: {
+      required: { value: true, message: "required" },
+      max: { value: 6, message: "max should not be more than 6" },
+      min: { value: 2, message: "min should not be less than 2" },
+    },
+    keyboardType: "numeric",
+  },
+  {
+    name: "maxNumber",
+    label: "last Number",
+    keyboardType: "numeric",
+    rules: {
+      required: { value: true, message: "required" },
+      max: { value: 99, message: "max should not be more than 99" },
+      min: { value: 1, message: "min should not be less than 1" },
+    },
+  },
+  {
+    name: "specialNumberMax",
+    label: "special number",
+    keyboardType: "numeric",
+    rules: {
+      max: { value: 99, message: "max should not be more than 99" },
+    },
+  },
+];
+
+const AddGame: FunctionComponent<AddGameProps> = (props) => {
   const { modalVisible, setModalVisible } = props;
 
   const dispatch = useAppDispatch();
@@ -74,12 +111,6 @@ const AddGame: React.FunctionComponent<AddGameProps> = (props) => {
     setModalVisible(false);
   };
 
-  //   const onChange = (arg) => {
-  //     return {
-  //       value: arg.nativeEvent.text,
-  //     };
-  //   };
-
   useAppSelector((state) => state.currentGame.currentGame);
 
   return (
@@ -94,149 +125,38 @@ const AddGame: React.FunctionComponent<AddGameProps> = (props) => {
     >
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.label}>Length</Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                keyboardType="numeric"
-                style={styles.input}
-                onBlur={onBlur}
-                onChangeText={(value) => onChange(value)}
-                value={value.toString()}
-              />
-            )}
-            name="maxCount"
-            rules={{ required: true, max: 6 }}
-          />
-          <Text style={styles.label}>Last Number</Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                keyboardType="numeric"
-                style={styles.input}
-                onBlur={onBlur}
-                onChangeText={(value) => onChange(value)}
-                value={value.toString()}
-              />
-            )}
-            name="maxNumber"
-            rules={{ required: true, max: 99 }}
-          />
-          <Text style={styles.label}>Special Number Last Number</Text>
-
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                keyboardType="numeric"
-                style={styles.input}
-                onBlur={onBlur}
-                onChangeText={(value) => onChange(value)}
-                value={value.toString()}
-              />
-            )}
-            name="specialNumberMax"
-            rules={{ required: true }}
-          />
-          <Text style={styles.label}>Name</Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.input}
-                onBlur={onBlur}
-                onChangeText={(value) => onChange(value)}
-                value={value.toString()}
-              />
-            )}
-            name="name"
-            rules={{ required: true }}
-          />
+          {forms.map((form) => (
+            <InputBox control={control} errors={errors} {...form} />
+          ))}
           <View style={{ display: "flex", flexDirection: "row" }}>
-            <View
-              style={{
-                width: 200,
-                height: 100,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text style={styles.label}>Repeat</Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => {
-                  console.log("value", value);
-                  return (
-                    <Switch
-                      trackColor={{ false: "#767577", true: "#81b0ff" }}
-                      thumbColor={value ? "#f5dd4b" : "#f4f3f4"}
-                      onValueChange={() => {
-                        console.log("est");
-                        onChange(!value);
-                      }}
-                      value={value}
-                    />
-                  );
-                }}
-                name="repeat"
-              />
-            </View>
-            <View
-              style={{
-                width: 200,
-                height: 100,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text style={styles.label}>StartZero</Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Switch
-                    trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={value ? "#f5dd4b" : "#f4f3f4"}
-                    onValueChange={() => {
-                      console.log("est1");
-                      onChange(!value);
-                    }}
-                    value={value}
-                  />
-                )}
-                name="startZero"
-              />
-            </View>
+            {switchForms.map((form) => (
+              <NinjaSwitch control={control} errors={errors} {...form} />
+            ))}
           </View>
+        </View>
 
-          <View style={styles.button}>
-            <Button
-              color="#1e1e1e"
-              title="Reset"
-              onPress={() => {
-                reset({
-                  maxCount: 6,
-                  maxNumber: 42,
-                  name: "test",
-                  repeat: false,
-                  startZero: false,
-                });
-              }}
-            />
-          </View>
+        <View style={styles.button}>
+          <Button
+            color="#1e1e1e"
+            title="Reset"
+            onPress={() => {
+              reset({
+                maxCount: 6,
+                maxNumber: 42,
+                name: "test",
+                repeat: false,
+                startZero: false,
+              });
+            }}
+          />
+        </View>
 
-          <View style={styles.button}>
-            <Button
-              color="#1e1e1e"
-              title="Add"
-              onPress={handleSubmit(onSubmit)}
-            />
-          </View>
+        <View style={styles.button}>
+          <Button
+            color="#1e1e1e"
+            title="Add"
+            onPress={handleSubmit(onSubmit)}
+          />
         </View>
       </ScrollView>
     </Modal>
