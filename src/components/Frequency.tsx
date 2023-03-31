@@ -9,26 +9,43 @@ interface FrequencyProps {
 const Frequency: FunctionComponent<FrequencyProps> = (props) => {
   const { currentFrequency } = props;
   return (
-    <View>
-      <ScrollView horizontal style={{ flexDirection: "row" }}>
-        {currentFrequency.frequency.map((freq) => {
-          return (
-            <View
-              style={{
-                backgroundColor: freq.hex,
-                width: 40,
-                padding: 3,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              key={freq.id}
-            >
-              <Text>
-                {freq.frequency}/{freq.range}
-              </Text>
-            </View>
-          );
-        })}
+    <View
+      style={{
+        paddingHorizontal: 5,
+        paddingVertical: 4,
+      }}
+    >
+      <Text>Frequency</Text>
+      <ScrollView horizontal>
+        <View style={{ display: "flex", flexDirection: "row", gap: 2 }}>
+          {currentFrequency.frequency.map((freq) => {
+            return (
+              <View
+                style={{
+                  backgroundColor: freq.hex,
+                  width: 40,
+                  height: 40,
+                  borderRadius: 12,
+                  borderColor: "#031E29",
+                  borderWidth: 2,
+                  padding: 3,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                key={freq.id}
+              >
+                <Text
+                  style={{
+                    color: "#031E29",
+                    fontWeight: "500",
+                  }}
+                >
+                  {freq.frequency}/{freq.range}
+                </Text>
+              </View>
+            );
+          })}
+        </View>
         <View style={{ backgroundColor: "#999" }}>
           <Text>others</Text>
         </View>

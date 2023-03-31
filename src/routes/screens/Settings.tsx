@@ -12,7 +12,6 @@ const Settings: React.FunctionComponent<{
 
   return (
     <View>
-      <Text>Settings</Text>
       <Button
         color="#1e1e1e"
         title="Show Add Game"

@@ -27,7 +27,7 @@ interface TableProps {
   }[];
 }
 const Table: FunctionComponent<TableProps> = ({ filtered, newArray }) => {
-  const { handleSetNumbers } = useSetPicks({ notAdd: true, notClick: false });
+  const { handleSetNumbers } = useSetPicks({ notAdd: true, notClick: true });
   return (
     <View
       style={{

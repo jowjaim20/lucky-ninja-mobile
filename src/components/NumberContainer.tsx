@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import useSetPicks from "../hooks/useSetPicks";
 import Ball from "./Ball";
 import BallController from "./BallController";
@@ -23,6 +23,7 @@ const NumberContainer: FunctionComponent<NumberContainerProps> = (props) => {
         marginTop: 22,
       }}
     >
+      <Text>Next Draw Colors</Text>
       <View
         style={{
           height: 400,

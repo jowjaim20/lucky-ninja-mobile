@@ -7,9 +7,9 @@ import {
   ScrollView,
   Button,
 } from "react-native";
-import { useAppDispatch, useAppSelector } from "../redux/store";
-import { addGame, addResult } from "../redux/slices/currentGame";
-import { FieldValues, useForm } from "react-hook-form";
+import { useAppDispatch } from "../redux/store";
+import { addGame } from "../redux/slices/currentGame";
+import { useForm } from "react-hook-form";
 import Constants from "expo-constants";
 import InputBox, { InputBoxProps } from "./InputBox";
 import NinjaSwitch, { SwitchProps } from "./Switch";
@@ -89,8 +89,6 @@ const AddGame: FunctionComponent<AddGameProps> = (props) => {
   const dispatch = useAppDispatch();
 
   const {
-    register,
-    setValue,
     handleSubmit,
     control,
     reset,
@@ -121,8 +119,6 @@ const AddGame: FunctionComponent<AddGameProps> = (props) => {
     Alert.alert("Game Added");
     setModalVisible(false);
   };
-
-  useAppSelector((state) => state.currentGame.currentGame);
 
   return (
     <Modal

@@ -75,6 +75,20 @@ const ChangeGame: React.FunctionComponent<{
             >
               {game.name}
             </Text>
+            <Text
+              style={{
+                color: "#fff",
+              }}
+            >
+              {game.specialNumberMax}
+            </Text>
+            <Text
+              style={{
+                color: "#fff",
+              }}
+            >
+              {game.maxNumber}
+            </Text>
             <Pressable
               onPress={() =>
                 Alert.alert("Alert", `Delete ${game.name}?`, [

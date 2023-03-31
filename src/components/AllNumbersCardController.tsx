@@ -3,7 +3,11 @@ import useModifyArray from "../hooks/useModifyArray";
 import { Alert } from "react-native";
 import { Result } from "./enums";
 import { useAppDispatch, useAppSelector } from "../redux/store";
-import { addResult, insertResult } from "../redux/slices/currentGame";
+import {
+  addPicksTosaved,
+  addResult,
+  insertResult,
+} from "../redux/slices/currentGame";
 import { resetPicks } from "../redux/slices/picksSlice";
 import useCountColor from "../hooks/useCountColor";
 import { AllNumbersCardProps } from "./AllNumbersCard";
@@ -80,6 +84,12 @@ const AllNumbersCardController = (props: AllNumbersCardControllerProps) => {
   };
 
   const handleAddSaved = () => {
+    dispatch(
+      addPicksTosaved({
+        numbers: picks.numbers,
+        specialNumber: picks.specialNumber,
+      })
+    );
     Alert.alert("Alert", "Added to saved numbers", [
       {
         text: "Ok",

@@ -42,13 +42,14 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
   const { item, currIndex } = props;
   const dispatch = useAppDispatch();
   console.log("item", item);
+  const clicked = useAppSelector((state) => state.clicked);
   const colorAll = useAppSelector((state) => state.color);
   const { previousResults, specialNumberMax } = useAppSelector(
     (state) => state.currentGame.currentGame
   );
 
   const handleSetClick = (num: number, hex: string) => {
-    dispatch(setClicked(num));
+    dispatch(setClicked(num === clicked ? -1 : num));
   };
   return (
     <View key={item.id}>
@@ -212,7 +213,7 @@ const ResultsCard: FunctionComponent<ResultsCardProps> = (props) => {
           fontWeight: "bold",
         }}
       >
-        Previous Results
+        Past Results
       </Text>
       <FlatList
         style={{

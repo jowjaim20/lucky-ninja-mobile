@@ -7,6 +7,8 @@ import NinjaButtons from "./NinjaButtons";
 import Frequency from "./Frequency";
 import Count from "./Count";
 import { MockFrequency } from "./data";
+import { Pressable } from "react-native";
+import { XIcon } from "../utils/svg";
 
 export interface AllNumbersCardProps {
   modalVisible: boolean;
@@ -40,8 +42,10 @@ const AllNumbersCard: FunctionComponent<AllNumbersCardProps> = (props) => {
     newArray,
     setModalVisible,
   } = props;
+
   return (
     <Modal
+      transparent={false}
       animationType="fade"
       visible={modalVisible}
       onRequestClose={() => {
@@ -54,26 +58,45 @@ const AllNumbersCard: FunctionComponent<AllNumbersCardProps> = (props) => {
           display: "flex",
           flexDirection: "column",
           flex: 1,
-          backgroundColor: "#1e1e1e",
+          backgroundColor: "#D5D9DA",
         }}
       >
+        <View
+          style={{
+            alignSelf: "flex-end",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            paddingVertical: 10,
+            marginRight: 5,
+          }}
+        >
+          <Pressable onPress={() => setModalVisible(false)}>
+            <XIcon />
+          </Pressable>
+        </View>
+        <NewPicks />
+
         <Frequency currentFrequency={currentFrequency} />
 
         <Count counts={counts} />
 
-        <NewPicks />
-
-        <NinjaButtons
-          {...{
-            handleAddResult,
-            handleAddSaved,
-            handleClearPicks,
-            handleInsertResult,
-            setModalVisible,
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
           }}
-        />
-
-        <NumberContainer {...{ currentIndex, filtered, newArray }} />
+        >
+          <NumberContainer {...{ currentIndex, filtered, newArray }} />
+          <NinjaButtons
+            {...{
+              handleAddResult,
+              handleAddSaved,
+              handleClearPicks,
+              handleInsertResult,
+            }}
+          />
+        </View>
       </View>
     </Modal>
   );
