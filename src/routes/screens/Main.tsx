@@ -33,6 +33,7 @@ import NewPicks from "../../components/NewPicks";
 import { ChartIcon, RefreshIcon, YoutubeIcon } from "../../utils/svg";
 import AllNumbersCardController from "../../components/AllNumbersCardController";
 import EditResults from "../../components/EditResults";
+import PastColorsModal from "../../components/PastColorsModal";
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -75,7 +76,9 @@ const Main = () => {
         }}
       >
         {!edit ? (
-          <NewPicks />
+          <View>
+            <NewPicks />
+          </View>
         ) : (
           <Button title="Done" onPress={() => setEdit(false)} />
         )}

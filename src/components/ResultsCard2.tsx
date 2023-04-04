@@ -31,6 +31,7 @@ import {
   SortIcon,
   XIcon,
 } from "../utils/svg";
+import PastColorsModal from "./PastColorsModal";
 
 interface ResultsCardProps {
   results: Result[];
@@ -48,6 +49,7 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
   const dispatch = useAppDispatch();
   const colorAll = useAppSelector((state) => state.color);
   const clicked = useAppSelector((state) => state.clicked);
+  const [showPastColor, setShowPastColor] = useState(false);
 
   const { previousResults, specialNumberMax } = useAppSelector(
     (state) => state.currentGame.currentGame
@@ -57,6 +59,11 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
   };
   return (
     <View key={item.id}>
+      <PastColorsModal
+        currentIndex={currIndex}
+        modalVisible={showPastColor}
+        setModalVisible={setShowPastColor}
+      />
       <ScrollView horizontal>
         <View
           style={{
@@ -122,7 +129,7 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
           >
             <Pressable
               android_ripple={{ color: "#0D3341", borderless: true }}
-              onPress={() => {}}
+              onPress={() => setShowPastColor(true)}
             >
               <ChevronRightIcon />
             </Pressable>
