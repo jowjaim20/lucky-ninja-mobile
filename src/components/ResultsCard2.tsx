@@ -120,7 +120,10 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
               alignItems: "center",
             }}
           >
-            <Pressable android_ripple={{ color: "#0D3341", borderless: true }}>
+            <Pressable
+              android_ripple={{ color: "#0D3341", borderless: true }}
+              onPress={() => {}}
+            >
               <ChevronRightIcon />
             </Pressable>
           </View>

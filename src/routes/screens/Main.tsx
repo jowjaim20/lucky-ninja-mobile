@@ -32,10 +32,12 @@ import { useAppDispatch, useAppSelector } from "../../redux/store";
 import NewPicks from "../../components/NewPicks";
 import { ChartIcon, RefreshIcon, YoutubeIcon } from "../../utils/svg";
 import AllNumbersCardController from "../../components/AllNumbersCardController";
+import EditResults from "../../components/EditResults";
 
 const Main = () => {
   const dispatch = useAppDispatch();
   const [modalVisible, setModalVisible] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   const currentFrequency = useAppSelector((state) => state.frequency);
   // const picks = useAppSelector((state) => state.picks);
@@ -66,207 +68,202 @@ const Main = () => {
 
   const halfWindowsWidth = Dimensions.get("window").height * 0.1;
   return (
-    <View
-      style={{
-        padding: 6,
-      }}
-    >
-      <NewPicks />
-      {/* <View>
-        
-        
-      </View> */}
-
-      <AllNumbersCardController
-        results={previousResults}
-        allNumbers={allNum}
-        currentIndex={-1}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        render={(props) => <AllNumbersCard {...props} />}
-      />
-
-      {/* <View style={{ height: 44, paddingVertical: 2, flexDirection: "row" }}>
-        <Picks numbers={picks} />
-      </View> */}
+    <View>
       <View
         style={{
-          display: "flex",
-          flexDirection: "row",
-          alignSelf: "stretch",
-          gap: 4,
-          justifyContent: "space-between",
+          padding: 6,
         }}
       >
-        <ResultsCard2 allNumbers={allNum} results={previousResults} />
+        {!edit ? (
+          <NewPicks />
+        ) : (
+          <Button title="Done" onPress={() => setEdit(false)} />
+        )}
+
+        <AllNumbersCardController
+          results={previousResults}
+          allNumbers={allNum}
+          currentIndex={-1}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          render={(props) => <AllNumbersCard {...props} />}
+        />
+
         <View
           style={{
-            flex: 1,
+            display: "flex",
+            flexDirection: "row",
+            alignSelf: "stretch",
+            gap: 4,
+            justifyContent: "space-between",
           }}
         >
-          <View
-            style={{
-              height: 52,
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {/* <Button
-              color="#1e1e1e"
-              title="Show"
-              onPress={() => setModalVisible((prev) => !prev)}
-            />
-            <Button
-              color="#1e1e1e"
-              title="Edit"
-              onPress={() => dispatch(setColor(!color))}
-            /> */}
+          {edit ? (
+            <EditResults {...{ edit, setEdit }} />
+          ) : (
+            <ResultsCard2 allNumbers={allNum} results={previousResults} />
+          )}
 
+          {!edit && (
             <View
               style={{
-                borderRadius: 16,
-                overflow: "hidden",
-              }}
-            >
-              <Pressable
-                onPress={() => setModalVisible((prev) => !prev)}
-                android_ripple={{ color: "#0D3341" }}
-              >
-                <ChartIcon />
-              </Pressable>
-            </View>
-            <View
-              style={{
-                borderRadius: 16,
-                overflow: "hidden",
-              }}
-            >
-              <Pressable
-                onPress={() => setModalVisible((prev) => !prev)}
-                android_ripple={{ color: "#0D3341" }}
-              >
-                <RefreshIcon />
-              </Pressable>
-            </View>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              backgroundColor: "#AFBDC2",
-              borderRadius: 8,
-              height: 454,
-              overflow: "hidden",
-            }}
-          >
-            <View
-              style={{
-                width: 46,
+                flex: 1,
               }}
             >
               <View
                 style={{
+                  height: 52,
                   display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingVertical: 12,
-                }}
-              >
-                <Text>Count</Text>
-              </View>
-
-              <View
-                style={{
-                  display: "flex",
+                  flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
                 }}
               >
-                <ScrollView
+                <View
                   style={{
-                    height: 410,
-                  }}
-                  contentContainerStyle={{
-                    gap: 1.2,
+                    borderRadius: 16,
+                    overflow: "hidden",
                   }}
                 >
-                  {counts
-                    .sort((a, b) => b.count - a.count)
-                    .map((freq) => {
-                      return (
-                        <View
-                          style={{
-                            width: 40,
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                          key={freq.name}
-                        >
-                          {/* <Text>{freq.count}</Text> */}
-                          <Ball title={freq.count} hex={freq.hex} />
-                        </View>
-                      );
-                    })}
-                </ScrollView>
-              </View>
-            </View>
-            <View
-              style={{
-                width: 46,
-              }}
-            >
-              <View
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingVertical: 12,
-                }}
-              >
-                <Text>Freq</Text>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <ScrollView
+                  <Pressable
+                    onPress={() => setModalVisible((prev) => !prev)}
+                    android_ripple={{ color: "#0D3341" }}
+                  >
+                    <ChartIcon />
+                  </Pressable>
+                </View>
+                <View
                   style={{
-                    height: 410,
-                  }}
-                  contentContainerStyle={{
-                    gap: 1.2,
+                    borderRadius: 16,
+                    overflow: "hidden",
                   }}
                 >
-                  {currentFrequency.frequency.map((freq) => {
-                    return (
-                      <View
-                        style={{
-                          width: 40,
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        key={freq.id}
-                      >
-                        <Ball
-                          title={`${freq.frequency}/${freq.range}`}
-                          hex={freq.hex}
-                        />
-                      </View>
-                    );
-                  })}
-                  <View>
-                    <Ball title="etc" hex="#999" />
+                  <Pressable
+                    onPress={() => setEdit((prev) => !prev)}
+                    android_ripple={{ color: "#0D3341" }}
+                  >
+                    <RefreshIcon />
+                  </Pressable>
+                </View>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                  backgroundColor: "#AFBDC2",
+                  borderRadius: 8,
+                  height: 454,
+                  overflow: "hidden",
+                }}
+              >
+                <View
+                  style={{
+                    width: 46,
+                  }}
+                >
+                  <View
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      paddingVertical: 12,
+                    }}
+                  >
+                    <Text>Count</Text>
                   </View>
-                </ScrollView>
+
+                  <View
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ScrollView
+                      style={{
+                        height: 410,
+                      }}
+                      contentContainerStyle={{
+                        gap: 1.2,
+                      }}
+                    >
+                      {counts
+                        .sort((a, b) => b.count - a.count)
+                        .map((freq) => {
+                          return (
+                            <View
+                              style={{
+                                width: 40,
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                              key={freq.name}
+                            >
+                              {/* <Text>{freq.count}</Text> */}
+                              <Ball title={freq.count} hex={freq.hex} />
+                            </View>
+                          );
+                        })}
+                    </ScrollView>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    width: 46,
+                  }}
+                >
+                  <View
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      paddingVertical: 12,
+                    }}
+                  >
+                    <Text>Freq</Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ScrollView
+                      style={{
+                        height: 410,
+                      }}
+                      contentContainerStyle={{
+                        gap: 1.2,
+                      }}
+                    >
+                      {currentFrequency.frequency.map((freq) => {
+                        return (
+                          <View
+                            style={{
+                              width: 40,
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                            key={freq.id}
+                          >
+                            <Ball
+                              title={`${freq.frequency}/${freq.range}`}
+                              hex={freq.hex}
+                            />
+                          </View>
+                        );
+                      })}
+                      <View>
+                        <Ball title="etc" hex="#999" />
+                      </View>
+                    </ScrollView>
+                  </View>
+                </View>
               </View>
             </View>
-          </View>
+          )}
         </View>
       </View>
     </View>

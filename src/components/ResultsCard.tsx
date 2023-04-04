@@ -105,91 +105,9 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
   );
 };
 
-const renderItem = ({
-  drag,
-  getIndex,
-  isActive,
-  item,
-}: RenderItemParams<Result>) => {
-  const activeIndex = useAppSelector((state) => state.activeSet);
-
-  const currIndex = getIndex() || 0;
-  const dispath = useAppDispatch();
-
-  return (
-    <ScaleDecorator>
-      <TouchableOpacity
-        onPress={() => {
-          dispath(setActiveSet(item.id === activeIndex ? "" : item.id));
-        }}
-        onLongPress={drag}
-        disabled={isActive}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <View
-            style={{
-              padding: 3,
-            }}
-          >
-            <SortIcon />
-          </View>
-
-          <RowItem currIndex={currIndex} item={item} />
-
-          <Pressable
-            android_ripple={{ color: "#fff" }}
-            onPress={() =>
-              Alert.alert("Alert", "Delete Picks?", [
-                {
-                  text: "Delete",
-                  onPress: () => dispath(deleteResult(item.id)),
-                },
-                {
-                  text: "Cancel",
-                  onPress: () => {},
-                },
-              ])
-            }
-          >
-            <View>
-              <XIcon />
-            </View>
-          </Pressable>
-        </View>
-      </TouchableOpacity>
-    </ScaleDecorator>
-  );
-};
-
 const ResultsCard: FunctionComponent<ResultsCardProps> = (props) => {
   const { results, edit } = props;
   const color = useAppSelector((state) => state.color);
-  const dispath = useAppDispatch();
-
-  const handleSort = ({ data }: { data: Result[] }) => {
-    dispath(updateArray(data));
-  };
-  if (color && edit) {
-    return (
-      <View style={{}}>
-        <DraggableFlatList
-          style={{
-            height: 430,
-            flexDirection: "column",
-          }}
-          onDragEnd={handleSort}
-          keyExtractor={(item) => item.id}
-          data={results}
-          renderItem={(props) => renderItem(props)}
-        />
-      </View>
-    );
-  }
 
   return (
     <View
