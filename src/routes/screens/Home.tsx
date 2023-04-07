@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, View } from "react-native";
+import { Button, Linking, View } from "react-native";
 import { Text, Alert } from "react-native";
 import ResultsCard from "../../components/ResultsCard";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
@@ -29,6 +29,7 @@ import {
 } from "../../utils/svg";
 import NewPicks from "../../components/NewPicks";
 import AllNumbersCardController from "../../components/AllNumbersCardController";
+import SocialSites from "../../components/SocialSites";
 
 const Home = () => {
   const picks = useAppSelector((state) => state.picks);
@@ -49,7 +50,7 @@ const Home = () => {
   const handleCount = () => {
     generate();
     setCount((prev) => prev + 1);
-    if (count === 4) {
+    if (count === 9) {
       dispatch(toggleAdd());
       setCount(0);
     }
@@ -195,85 +196,7 @@ const Home = () => {
             </View>
           </View>
         </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: 10,
-            alignSelf: "stretch",
-            padding: 20,
-            marginTop: 20,
-          }}
-        >
-          <View
-            style={{
-              borderRadius: 50,
-              overflow: "hidden",
-              width: 38,
-              height: 38,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#8A9EA5",
-              elevation: 10,
-            }}
-          >
-            <Pressable android_ripple={{ color: "#0D3341", borderless: true }}>
-              <PatreonIcon />
-            </Pressable>
-          </View>
-          <View
-            style={{
-              borderRadius: 50,
-              overflow: "hidden",
-              width: 38,
-              height: 38,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#8A9EA5",
-              elevation: 10,
-            }}
-          >
-            <Pressable android_ripple={{ color: "#0D3341", borderless: true }}>
-              <FacebookIcon />
-            </Pressable>
-          </View>
-          <View
-            style={{
-              borderRadius: 50,
-              overflow: "hidden",
-              width: 38,
-              height: 38,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#8A9EA5",
-              elevation: 10,
-            }}
-          >
-            <Pressable android_ripple={{ color: "#0D3341", borderless: true }}>
-              <BuyMeACoffeeIcon />
-            </Pressable>
-          </View>
-          <View
-            style={{
-              borderRadius: 50,
-              overflow: "hidden",
-              width: 38,
-              height: 38,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#8A9EA5",
-              elevation: 10,
-            }}
-          >
-            <Pressable android_ripple={{ color: "#0D3341", borderless: true }}>
-              <YoutubeIcon />
-            </Pressable>
-          </View>
-        </View>
+        <SocialSites />
       </View>
     </>
   );

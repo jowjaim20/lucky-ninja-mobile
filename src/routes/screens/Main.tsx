@@ -94,9 +94,9 @@ const Main = () => {
 
         <View
           style={{
+            alignSelf: "stretch",
             display: "flex",
             flexDirection: "row",
-            alignSelf: "stretch",
             gap: 4,
             justifyContent: "space-between",
           }}

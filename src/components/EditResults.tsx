@@ -157,11 +157,21 @@ const EditResults: FunctionComponent<EditResultProps> = (props) => {
     dispath(updateArray(data));
   };
   return (
-    <View>
+    <View
+      style={{
+        flex: 1,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <DraggableFlatList
         style={{
           height: 430,
-          flexDirection: "column",
+          backgroundColor: "#ff0",
+        }}
+        contentContainerStyle={{
+          backgroundColor: "#f0f",
         }}
         onDragEnd={handleSort}
         keyExtractor={(item) => item.id}

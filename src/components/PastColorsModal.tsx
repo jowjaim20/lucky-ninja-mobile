@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Modal, View, Text, ScrollView } from "react-native";
+import { Modal, View, Text, ScrollView, Pressable } from "react-native";
 import NumberContainer from "./NumberContainer";
 import { Result } from "./enums";
 import AllNumbersCardController from "./AllNumbersCardController";
@@ -8,6 +8,7 @@ import { useAppSelector } from "../redux/store";
 import BallController from "./BallController";
 import Ball from "./Ball";
 import useModifyArray from "../hooks/useModifyArray";
+import { XIcon } from "../utils/svg";
 
 interface PastColorModalProps {
   modalVisible: boolean;
@@ -37,9 +38,32 @@ const PastColorsModal: FunctionComponent<PastColorModalProps> = (props) => {
         // Alert.alert("Modal has been closed.");
         setModalVisible(!modalVisible);
       }}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
-      <View>
-        <Text>Modal</Text>
+      <View
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 3,
+        }}
+      >
+        <View
+          style={{
+            alignSelf: "stretch",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "flex-end",
+          }}
+        >
+          <Pressable onPress={() => setModalVisible(false)}>
+            <XIcon />
+          </Pressable>
+        </View>
         <View
           style={{
             flexWrap: "wrap",

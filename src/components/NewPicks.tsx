@@ -1,7 +1,8 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { useAppSelector } from "../redux/store";
 import Ball from "./Ball";
+import { LuckyNinjaLogo } from "../utils/svg";
 
 const NewPicks = () => {
   const picks = useAppSelector((state) => state.picks);
@@ -37,6 +38,34 @@ const NewPicks = () => {
       })}
       {picks?.specialNumber !== 0 && specialNumberMax && (
         <Ball onClick={() => {}} title={picks.specialNumber || 0} hex="#fff" />
+      )}
+      {picks.numbers.length === 0 && (
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <LuckyNinjaLogo />
+          </View>
+          <Text
+            style={{
+              marginLeft: 4,
+              color: "#031E29",
+              fontSize: 24,
+              fontWeight: "bold",
+            }}
+          >
+            Lucky Ninja
+          </Text>
+        </View>
       )}
     </View>
   );
