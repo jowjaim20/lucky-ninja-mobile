@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from "react";
-import { View, Pressable, Button, Text, Alert } from "react-native";
+import { View, Pressable, Button, Text, Alert, StyleSheet } from "react-native";
 import { Game } from "./enums";
 import { XIcon } from "../utils/svg";
+import Ball from "./Ball";
 
 interface GameCardProps {
   games: Game[];
@@ -45,7 +46,6 @@ const Card: FunctionComponent<CardProps> = (props) => {
   const { currentGame, handleChangeGame, handleDeleteGame, game } = props;
   return (
     <View
-      key={game.id}
       style={{
         alignSelf: "stretch",
         flexDirection: "column",
@@ -99,14 +99,15 @@ const Card: FunctionComponent<CardProps> = (props) => {
           display: "flex",
           flexDirection: "row",
           gap: 3,
-          backgroundColor: "#0D3341",
         }}
       >
-        {game?.previousResults[0]?.numbers?.map((num) => (
-          <Text>{num}</Text>
+        {game?.previousResults[0]?.numbers?.map((num, idx) => (
+          <Ball title={num} hex="#fff" key={`${num}${idx}`} />
         ))}
 
-        {<Text>{game?.previousResults[0]?.specialNumber}</Text>}
+        {game?.previousResults[0]?.specialNumber ? (
+          <Ball title={game?.previousResults[0]?.specialNumber} hex="#fff" />
+        ) : null}
       </View>
 
       <View
@@ -116,31 +117,45 @@ const Card: FunctionComponent<CardProps> = (props) => {
           justifyContent: "space-between",
         }}
       >
-        <Text
+        <View
           style={{
-            color: "#fff",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: 100,
           }}
         >
-          {game.specialNumberMax}
-        </Text>
-        <Text
-          style={{
-            color: "#fff",
-          }}
-        >
-          {game.maxNumber}
-        </Text>
+          <Text style={styles.text}>{game.maxCount}</Text>
+          <Text style={styles.text}>{game.maxNumber}</Text>
+          {game.repeat ? (
+            <Text style={styles.text}>R</Text>
+          ) : (
+            <Text style={styles.text}>X</Text>
+          )}
+          {game.startZero ? (
+            <Text style={styles.text}>Z</Text>
+          ) : (
+            <Text style={styles.text}>X</Text>
+          )}
+
+          <Text style={styles.text}>{game.specialNumberMax}</Text>
+        </View>
 
         {game.id !== currentGame.id ? (
           <Pressable onPress={() => handleChangeGame(game)}>
             <View
               style={{
                 backgroundColor: "#fff",
+                paddingHorizontal: 8,
+                paddingVertical: 4,
+                borderRadius: 4,
               }}
             >
               <Text
                 style={{
                   color: "#000",
+                  fontSize: 16,
+                  fontWeight: "500",
                 }}
               >
                 Play
@@ -148,9 +163,34 @@ const Card: FunctionComponent<CardProps> = (props) => {
             </View>
           </Pressable>
         ) : (
-          <Button color="#ff89" title="Current" />
+          <View
+            style={{
+              backgroundColor: "#031E29",
+              paddingHorizontal: 8,
+              paddingVertical: 4,
+              borderRadius: 4,
+            }}
+          >
+            <Text
+              style={{
+                color: "#fff",
+                fontSize: 16,
+                fontWeight: "500",
+              }}
+            >
+              Current
+            </Text>
+          </View>
         )}
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#fff",
+  },
+});

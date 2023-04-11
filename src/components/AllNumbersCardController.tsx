@@ -84,10 +84,12 @@ const AllNumbersCardController = (props: AllNumbersCardControllerProps) => {
   };
 
   const handleAddSaved = () => {
+    const date = new Date();
     dispatch(
       addPicksTosaved({
         numbers: picks.numbers,
         specialNumber: picks.specialNumber,
+        date: date.getTime(),
       })
     );
     Alert.alert("Alert", "Added to saved numbers", [

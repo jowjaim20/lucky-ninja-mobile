@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#D5D9DA"
+      "backgroundColor": "#234451"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -19,7 +19,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#D5D9DA"
+        "backgroundColor": "#234451"
       },
       "package": "com.jowjaim20.RNLuckyninja"
     },

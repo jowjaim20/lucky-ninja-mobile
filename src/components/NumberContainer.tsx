@@ -17,27 +17,38 @@ const NumberContainer: FunctionComponent<NumberContainerProps> = (props) => {
   return (
     <View
       style={{
-        flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22,
       }}
     >
-      <Text>Next Draw Colors</Text>
       <View
         style={{
-          height: 400,
+          height: 388,
+          width: 270,
+          paddingVertical: 15,
+          paddingHorizontal: 15,
+          backgroundColor: "#1F5062",
+          borderRadius: 8,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 10,
         }}
       >
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "800",
+            color: "#fff",
+          }}
+        >
+          Future Draw Colors
+        </Text>
         <ScrollView>
           <View
             style={{
               flexWrap: "wrap",
               flexDirection: "row",
-              width: 280,
-              backgroundColor: "#1e1e1e",
-              padding: 10,
-              borderRadius: 6,
             }}
           >
             {filtered.map((num, index) => (
@@ -46,7 +57,7 @@ const NumberContainer: FunctionComponent<NumberContainerProps> = (props) => {
                 {...{ currentIndex, number: num, prevResults: newArray }}
                 render={(hex, clicked, onClick) => (
                   <Ball
-                    ripple={{ color: hex, borderless: false }}
+                    ripple={{ color: hex, borderless: true }}
                     onClick={handleSetNumbers}
                     clicked={false}
                     title={num}

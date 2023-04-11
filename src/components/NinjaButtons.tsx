@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from "react";
 import { View, Pressable, Button, Text } from "react-native";
-import { XIcon } from "../utils/svg";
+import { AddPicksIcon, SaveIcon, SortIcon, XIcon } from "../utils/svg";
+import { RefreshIcon } from "../utils/svg";
+import { CircleRightIcon } from "../utils/svg";
 
 interface NinjaButtonsProps {
   handleInsertResult: () => void;
@@ -17,16 +19,46 @@ const NinjaButtons: FunctionComponent<NinjaButtonsProps> = (props) => {
     handleInsertResult,
   } = props;
   return (
-    <View style={{ display: "flex", flexDirection: "column" }}>
-      <Button color="#1e1e1e" title="Add picks" onPress={handleAddResult} />
-      <Button
-        color="#1e1e1e"
-        title="Insert picks"
+    <View
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: 55,
+        height: 300,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#AFBDC2",
+        borderRadius: 8,
+        gap: 25,
+      }}
+    >
+      <NinjaButton onPress={handleAddResult} icon={<AddPicksIcon />} />
+      <NinjaButton
         onPress={handleInsertResult}
+        icon={
+          <AddPicksIcon
+            style={{
+              transform: [{ rotateZ: "180deg" }],
+            }}
+          />
+        }
       />
-      <Button color="#1e1e1e" title="Clear" onPress={handleClearPicks} />
-      <Button color="#1e1e1e" title="Save" onPress={handleAddSaved} />
+      <NinjaButton onPress={handleClearPicks} icon={<CircleRightIcon />} />
+      <NinjaButton onPress={handleAddSaved} icon={<SaveIcon />} />
     </View>
+  );
+};
+
+interface NinjaButtonProps {
+  icon: JSX.Element;
+  onPress: () => void;
+}
+const NinjaButton: FunctionComponent<NinjaButtonProps> = (props) => {
+  const { onPress, icon } = props;
+  return (
+    <Pressable android_ripple={{ color: "#fff" }} onPress={onPress}>
+      {icon}
+    </Pressable>
   );
 };
 

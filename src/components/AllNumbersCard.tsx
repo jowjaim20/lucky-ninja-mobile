@@ -75,16 +75,31 @@ const AllNumbersCard: FunctionComponent<AllNumbersCardProps> = (props) => {
             <XIcon />
           </Pressable>
         </View>
-        <NewPicks />
-
-        <Frequency currentFrequency={currentFrequency} />
-
-        <Count counts={counts} />
 
         <View
           style={{
+            backgroundColor: "#1F5062",
+            marginHorizontal: 10,
+            borderRadius: 8,
+            paddingVertical: 8,
+          }}
+        >
+          <NewPicks ninjaTitle="Ninja Picker" />
+          <Frequency currentFrequency={currentFrequency} />
+
+          <Count counts={counts} />
+        </View>
+
+        <View
+          style={{
+            flex: 1,
             display: "flex",
             flexDirection: "row",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            gap: 10,
+            marginHorizontal: 10,
+            marginVertical: 15,
           }}
         >
           <NumberContainer {...{ currentIndex, filtered, newArray }} />

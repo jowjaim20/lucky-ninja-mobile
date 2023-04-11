@@ -22,7 +22,7 @@ export const mockFrequency: MockFrequency[] = [
       {
         frequency: 4,
         range: 4,
-        hex: "#ff6174",
+        hex: "#f79b83",
         id: "2",
       },
       {
@@ -71,7 +71,7 @@ export const mockFrequency: MockFrequency[] = [
       {
         frequency: 3,
         range: 20,
-        hex: "#00d7a5",
+        hex: "#66b2b2",
         id: "320",
       },
       {

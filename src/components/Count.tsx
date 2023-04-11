@@ -14,11 +14,25 @@ const Count: FunctionComponent<CountProps> = (props) => {
   return (
     <View
       style={{
-        paddingHorizontal: 5,
-        paddingVertical: 4,
+        paddingHorizontal: 10,
+        borderRadius: 8,
+        marginHorizontal: 8,
+        paddingVertical: 6,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#1F5062",
+        gap: 5,
       }}
     >
-      <Text>Past Result Color Count</Text>
+      <Text
+        style={{
+          color: "#fff",
+          fontWeight: "800",
+        }}
+      >
+        Past Result Color Count
+      </Text>
 
       <ScrollView horizontal>
         <View style={{ display: "flex", flexDirection: "row", gap: 2 }}>
@@ -51,9 +65,6 @@ const Count: FunctionComponent<CountProps> = (props) => {
                 </View>
               );
             })}
-        </View>
-        <View style={{ backgroundColor: "#999" }}>
-          <Text>others</Text>
         </View>
       </ScrollView>
     </View>

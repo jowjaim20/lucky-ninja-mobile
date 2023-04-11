@@ -4,7 +4,11 @@ import { useAppSelector } from "../redux/store";
 import Ball from "./Ball";
 import { LuckyNinjaLogo } from "../utils/svg";
 
-const NewPicks = () => {
+interface NewPicksProps {
+  ninjaTitle: string;
+}
+const NewPicks: React.FunctionComponent<NewPicksProps> = (props) => {
+  const { ninjaTitle } = props;
   const picks = useAppSelector((state) => state.picks);
   const {
     maxNumber,
@@ -63,7 +67,7 @@ const NewPicks = () => {
               fontWeight: "bold",
             }}
           >
-            Lucky Ninja
+            {ninjaTitle}
           </Text>
         </View>
       )}

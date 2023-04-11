@@ -13,8 +13,8 @@ const Settings: React.FunctionComponent<{
   return (
     <View>
       <Button
-        color="#1e1e1e"
-        title="Show Add Game"
+        color="#031E29"
+        title="Add Game"
         onPress={() => setModalVisibleAdd((prev) => !prev)}
       />
       <AddGame

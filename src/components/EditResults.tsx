@@ -105,6 +105,7 @@ const renderItem = ({
         <View
           style={{
             flexDirection: "row",
+            gap: 10,
             alignItems: "center",
           }}
         >
@@ -163,16 +164,12 @@ const EditResults: FunctionComponent<EditResultProps> = (props) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        height: 400,
       }}
     >
       <DraggableFlatList
-        style={{
-          height: 430,
-          backgroundColor: "#ff0",
-        }}
-        contentContainerStyle={{
-          backgroundColor: "#f0f",
-        }}
+        style={{}}
+        contentContainerStyle={{}}
         onDragEnd={handleSort}
         keyExtractor={(item) => item.id}
         data={results}

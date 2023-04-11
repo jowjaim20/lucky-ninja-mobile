@@ -11,11 +11,25 @@ const Frequency: FunctionComponent<FrequencyProps> = (props) => {
   return (
     <View
       style={{
-        paddingHorizontal: 5,
-        paddingVertical: 4,
+        paddingHorizontal: 10,
+        borderRadius: 8,
+        marginHorizontal: 8,
+        paddingVertical: 6,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#1F5062",
+        gap: 5,
       }}
     >
-      <Text>Frequency</Text>
+      <Text
+        style={{
+          color: "#fff",
+          fontWeight: "800",
+        }}
+      >
+        Frequency
+      </Text>
       <ScrollView horizontal>
         <View style={{ display: "flex", flexDirection: "row", gap: 2 }}>
           {currentFrequency.frequency.map((freq) => {
@@ -46,8 +60,20 @@ const Frequency: FunctionComponent<FrequencyProps> = (props) => {
             );
           })}
         </View>
-        <View style={{ backgroundColor: "#999" }}>
-          <Text>others</Text>
+        <View
+          style={{
+            backgroundColor: "#999",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: 40,
+            borderRadius: 8,
+            borderWidth: 2,
+            borderColor: "#000",
+            marginLeft: 2,
+          }}
+        >
+          <Text>etc</Text>
         </View>
       </ScrollView>
     </View>

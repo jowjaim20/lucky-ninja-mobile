@@ -18,6 +18,7 @@ export interface NumWithColor {
 export interface Saved {
   numbers: NumWithColor[];
   specialNumber: number;
+  date: number;
 }
 
 export interface Game {

@@ -32,8 +32,8 @@ const NinjaSwitch = <T extends Path<U>, U extends FieldValues>(
         render={({ field: { onChange, onBlur, value } }) => {
           return (
             <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={value ? "#f5dd4b" : "#f4f3f4"}
+              trackColor={{ false: "#767577", true: "#AFBDC2" }}
+              thumbColor={value ? "#0D3341" : "#AFBDC2"}
               onValueChange={() => {
                 console.log("est");
                 onChange(!value);

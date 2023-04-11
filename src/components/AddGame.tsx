@@ -6,6 +6,8 @@ import {
   View,
   ScrollView,
   Button,
+  Text,
+  Pressable,
 } from "react-native";
 import { useAppDispatch } from "../redux/store";
 import { addGame } from "../redux/slices/currentGame";
@@ -13,6 +15,7 @@ import { useForm } from "react-hook-form";
 import Constants from "expo-constants";
 import InputBox, { InputBoxProps } from "./InputBox";
 import NinjaSwitch, { SwitchProps } from "./Switch";
+import { LuckyNinjaLogo, XIcon } from "../utils/svg";
 
 export type names = "name" | "maxCount" | "maxNumber" | "specialNumberMax";
 export type switchNames = "repeat" | "startZero";
@@ -32,7 +35,7 @@ type SwitchArray<T extends switchNames> = Omit<
 >[];
 
 const switchForms: SwitchArray<switchNames> = [
-  { label: "Reapet?", name: "repeat" },
+  { label: "Repeat?", name: "repeat" },
   { label: "StartZero?", name: "startZero" },
 ];
 
@@ -43,37 +46,37 @@ type PropsArray<T extends names> = Omit<
 const forms: PropsArray<names> = [
   {
     name: "name",
-    label: "Name",
+    label: "Game Name",
     rules: {
-      required: { value: true, message: "required" },
+      required: { value: true, message: "Name is required" },
     },
   },
   {
     label: "Length",
     name: "maxCount",
     rules: {
-      required: { value: true, message: "required" },
-      max: { value: 6, message: "max should not be more than 6" },
-      min: { value: 2, message: "min should not be less than 2" },
+      required: { value: true, message: "Length is required" },
+      max: { value: 6, message: "Number should not be more than 6" },
+      min: { value: 2, message: "Number should not be less than 2" },
     },
     keyboardType: "numeric",
   },
   {
     name: "maxNumber",
-    label: "last Number",
+    label: "Game last Number",
     keyboardType: "numeric",
     rules: {
-      required: { value: true, message: "required" },
-      max: { value: 99, message: "max should not be more than 99" },
-      min: { value: 1, message: "min should not be less than 1" },
+      required: { value: true, message: "Last number is required" },
+      max: { value: 99, message: "Number should not be more than 99" },
+      min: { value: 1, message: "Number should not be less than 1" },
     },
   },
   {
     name: "specialNumberMax",
-    label: "special number",
+    label: "Additional Number Last Number",
     keyboardType: "numeric",
     rules: {
-      max: { value: 99, message: "max should not be more than 99" },
+      max: { value: 99, message: "Number should not be more than 99" },
     },
   },
 ];
@@ -122,6 +125,7 @@ const AddGame: FunctionComponent<AddGameProps> = (props) => {
 
   return (
     <Modal
+      style={{}}
       animationType="fade"
       //   transparent={true}
       visible={modalVisible}
@@ -130,42 +134,99 @@ const AddGame: FunctionComponent<AddGameProps> = (props) => {
         setModalVisible(!modalVisible);
       }}
     >
-      <ScrollView>
-        <View style={styles.container}>
-          {forms.map((form) => (
-            <InputBox control={control} errors={errors} {...form} />
+      <View style={styles.container}>
+        <View
+          style={{
+            alignSelf: "flex-end",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            paddingVertical: 10,
+            backgroundColor: "#031E29",
+            marginRight: 5,
+          }}
+        >
+          <Pressable onPress={() => setModalVisible(false)}>
+            <XIcon />
+          </Pressable>
+        </View>
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "row",
+          }}
+        >
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <LuckyNinjaLogo />
+          </View>
+          <Text
+            style={{
+              marginLeft: 4,
+              color: "#fff",
+              fontSize: 24,
+              fontWeight: "bold",
+            }}
+          >
+            Ninja Create Game
+          </Text>
+        </View>
+        {forms.map((form) => (
+          <InputBox
+            key={form.name}
+            control={control}
+            errors={errors}
+            {...form}
+          />
+        ))}
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+          }}
+        >
+          {switchForms.map((form) => (
+            <NinjaSwitch key={form.name} control={control} {...form} />
           ))}
-          <View style={{ display: "flex", flexDirection: "row" }}>
-            {switchForms.map((form) => (
-              <NinjaSwitch control={control} {...form} />
-            ))}
+        </View>
+        <View
+          style={{
+            display: "flex",
+            gap: 5,
+          }}
+        >
+          <View style={styles.button}>
+            <Button
+              color="#1F5062"
+              title="Reset"
+              onPress={() => {
+                reset({
+                  maxCount: 5,
+                  maxNumber: 42,
+                  name: "",
+                  repeat: false,
+                  startZero: false,
+                });
+              }}
+            />
+          </View>
+
+          <View style={styles.button}>
+            <Button
+              color="#1F5062"
+              title="Create"
+              onPress={handleSubmit(onSubmit)}
+            />
           </View>
         </View>
-
-        <View style={styles.button}>
-          <Button
-            color="#1e1e1e"
-            title="Reset"
-            onPress={() => {
-              reset({
-                maxCount: 6,
-                maxNumber: 42,
-                name: "test",
-                repeat: false,
-                startZero: false,
-              });
-            }}
-          />
-        </View>
-
-        <View style={styles.button}>
-          <Button
-            color="#1e1e1e"
-            title="Add"
-            onPress={handleSubmit(onSubmit)}
-          />
-        </View>
-      </ScrollView>
+      </View>
     </Modal>
   );
 };
@@ -173,29 +234,13 @@ const AddGame: FunctionComponent<AddGameProps> = (props) => {
 export default AddGame;
 
 const styles = StyleSheet.create({
-  label: {
-    color: "white",
-    margin: 20,
-    marginLeft: 0,
-  },
   button: {
-    marginTop: 40,
-    color: "white",
-    height: 40,
-    backgroundColor: "#ec5990",
-    borderRadius: 4,
+    borderRadius: 50,
   },
   container: {
     flex: 1,
-    justifyContent: "center",
-    paddingTop: Constants.statusBarHeight,
+    justifyContent: "space-between",
     padding: 8,
-    backgroundColor: "#0e101c",
-  },
-  input: {
-    backgroundColor: "#fff",
-    height: 40,
-    padding: 10,
-    borderRadius: 4,
+    backgroundColor: "#031E29",
   },
 });

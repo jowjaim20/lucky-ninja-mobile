@@ -30,7 +30,13 @@ import { deleteResult, updateArray } from "../../redux/slices/currentGame";
 import { resetPicks } from "../../redux/slices/picksSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import NewPicks from "../../components/NewPicks";
-import { ChartIcon, RefreshIcon, YoutubeIcon } from "../../utils/svg";
+import {
+  ChartIcon,
+  LuckyNinjaLogo,
+  PenIcon,
+  RefreshIcon,
+  YoutubeIcon,
+} from "../../utils/svg";
 import AllNumbersCardController from "../../components/AllNumbersCardController";
 import EditResults from "../../components/EditResults";
 import PastColorsModal from "../../components/PastColorsModal";
@@ -77,10 +83,49 @@ const Main = () => {
       >
         {!edit ? (
           <View>
-            <NewPicks />
+            <NewPicks ninjaTitle="Ninja Analyzer" />
           </View>
         ) : (
-          <Button title="Done" onPress={() => setEdit(false)} />
+          <View
+            style={{
+              marginBottom: 20,
+            }}
+          >
+            <Button
+              title="Done"
+              color="#031E29"
+              onPress={() => setEdit(false)}
+            />
+
+            <View
+              style={{
+                marginTop: 20,
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "row",
+              }}
+            >
+              <View
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <LuckyNinjaLogo />
+              </View>
+              <Text
+                style={{
+                  marginLeft: 4,
+                  color: "#031E29",
+                  fontSize: 24,
+                  fontWeight: "bold",
+                }}
+              >
+                Ninja Past Result Editor
+              </Text>
+            </View>
+          </View>
         )}
 
         <AllNumbersCardController
@@ -145,7 +190,7 @@ const Main = () => {
                     onPress={() => setEdit((prev) => !prev)}
                     android_ripple={{ color: "#0D3341" }}
                   >
-                    <RefreshIcon />
+                    <PenIcon />
                   </Pressable>
                 </View>
               </View>
