@@ -13,6 +13,7 @@ import activeSetSlice from "./slices/activeSetSlice";
 import Color from "./slices/colorSlice";
 import showAddSlice from "./slices/showAddSlice";
 import allNumbers from "./slices/allNumbersSlice";
+import colorOptions from "./slices/colorOptionsSlice";
 
 // ...
 
@@ -25,6 +26,7 @@ const reducers = combineReducers({
   color: Color,
   showAdd: showAddSlice,
   allNumbers: allNumbers,
+  colorOptions: colorOptions,
 });
 
 const persistConfig = {

@@ -32,6 +32,7 @@ import {
   XIcon,
 } from "../utils/svg";
 import PastColorsModal from "./PastColorsModal";
+import useScaling from "../hooks/useScaling";
 
 interface ResultsCardProps {
   results: Result[];
@@ -69,10 +70,10 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
           style={{
             display: "flex",
             flexDirection: "row",
-            gap: 1,
-            backgroundColor: "#AFBDC2",
-            paddingHorizontal: 3,
-            paddingVertical: 3,
+            gap: 0.5,
+            backgroundColor: "#D5D9DA",
+            paddingVertical: 2,
+            paddingHorizontal: 4,
             borderRadius: 12,
           }}
         >
@@ -90,7 +91,7 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
                   onClick={handleSetClick}
                   title={num}
                   hex={hex}
-                  size={35}
+                  size={33}
                   clicked={clicked || colorAll}
                 />
               )}
@@ -111,7 +112,7 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
                   onClick={handleSetClick}
                   title={item.specialNumber || 0}
                   hex="#fff"
-                  size={35}
+                  size={33}
                 />
               )}
             />
@@ -120,8 +121,8 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
             style={{
               borderRadius: 50,
               overflow: "hidden",
-              width: 35,
-              height: 35,
+              width: 33,
+              height: 33,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -144,6 +145,7 @@ const ResultsCard2: FunctionComponent<ResultsCardProps> = (props) => {
   const { results, edit } = props;
   const color = useAppSelector((state) => state.color);
   const dispath = useAppDispatch();
+  const { scale } = useScaling();
 
   const handleSort = ({ data }: { data: Result[] }) => {
     dispath(updateArray(data));
@@ -153,32 +155,18 @@ const ResultsCard2: FunctionComponent<ResultsCardProps> = (props) => {
     <View
       style={{
         display: "flex",
-        flexDirection: "column",
-        borderRadius: 16,
         width: 258,
+        backgroundColor: "#AFBDC2",
         justifyContent: "center",
         alignItems: "center",
-        height: 510,
-        gap: 10,
+        transform: [{ scale }],
+        padding: 5 * scale,
+        borderRadius: 8,
       }}
     >
-      <View
-        style={{
-          marginVertical: 10,
-        }}
-      >
-        <Text
-          style={{
-            color: "#0D3341",
-            fontSize: 16,
-            fontWeight: "bold",
-          }}
-        >
-          Past Results
-        </Text>
-      </View>
       <FlatList
         style={{
+          height: 420,
           flexDirection: "column",
         }}
         contentContainerStyle={{

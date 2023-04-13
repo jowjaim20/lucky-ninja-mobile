@@ -17,6 +17,8 @@ import {
 import BallController from "./BallController";
 import Ball from "./Ball";
 import { Modal } from "react-native";
+import { resetColorOption } from "../redux/slices/colorOptionsSlice";
+import useScaling from "../hooks/useScaling";
 
 interface RowItemProps {
   item: Result;
@@ -150,8 +152,10 @@ const EditResults: FunctionComponent<EditResultProps> = (props) => {
   const results = useAppSelector(
     (state) => state.currentGame.currentGame.previousResults
   );
+  const { scale } = useScaling();
 
   const dispath = useAppDispatch();
+  dispath(resetColorOption());
 
   const handleSort = ({ data }: { data: Result[] }) => {
     console.log("data", data);
@@ -160,11 +164,11 @@ const EditResults: FunctionComponent<EditResultProps> = (props) => {
   return (
     <View
       style={{
-        flex: 1,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         height: 400,
+        transform: [{ scale }],
       }}
     >
       <DraggableFlatList

@@ -22,21 +22,28 @@ import {
   ChartIcon,
   CircleRightIcon,
   FacebookIcon,
+  FireIcon,
+  InfoICon,
   PatreonIcon,
   RefreshIcon,
   SaveIcon,
+  SettingsIcon,
   YoutubeIcon,
 } from "../../utils/svg";
 import NewPicks from "../../components/NewPicks";
 import AllNumbersCardController from "../../components/AllNumbersCardController";
 import SocialSites from "../../components/SocialSites";
+import ColorMaster from "../../components/ColorMaster";
+import useScaling from "../../hooks/useScaling";
 
 const Home = () => {
   const picks = useAppSelector((state) => state.picks);
+  const { scale } = useScaling();
 
   const { maxNumber, previousResults, maxCount, name, repeat, id, startZero } =
     useAppSelector((state) => state.currentGame.currentGame);
   const [modalVisible, setModalVisible] = useState(false);
+  const [colorModalVisible, setColorModalVisible] = useState(false);
 
   const allNum = Array.from(
     { length: startZero ? maxNumber + 1 : maxNumber },
@@ -78,7 +85,11 @@ const Home = () => {
   const filtered = previousResults.filter((_, index) => index <= 4);
   return (
     <>
-      <View>
+      <View
+        style={{
+          flex: 1,
+        }}
+      >
         <View
           style={{
             elevation: 20,
@@ -88,6 +99,10 @@ const Home = () => {
             style={{
               padding: 12,
               backgroundColor: "#0D3341",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
             <Text
@@ -99,106 +114,159 @@ const Home = () => {
             >
               {name}
             </Text>
+            <Pressable
+              onPress={() =>
+                Alert.alert(
+                  "Info",
+                  "Lucky Ninja colors are based on past results of the game. Add atleast 30 correct past results to get accurate colors."
+                )
+              }
+            >
+              <InfoICon />
+            </Pressable>
           </View>
         </View>
         <View
-          style={[
-            {
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: 20,
-            },
-          ]}
-        >
-          <NewPicks ninjaTitle="Ninja Generator" />
-        </View>
-        <View
           style={{
+            flex: 0.9,
             display: "flex",
-            flexDirection: "row",
-            gap: 8,
-            justifyContent: "center",
+            justifyContent: "space-between",
           }}
         >
-          <ResultsCard edit={false} results={filtered} />
-
-          <AllNumbersCardController
-            results={previousResults}
-            allNumbers={allNum}
-            currentIndex={-1}
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-            render={(props) => <AllNumbersCard {...props} />}
-          />
+          <NewPicks ninjaTitle="Ninja Generator" />
 
           <View
             style={{
+              flex: 0.9,
               display: "flex",
-              flexDirection: "column",
-              width: 55,
-              justifyContent: "center",
+              flexDirection: "row",
+              justifyContent: "space-between",
               alignItems: "center",
-              backgroundColor: "#AFBDC2",
-              borderRadius: 8,
-              gap: 25,
             }}
           >
             <View
               style={{
-                borderRadius: 16,
-                overflow: "hidden",
+                flex: 0.8,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <Pressable
-                onPress={handleCount}
-                android_ripple={{ color: "#0D3341" }}
-              >
-                <RefreshIcon />
-              </Pressable>
+              <ResultsCard edit={false} results={filtered} />
             </View>
+
+            <AllNumbersCardController
+              results={previousResults}
+              allNumbers={allNum}
+              currentIndex={-1}
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              render={(props) => <AllNumbersCard {...props} />}
+            />
+            <ColorMaster
+              modalVisible={colorModalVisible}
+              setModalVisible={setColorModalVisible}
+            />
             <View
               style={{
-                borderRadius: 16,
-                overflow: "hidden",
+                flex: 0.2,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <Pressable
-                onPress={() => setModalVisible((prev) => !prev)}
-                android_ripple={{ color: "#0D3341" }}
+              <View
+                style={{
+                  display: "flex",
+                  paddingVertical: 30,
+                  flexDirection: "column",
+                  width: 55,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#AFBDC2",
+                  borderRadius: 8,
+                  gap: 16,
+                  transform: [{ scale }],
+                }}
               >
-                <ChartIcon />
-              </Pressable>
-            </View>
-            <View
-              style={{
-                borderRadius: 16,
-                overflow: "hidden",
-              }}
-            >
-              <Pressable
-                onPress={handleClearPicks}
-                android_ripple={{ color: "#0D3341" }}
-              >
-                <CircleRightIcon />
-              </Pressable>
-            </View>
-            <View
-              style={{
-                borderRadius: 16,
-                overflow: "hidden",
-              }}
-            >
-              <Pressable
-                onPress={handleAddSaved}
-                android_ripple={{ color: "#0D3341" }}
-              >
-                <SaveIcon />
-              </Pressable>
+                <View
+                  style={{
+                    borderRadius: 16,
+                    overflow: "hidden",
+                  }}
+                >
+                  <Pressable
+                    onPress={handleCount}
+                    android_ripple={{ color: "#0D3341" }}
+                  >
+                    <RefreshIcon />
+                  </Pressable>
+                </View>
+                <View
+                  style={{
+                    borderRadius: 16,
+                    overflow: "hidden",
+                  }}
+                >
+                  <Pressable
+                    onPress={() => setModalVisible((prev) => !prev)}
+                    android_ripple={{ color: "#0D3341" }}
+                  >
+                    <ChartIcon />
+                  </Pressable>
+                </View>
+                <View
+                  style={{
+                    borderRadius: 16,
+                    overflow: "hidden",
+                  }}
+                >
+                  <Pressable
+                    onPress={handleClearPicks}
+                    android_ripple={{ color: "#0D3341" }}
+                  >
+                    <CircleRightIcon />
+                  </Pressable>
+                </View>
+                <View
+                  style={{
+                    borderRadius: 16,
+                    overflow: "hidden",
+                  }}
+                >
+                  <Pressable
+                    onPress={handleAddSaved}
+                    android_ripple={{ color: "#0D3341" }}
+                  >
+                    <SaveIcon />
+                  </Pressable>
+                </View>
+                <View
+                  style={{
+                    borderRadius: 16,
+                    overflow: "hidden",
+                  }}
+                >
+                  <Pressable
+                    onPress={() => setColorModalVisible(true)}
+                    android_ripple={{ color: "#0D3341" }}
+                  >
+                    <SettingsIcon color="#315968" />
+                  </Pressable>
+                </View>
+              </View>
             </View>
           </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <SocialSites />
+          </View>
         </View>
-        <SocialSites />
       </View>
     </>
   );

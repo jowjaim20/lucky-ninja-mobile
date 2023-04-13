@@ -22,9 +22,9 @@ const NinjaButtons: FunctionComponent<NinjaButtonsProps> = (props) => {
     <View
       style={{
         display: "flex",
-        flexDirection: "column",
-        width: 55,
-        height: 300,
+        flexDirection: "row",
+        width: 270,
+        height: 55,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#AFBDC2",

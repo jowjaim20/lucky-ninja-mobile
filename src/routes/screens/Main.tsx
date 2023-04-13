@@ -40,6 +40,7 @@ import {
 import AllNumbersCardController from "../../components/AllNumbersCardController";
 import EditResults from "../../components/EditResults";
 import PastColorsModal from "../../components/PastColorsModal";
+import useScaling from "../../hooks/useScaling";
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -47,6 +48,7 @@ const Main = () => {
   const [edit, setEdit] = useState(false);
 
   const currentFrequency = useAppSelector((state) => state.frequency);
+  const { scale } = useScaling();
   // const picks = useAppSelector((state) => state.picks);
 
   const { countColors } = useCountColor();
@@ -75,87 +77,124 @@ const Main = () => {
 
   const halfWindowsWidth = Dimensions.get("window").height * 0.1;
   return (
-    <View>
-      <View
-        style={{
-          padding: 6,
-        }}
-      >
-        {!edit ? (
-          <View>
-            <NewPicks ninjaTitle="Ninja Analyzer" />
-          </View>
-        ) : (
+    <View
+      style={{
+        flex: 0.9,
+      }}
+    >
+      {!edit ? (
+        <View>
+          <NewPicks ninjaTitle="Ninja Analyzer" />
+        </View>
+      ) : (
+        <View
+          style={{
+            marginBottom: 20,
+          }}
+        >
+          <Button title="Done" color="#031E29" onPress={() => setEdit(false)} />
+
           <View
             style={{
-              marginBottom: 20,
+              marginTop: 20,
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "row",
             }}
           >
-            <Button
-              title="Done"
-              color="#031E29"
-              onPress={() => setEdit(false)}
-            />
-
             <View
               style={{
-                marginTop: 20,
                 display: "flex",
                 justifyContent: "center",
-                flexDirection: "row",
+                alignItems: "center",
               }}
             >
-              <View
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <LuckyNinjaLogo />
-              </View>
-              <Text
-                style={{
-                  marginLeft: 4,
-                  color: "#031E29",
-                  fontSize: 24,
-                  fontWeight: "bold",
-                }}
-              >
-                Ninja Past Result Editor
-              </Text>
+              <LuckyNinjaLogo />
             </View>
+            <Text
+              style={{
+                marginLeft: 4,
+                color: "#031E29",
+                fontSize: 24,
+                fontWeight: "bold",
+              }}
+            >
+              Ninja Past Result Editor
+            </Text>
+          </View>
+        </View>
+      )}
+
+      <AllNumbersCardController
+        results={previousResults}
+        allNumbers={allNum}
+        currentIndex={-1}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        render={(props) => <AllNumbersCard {...props} />}
+      />
+
+      <View
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "row",
+          gap: 4,
+          justifyContent: "space-between",
+        }}
+      >
+        {!edit && (
+          <View
+            style={{
+              flex: 0.7,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginVertical: 10 * scale,
+              marginHorizontal: 10 * scale,
+              borderRadius: 20 * scale,
+            }}
+          >
+            <ResultsCard2 allNumbers={allNum} results={previousResults} />
+          </View>
+        )}
+        {edit && (
+          <View
+            style={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginVertical: 10 * scale,
+              marginHorizontal: 10 * scale,
+              borderRadius: 20 * scale,
+            }}
+          >
+            <EditResults {...{ edit, setEdit }} />
           </View>
         )}
 
-        <AllNumbersCardController
-          results={previousResults}
-          allNumbers={allNum}
-          currentIndex={-1}
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          render={(props) => <AllNumbersCard {...props} />}
-        />
-
-        <View
-          style={{
-            alignSelf: "stretch",
-            display: "flex",
-            flexDirection: "row",
-            gap: 4,
-            justifyContent: "space-between",
-          }}
-        >
-          {edit ? (
-            <EditResults {...{ edit, setEdit }} />
-          ) : (
-            <ResultsCard2 allNumbers={allNum} results={previousResults} />
-          )}
-
-          {!edit && (
+        {!edit && (
+          <View
+            style={{
+              flex: 0.3,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginVertical: 10 * scale,
+              marginHorizontal: 10 * scale,
+              borderRadius: 20 * scale,
+              overflow: "hidden",
+            }}
+          >
             <View
               style={{
-                flex: 1,
+                transform: [{ scale }],
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                gap: 10,
               }}
             >
               <View
@@ -201,7 +240,7 @@ const Main = () => {
                   justifyContent: "space-evenly",
                   backgroundColor: "#AFBDC2",
                   borderRadius: 8,
-                  height: 454,
+                  height: 332,
                   overflow: "hidden",
                 }}
               >
@@ -218,7 +257,15 @@ const Main = () => {
                       paddingVertical: 12,
                     }}
                   >
-                    <Text>Count</Text>
+                    <Text
+                      style={{
+                        color: "#031E29",
+                        fontSize: 10,
+                        fontWeight: "700",
+                      }}
+                    >
+                      COUNT
+                    </Text>
                   </View>
 
                   <View
@@ -230,7 +277,7 @@ const Main = () => {
                   >
                     <ScrollView
                       style={{
-                        height: 410,
+                        height: 290,
                       }}
                       contentContainerStyle={{
                         gap: 1.2,
@@ -269,7 +316,15 @@ const Main = () => {
                       paddingVertical: 12,
                     }}
                   >
-                    <Text>Freq</Text>
+                    <Text
+                      style={{
+                        fontSize: 10,
+                        color: "#031E29",
+                        fontWeight: "700",
+                      }}
+                    >
+                      FREQ
+                    </Text>
                   </View>
                   <View
                     style={{
@@ -280,7 +335,7 @@ const Main = () => {
                   >
                     <ScrollView
                       style={{
-                        height: 410,
+                        height: 290,
                       }}
                       contentContainerStyle={{
                         gap: 1.2,
@@ -311,8 +366,8 @@ const Main = () => {
                 </View>
               </View>
             </View>
-          )}
-        </View>
+          </View>
+        )}
       </View>
     </View>
   );

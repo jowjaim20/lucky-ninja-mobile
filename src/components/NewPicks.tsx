@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { useAppSelector } from "../redux/store";
 import Ball from "./Ball";
 import { LuckyNinjaLogo } from "../utils/svg";
+import useScaling from "../hooks/useScaling";
 
 interface NewPicksProps {
   ninjaTitle: string;
@@ -20,57 +21,94 @@ const NewPicks: React.FunctionComponent<NewPicksProps> = (props) => {
     startZero,
     specialNumberMax,
   } = useAppSelector((state) => state.currentGame.currentGame);
+  const colorOptions = useAppSelector((state) => state.colorOptions);
+  const { scale } = useScaling();
 
   return (
     <View
       style={{
-        alignSelf: "stretch",
-        height: 62,
         backgroundColor: "#A3B2B8",
         marginTop: 8,
         padding: 12,
         borderRadius: 6,
+
         marginHorizontal: 10,
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "center",
+        gap: 5,
         alignItems: "center",
       }}
     >
-      {picks.numbers.map((obj, idx) => {
-        return <Ball key={idx} title={obj.number} hex={obj.hex} />;
-      })}
-      {picks?.specialNumber !== 0 && specialNumberMax && (
-        <Ball onClick={() => {}} title={picks.specialNumber || 0} hex="#fff" />
-      )}
-      {picks.numbers.length === 0 && (
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-          }}
-        >
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {picks.numbers.map((obj, idx) => {
+          return (
+            <Ball scale={scale} key={idx} title={obj.number} hex={obj.hex} />
+          );
+        })}
+        {picks?.specialNumber !== 0 && specialNumberMax && (
+          <Ball
+            scale={scale}
+            onClick={() => {}}
+            title={picks.specialNumber || 0}
+            hex="#fff"
+          />
+        )}
+        {picks.numbers.length === 0 && (
           <View
             style={{
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              flexDirection: "row",
             }}
           >
-            <LuckyNinjaLogo />
+            <View
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <LuckyNinjaLogo scale={scale} />
+            </View>
+            <Text
+              style={{
+                marginLeft: 4,
+                color: "#031E29",
+                fontSize: 24 * scale,
+                fontWeight: "bold",
+              }}
+            >
+              {ninjaTitle}
+            </Text>
           </View>
-          <Text
+        )}
+      </View>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          height: 10,
+          gap: 5,
+        }}
+      >
+        {colorOptions.map((hex, idx) => (
+          <View
+            key={`${hex}${idx}`}
             style={{
-              marginLeft: 4,
-              color: "#031E29",
-              fontSize: 24,
-              fontWeight: "bold",
+              width: 10 * scale,
+              height: 10 * scale,
+              borderRadius: 50,
+              backgroundColor: hex,
             }}
-          >
-            {ninjaTitle}
-          </Text>
-        </View>
-      )}
+          ></View>
+        ))}
+      </View>
     </View>
   );
 };

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "RNLucky-ninja",
-    "slug": "RNLucky-ninja",
+    "name": "Lucky Ninja",
+    "slug": "lucky-ninja",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,14 +21,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#234451"
       },
-      "package": "com.jowjaim20.RNLuckyninja"
+      "package": "com.jowjaim20.luckyNinja"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "ec6ac9f8-006a-48e7-a723-e2e61aa9bfd6"
+        "projectId": "6380aff0-6eb8-44f0-b9a8-40d5062990c1"
       }
     }
   },

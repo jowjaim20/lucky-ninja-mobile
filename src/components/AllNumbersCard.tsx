@@ -9,6 +9,7 @@ import Count from "./Count";
 import { MockFrequency } from "./data";
 import { Pressable } from "react-native";
 import { XIcon } from "../utils/svg";
+import useScaling from "../hooks/useScaling";
 
 export interface AllNumbersCardProps {
   modalVisible: boolean;
@@ -42,10 +43,11 @@ const AllNumbersCard: FunctionComponent<AllNumbersCardProps> = (props) => {
     newArray,
     setModalVisible,
   } = props;
+  const { scale } = useScaling();
 
   return (
     <Modal
-      transparent={false}
+      transparent={true}
       animationType="fade"
       visible={modalVisible}
       onRequestClose={() => {
@@ -55,62 +57,74 @@ const AllNumbersCard: FunctionComponent<AllNumbersCardProps> = (props) => {
     >
       <View
         style={{
-          display: "flex",
-          flexDirection: "column",
           flex: 1,
-          backgroundColor: "#D5D9DA",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <View
           style={{
-            alignSelf: "flex-end",
             display: "flex",
-            justifyContent: "flex-end",
+            flexDirection: "column",
+            justifyContent: "space-between",
             alignItems: "center",
-            paddingVertical: 10,
-            marginRight: 5,
+            padding: 10,
+            width: 336,
+            borderRadius: 16,
+            height: 400,
+            backgroundColor: "#D5D9DA",
+            marginTop: 120,
+            overflow: "hidden",
+            transform: [{ scale }],
           }}
         >
-          <Pressable onPress={() => setModalVisible(false)}>
-            <XIcon />
-          </Pressable>
-        </View>
-
-        <View
-          style={{
-            backgroundColor: "#1F5062",
-            marginHorizontal: 10,
-            borderRadius: 8,
-            paddingVertical: 8,
-          }}
-        >
-          <NewPicks ninjaTitle="Ninja Picker" />
-          <Frequency currentFrequency={currentFrequency} />
-
-          <Count counts={counts} />
-        </View>
-
-        <View
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            gap: 10,
-            marginHorizontal: 10,
-            marginVertical: 15,
-          }}
-        >
-          <NumberContainer {...{ currentIndex, filtered, newArray }} />
-          <NinjaButtons
-            {...{
-              handleAddResult,
-              handleAddSaved,
-              handleClearPicks,
-              handleInsertResult,
+          <View
+            style={{
+              alignSelf: "flex-end",
             }}
-          />
+          >
+            <Pressable onPress={() => setModalVisible(false)}>
+              <XIcon />
+            </Pressable>
+          </View>
+
+          {/* <View
+            style={{
+              backgroundColor: "#1F5062",
+              marginHorizontal: 10,
+              borderRadius: 8,
+              paddingVertical: 8,
+            }}
+          >
+            <NewPicks ninjaTitle="Ninja Picker" />
+            <Frequency currentFrequency={currentFrequency} />
+
+            <Count counts={counts} />
+          </View> */}
+
+          <View
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              gap: 10,
+              marginHorizontal: 10,
+              marginVertical: 15,
+            }}
+          >
+            <NumberContainer {...{ currentIndex, filtered, newArray }} />
+            <NinjaButtons
+              {...{
+                handleAddResult,
+                handleAddSaved,
+                handleClearPicks,
+                handleInsertResult,
+              }}
+            />
+          </View>
         </View>
       </View>
     </Modal>

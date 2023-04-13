@@ -11,6 +11,7 @@ import {
 import { resetPicks } from "../redux/slices/picksSlice";
 import useCountColor from "../hooks/useCountColor";
 import { AllNumbersCardProps } from "./AllNumbersCard";
+import { resetColorOption } from "../redux/slices/colorOptionsSlice";
 
 interface AllNumbersCardControllerProps {
   results: Result[];
@@ -57,6 +58,8 @@ const AllNumbersCardController = (props: AllNumbersCardControllerProps) => {
   }, [picks, specialNumberMax]);
 
   const handleAddResult = () => {
+    dispatch(resetColorOption());
+
     if (picks.numbers.length === maxCount) {
       dispatch(
         addResult({

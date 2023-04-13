@@ -26,6 +26,7 @@ import { setClicked } from "../redux/slices/clickedSlice";
 import { addNumber, setPicks } from "../redux/slices/picksSlice";
 import { setActiveSet } from "../redux/slices/activeSetSlice";
 import { SortIcon, XIcon } from "../utils/svg";
+import useScaling from "../hooks/useScaling";
 
 interface ResultsCardProps {
   results: Result[];
@@ -107,7 +108,7 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
 
 const ResultsCard: FunctionComponent<ResultsCardProps> = (props) => {
   const { results, edit } = props;
-  const color = useAppSelector((state) => state.color);
+  const { scale } = useScaling();
 
   return (
     <View
@@ -122,6 +123,7 @@ const ResultsCard: FunctionComponent<ResultsCardProps> = (props) => {
         width: 276,
         height: 290,
         gap: 10,
+        transform: [{ scale }],
       }}
     >
       <Text

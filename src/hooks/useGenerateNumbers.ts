@@ -11,6 +11,8 @@ const useGenerateNumbers = () => {
   const { maxNumber, specialNumberMax, maxCount, repeat, startZero } =
     useAppSelector((state) => state.currentGame.currentGame);
   const games = useAppSelector((state) => state.currentGame.games);
+  const options = useAppSelector((state) => state.colorOptions);
+
   const { previousResults } = useAppSelector(
     (state) => state.currentGame.currentGame
   );
@@ -34,6 +36,7 @@ const useGenerateNumbers = () => {
       const number = startZero
         ? Math.trunc(Math.random() * (maxNumber + 1))
         : Math.trunc(Math.random() * maxNumber) + 1;
+      // const number = 6;
 
       const getHex = () => {
         console.log("getHex");
@@ -49,12 +52,18 @@ const useGenerateNumbers = () => {
         return filteredFrequency?.hex || "#999999"; //change default once done
       };
 
-      if (!numArr.find((nums) => nums.number === number) && !repeat) {
-        const hex = getHex();
+      const hex = getHex();
+
+      const isHex =
+        options[numArr.length] === hex || options[numArr.length] === undefined;
+
+      console.log("isHex", isHex);
+
+      if (!numArr.find((nums) => nums.number === number) && !repeat && isHex) {
         numArr.push({ number: number, hex: hex });
       }
 
-      if (repeat) numArr.push({ number: number, hex: getHex() });
+      if (repeat && isHex) numArr.push({ number: number, hex: hex });
     }
 
     if (specialNumberMax !== 0) {

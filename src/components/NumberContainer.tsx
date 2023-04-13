@@ -4,6 +4,7 @@ import useSetPicks from "../hooks/useSetPicks";
 import Ball from "./Ball";
 import BallController from "./BallController";
 import { Result } from "./enums";
+import { useAppSelector } from "../redux/store";
 
 interface NumberContainerProps {
   filtered: number[];
@@ -12,6 +13,9 @@ interface NumberContainerProps {
 }
 const NumberContainer: FunctionComponent<NumberContainerProps> = (props) => {
   const { filtered, newArray, currentIndex } = props;
+  const picks = useAppSelector((state) => state.picks);
+  const { maxCount } = useAppSelector((state) => state.currentGame.currentGame);
+
   const { handleSetNumbers } = useSetPicks({ notAdd: true, notClick: false });
 
   return (
@@ -23,7 +27,7 @@ const NumberContainer: FunctionComponent<NumberContainerProps> = (props) => {
     >
       <View
         style={{
-          height: 388,
+          height: 266,
           width: 270,
           paddingVertical: 15,
           paddingHorizontal: 15,
@@ -61,7 +65,7 @@ const NumberContainer: FunctionComponent<NumberContainerProps> = (props) => {
                     onClick={handleSetNumbers}
                     clicked={false}
                     title={num}
-                    hex={hex}
+                    hex={picks.numbers.length === maxCount ? "#fff" : hex}
                   />
                 )}
               />

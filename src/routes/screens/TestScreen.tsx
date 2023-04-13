@@ -16,12 +16,12 @@ const TestScreen = () => {
   };
 
   return (
-    <View>
-      <ScrollView
-        style={{
-          height: 570,
-        }}
-      >
+    <View
+      style={{
+        flex: 0.9,
+      }}
+    >
+      <ScrollView style={{}}>
         <View
           style={{
             display: "flex",

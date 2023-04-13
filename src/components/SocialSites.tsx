@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Pressable, Linking, Text, Alert } from "react-native";
 import { BuyMeACoffeeIcon, PatreonIcon, StarIcon } from "../utils/svg";
+import useScaling from "../hooks/useScaling";
 
 const GOOGLE_PACKAGE_NAME = "Facebook";
 
@@ -17,6 +18,7 @@ const SocialSites = () => {
         borderBottomEndRadius: 8,
         padding: 10,
         marginTop: 30,
+        marginBottom: 20,
         backgroundColor: "#fff",
       }}
     >

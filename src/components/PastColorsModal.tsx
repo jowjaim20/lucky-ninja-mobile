@@ -9,6 +9,7 @@ import BallController from "./BallController";
 import Ball from "./Ball";
 import useModifyArray from "../hooks/useModifyArray";
 import { LuckyNinjaLogo, XIcon } from "../utils/svg";
+import useScaling from "../hooks/useScaling";
 
 interface PastColorModalProps {
   modalVisible: boolean;
@@ -17,6 +18,7 @@ interface PastColorModalProps {
 }
 const PastColorsModal: FunctionComponent<PastColorModalProps> = (props) => {
   const { modalVisible, setModalVisible, currentIndex } = props;
+  const { scale } = useScaling();
   const { maxNumber, previousResults, maxCount, name, repeat, id, startZero } =
     useAppSelector((state) => state.currentGame.currentGame);
 
@@ -32,6 +34,7 @@ const PastColorsModal: FunctionComponent<PastColorModalProps> = (props) => {
   return (
     <Modal
       animationType="fade"
+      transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
         // Alert.alert("Modal has been closed.");
@@ -40,135 +43,169 @@ const PastColorsModal: FunctionComponent<PastColorModalProps> = (props) => {
     >
       <View
         style={{
-          backgroundColor: "#D5D9DA",
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "flex-end",
-          padding: 10,
-        }}
-      >
-        <Pressable onPress={() => setModalVisible(false)}>
-          <XIcon />
-        </Pressable>
-      </View>
-      <View
-        style={{
           flex: 1,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#D5D9DA",
+          transform: [{ scale }],
         }}
       >
         <View
           style={{
             display: "flex",
-            justifyContent: "center",
+            flexDirection: "column",
+            justifyContent: "space-between",
             alignItems: "center",
-            backgroundColor: "#fff",
-            flexDirection: "row",
             padding: 10,
-            marginBottom: 20,
-            borderRadius: 8,
-          }}
-        >
-          <LuckyNinjaLogo />
-          <Text
-            style={{
-              marginLeft: 4,
-              color: "#031E29",
-              fontSize: 24,
-              fontWeight: "bold",
-            }}
-          >
-            Ninja Time Machine
-          </Text>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 3,
+            width: 300,
+            borderRadius: 16,
+            height: 300,
+            backgroundColor: "#D5D9DA",
+            overflow: "hidden",
           }}
         >
           <View
             style={{
-              flexWrap: "wrap",
-              flexDirection: "row",
-              width: 260,
-              backgroundColor: "#",
-              padding: 10,
-              borderRadius: 6,
+              alignSelf: "flex-end",
             }}
           >
-            {previousResults[currentIndex].numbers.map((num, idx) => (
-              <BallController
-                key={`${num}${idx}`}
-                {...{
-                  currentIndex,
-                  number: num,
-                  prevResults: newArray,
-                }}
-                render={(hex, clicked, onClick) => (
-                  <Ball
-                    ripple={{ color: hex, borderless: false }}
-                    title={num}
-                    hex={hex}
-                  />
-                )}
-              />
-            ))}
-
-            {previousResults[currentIndex].specialNumber !== 0 && (
-              <Ball
-                title={previousResults[currentIndex].specialNumber || 0}
-                hex="#fff"
-              />
-            )}
+            <Pressable onPress={() => setModalVisible(false)}>
+              <XIcon />
+            </Pressable>
           </View>
           <View
             style={{
-              backgroundColor: "#1F5062",
-              width: 260,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
               padding: 10,
-              borderRadius: 6,
+              width: 250,
+              borderRadius: 16,
+              backgroundColor: "#D5D9DA",
             }}
           >
-            <ScrollView
+            <View
               style={{
-                height: 320,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: -30,
               }}
             >
-              <View
+              <Text
                 style={{
-                  flexWrap: "wrap",
-                  flexDirection: "row",
+                  color: "#031E29",
+                  fontSize: 16,
+                  fontWeight: "bold",
                 }}
               >
-                {allNum.map((num, idx) => {
-                  return (
-                    <BallController
-                      key={`${num}${idx}`}
-                      {...{
-                        currentIndex,
-                        number: num,
-                        prevResults: newArray,
-                      }}
-                      render={(hex, clicked, onClick) => (
-                        <Ball
-                          ripple={{ color: hex, borderless: false }}
-                          title={num}
-                          hex={hex}
-                        />
-                      )}
+                Ninja Time Machine
+              </Text>
+            </View>
+            <View
+              style={{
+                flexWrap: "wrap",
+                flexDirection: "row",
+                justifyContent: "center",
+                width: 260,
+                padding: 10,
+                borderRadius: 6,
+              }}
+            >
+              {previousResults[currentIndex].numbers.map((num, idx) => (
+                <BallController
+                  key={`${num}${idx}`}
+                  {...{
+                    currentIndex,
+                    number: num,
+                    prevResults: newArray,
+                  }}
+                  render={(hex, clicked, onClick) => (
+                    <Ball
+                      ripple={{ color: hex, borderless: false }}
+                      title={num}
+                      hex={hex}
                     />
-                  );
-                })}
-              </View>
-            </ScrollView>
+                  )}
+                />
+              ))}
+
+              {previousResults[currentIndex].specialNumber !== 0 && (
+                <Ball
+                  title={previousResults[currentIndex].specialNumber || 0}
+                  hex="#fff"
+                />
+              )}
+            </View>
+            <View
+              style={{
+                backgroundColor: "#1F5062",
+                width: 270,
+                padding: 10,
+                borderRadius: 6,
+              }}
+            >
+              <ScrollView
+                style={{
+                  height: 166,
+                }}
+              >
+                <View
+                  style={{
+                    flexWrap: "wrap",
+                    gap: 2,
+                    flexDirection: "row",
+                  }}
+                >
+                  {allNum.map((num, idx) => {
+                    return (
+                      <BallController
+                        key={`${num}${idx}`}
+                        {...{
+                          currentIndex,
+                          number: num,
+                          prevResults: newArray,
+                        }}
+                        render={(hex, clicked, onClick) => (
+                          <Ball
+                            ripple={{ color: hex, borderless: false }}
+                            title={num}
+                            hex={hex}
+                          />
+                        )}
+                      />
+                    );
+                  })}
+                </View>
+              </ScrollView>
+            </View>
           </View>
         </View>
+        {/* <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#fff",
+              flexDirection: "row",
+              padding: 10,
+              marginBottom: 20,
+              borderRadius: 8,
+            }}
+          >
+            <LuckyNinjaLogo />
+            <Text
+              style={{
+                marginLeft: 4,
+                color: "#031E29",
+                fontSize: 24,
+                fontWeight: "bold",
+              }}
+            >
+              Ninja Time Machine
+            </Text>
+          </View> */}
       </View>
     </Modal>
   );

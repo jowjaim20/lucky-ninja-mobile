@@ -25,6 +25,7 @@ import { toggleAdd } from "../redux/slices/showAddSlice";
 import { resetPicks, setPicks } from "../redux/slices/picksSlice";
 import { NavigationProp } from "@react-navigation/native";
 import GameCard from "./GameCard";
+import { resetColorOption } from "../redux/slices/colorOptionsSlice";
 
 const ChangeGame: React.FunctionComponent<{
   navigation: NavigationProp<any, any>;
@@ -41,18 +42,15 @@ const ChangeGame: React.FunctionComponent<{
     navigation.navigate("Home");
     dispatch(resetPicks());
     dispatch(toggleAdd());
-    console.log("game", game.id);
     dispatch(updateGame(currentGame));
+    dispatch(resetColorOption());
+
     dispatch(changeGame(game));
   };
 
   return (
     <View>
-      <ScrollView
-        style={{
-          height: 520,
-        }}
-      >
+      <ScrollView style={{}}>
         <GameCard
           {...{ currentGame, games, handleChangeGame, handleDeleteGame }}
         />

@@ -11,7 +11,11 @@ const Settings: React.FunctionComponent<{
   const [modalVisibleAdd, setModalVisibleAdd] = useState(false);
 
   return (
-    <View>
+    <View
+      style={{
+        flex: 0.85,
+      }}
+    >
       <Button
         color="#031E29"
         title="Add Game"
