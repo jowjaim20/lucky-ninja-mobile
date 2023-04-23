@@ -35,6 +35,7 @@ import AllNumbersCardController from "../../components/AllNumbersCardController"
 import SocialSites from "../../components/SocialSites";
 import ColorMaster from "../../components/ColorMaster";
 import useScaling from "../../hooks/useScaling";
+import Instructions from "../../components/Instructions";
 
 const Home = () => {
   const picks = useAppSelector((state) => state.picks);
@@ -43,6 +44,8 @@ const Home = () => {
   const { maxNumber, previousResults, maxCount, name, repeat, id, startZero } =
     useAppSelector((state) => state.currentGame.currentGame);
   const [modalVisible, setModalVisible] = useState(false);
+  const [instructonModal, setInstructonModal] = useState(false);
+
   const [colorModalVisible, setColorModalVisible] = useState(false);
 
   const allNum = Array.from(
@@ -68,6 +71,7 @@ const Home = () => {
     dispatch(
       addPicksTosaved({
         numbers: picks.numbers,
+        numbersEuro: picks.numbersEuro,
         specialNumber: picks.specialNumber,
         date: date.getTime(),
       })
@@ -114,15 +118,23 @@ const Home = () => {
             >
               {name}
             </Text>
-            <Pressable
-              onPress={() =>
-                Alert.alert(
-                  "Info",
-                  "Lucky Ninja colors are based on past results of the game. Add atleast 30 correct past results to get accurate colors."
-                )
-              }
-            >
-              <InfoICon />
+            <Pressable onPress={() => setInstructonModal(true)}>
+              <View
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <InfoICon />
+                <Text
+                  style={{
+                    color: "#fff",
+                  }}
+                >
+                  Instructions
+                </Text>
+              </View>
             </Pressable>
           </View>
         </View>
@@ -154,7 +166,10 @@ const Home = () => {
             >
               <ResultsCard edit={false} results={filtered} />
             </View>
-
+            <Instructions
+              modalVisible={instructonModal}
+              setModalVisible={setInstructonModal}
+            />
             <AllNumbersCardController
               results={previousResults}
               allNumbers={allNum}

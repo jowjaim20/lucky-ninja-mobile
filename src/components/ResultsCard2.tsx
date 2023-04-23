@@ -98,6 +98,28 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
             />
           ))}
 
+          {item.numbersEuro?.map((num, index) => (
+            <BallController
+              notAdd={false}
+              key={`${num}${index}`}
+              {...{
+                currentIndex: currIndex,
+                number: num,
+                prevResults: previousResults,
+              }}
+              render={(hex, clicked, onClick, _, hexEuro) => (
+                <Ball
+                  onClick={handleSetClick}
+                  title={num}
+                  hex={hexEuro}
+                  isEuro
+                  size={33}
+                  clicked={clicked || colorAll}
+                />
+              )}
+            />
+          ))}
+
           {specialNumberMax !== 0 && (
             <BallController
               notAdd={false}

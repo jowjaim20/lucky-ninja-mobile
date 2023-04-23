@@ -40,8 +40,28 @@ const useHandleXDraws = () => {
     return count === frequency;
   };
 
+  const getXDrawsEuro: handleXDraw = ({
+    currentIndex,
+    frequency,
+    number,
+    prevResults,
+    range,
+  }) => {
+    const currIndex = currentIndex === -1 ? 0 : currentIndex;
+    const data = prevResults.filter(
+      (res, index) => index >= currIndex && index < range + currIndex
+    );
+
+    const count = data
+      .map((data) => data.numbersEuro?.unique().filter((num) => num === number))
+      .flat().length;
+
+    return count === frequency;
+  };
+
   return {
     getXDraws,
+    getXDrawsEuro,
   };
 };
 

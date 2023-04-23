@@ -3,7 +3,7 @@ import { View, Pressable, Linking, Text, Alert } from "react-native";
 import { BuyMeACoffeeIcon, PatreonIcon, StarIcon } from "../utils/svg";
 import useScaling from "../hooks/useScaling";
 
-const GOOGLE_PACKAGE_NAME = "Facebook";
+const GOOGLE_PACKAGE_NAME = "com.jowjaim20.luckyNinja";
 
 const SocialSites = () => {
   return (
@@ -99,7 +99,7 @@ const SocialSites = () => {
                     text: "Sure",
                     onPress: () => {
                       Linking.openURL(
-                        `market://details?id=${GOOGLE_PACKAGE_NAME}`
+                        `https://play.google.com/store/apps/details?id=${GOOGLE_PACKAGE_NAME}`
                       ).catch((err) =>
                         alert("Please check for Google Play Store")
                       );

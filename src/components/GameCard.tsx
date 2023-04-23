@@ -1,8 +1,10 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { View, Pressable, Button, Text, Alert, StyleSheet } from "react-native";
 import { Game } from "./enums";
-import { XIcon } from "../utils/svg";
+import { BuyMeACoffeeIcon, ExternalLink, PenIcon, XIcon } from "../utils/svg";
 import Ball from "./Ball";
+import EditGame from "./EditGame";
+import { Linking } from "react-native";
 
 interface GameCardProps {
   games: Game[];
@@ -44,6 +46,8 @@ interface CardProps {
 
 const Card: FunctionComponent<CardProps> = (props) => {
   const { currentGame, handleChangeGame, handleDeleteGame, game } = props;
+  console.log("game", game);
+  const [edit, setEdit] = useState(false);
   return (
     <View
       style={{
@@ -55,6 +59,12 @@ const Card: FunctionComponent<CardProps> = (props) => {
         borderRadius: 8,
       }}
     >
+      <EditGame
+        modalVisible={edit}
+        setModalVisible={setEdit}
+        game={game}
+        handleDeleteGame={handleDeleteGame}
+      />
       <View
         style={{
           display: "flex",
@@ -73,22 +83,15 @@ const Card: FunctionComponent<CardProps> = (props) => {
         </Text>
 
         {game.id !== currentGame.id && (
-          <Pressable
-            onPress={() =>
-              Alert.alert("Alert", `Delete ${game.name}?`, [
-                {
-                  text: "Delete",
-                  onPress: () => handleDeleteGame(game.id),
-                },
-                {
-                  text: "Cancel",
-                  onPress: () => {},
-                },
-              ])
-            }
-          >
-            <View>
-              <XIcon />
+          <Pressable onPress={() => setEdit(true)}>
+            <View
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <PenIcon size={30} color="#fff" />
             </View>
           </Pressable>
         )}
@@ -102,6 +105,10 @@ const Card: FunctionComponent<CardProps> = (props) => {
         }}
       >
         {game?.previousResults[0]?.numbers?.map((num, idx) => (
+          <Ball title={num} hex="#fff" key={`${num}${idx}`} />
+        ))}
+
+        {game?.previousResults[0]?.numbersEuro?.map((num, idx) => (
           <Ball title={num} hex="#fff" key={`${num}${idx}`} />
         ))}
 
@@ -121,12 +128,17 @@ const Card: FunctionComponent<CardProps> = (props) => {
           style={{
             display: "flex",
             flexDirection: "row",
+            alignItems: "center",
             justifyContent: "space-between",
-            width: 100,
+            width: 160,
           }}
         >
           <Text style={styles.text}>{game.maxCount}</Text>
           <Text style={styles.text}>{game.maxNumber}</Text>
+
+          <Text style={styles.text}>{game.maxCountEuro}</Text>
+          <Text style={styles.text}>{game.maxNumberEuro}</Text>
+
           {game.repeat ? (
             <Text style={styles.text}>R</Text>
           ) : (
@@ -139,6 +151,27 @@ const Card: FunctionComponent<CardProps> = (props) => {
           )}
 
           <Text style={styles.text}>{game.specialNumberMax}</Text>
+
+          <View
+            style={{
+              width: 38,
+              height: 38,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Pressable
+              onPress={() => {
+                Linking.openURL(
+                  game.link || `https://google.com/search?q=${game.name}`
+                );
+              }}
+              android_ripple={{ color: "#0D3341", borderless: true }}
+            >
+              <ExternalLink />
+            </Pressable>
+          </View>
         </View>
 
         {game.id !== currentGame.id ? (

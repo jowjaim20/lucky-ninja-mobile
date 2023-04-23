@@ -42,7 +42,6 @@ interface RowItemProps {
 const RowItem: FunctionComponent<RowItemProps> = (props) => {
   const { item, currIndex } = props;
   const dispatch = useAppDispatch();
-  console.log("item", item);
   const clicked = useAppSelector((state) => state.clicked);
   const colorAll = useAppSelector((state) => state.color);
   const { previousResults, specialNumberMax } = useAppSelector(
@@ -75,7 +74,28 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
                   onClick={handleSetClick}
                   title={num}
                   hex={hex}
-                  size={40}
+                  size={37}
+                  clicked={clicked || colorAll}
+                />
+              )}
+            />
+          ))}
+
+          {item.numbersEuro?.map((num, index) => (
+            <BallController
+              key={`${num}${index}`}
+              {...{
+                currentIndex: currIndex,
+                number: num,
+                prevResults: previousResults,
+              }}
+              render={(hex, clicked, onClick, activeSet, hexEuro) => (
+                <Ball
+                  onClick={handleSetClick}
+                  title={num}
+                  hex={hexEuro}
+                  size={37}
+                  isEuro
                   clicked={clicked || colorAll}
                 />
               )}
@@ -95,7 +115,7 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
                   onClick={handleSetClick}
                   title={item.specialNumber || 0}
                   hex="#fff"
-                  size={40}
+                  size={37}
                 />
               )}
             />
@@ -108,6 +128,7 @@ const RowItem: FunctionComponent<RowItemProps> = (props) => {
 
 const ResultsCard: FunctionComponent<ResultsCardProps> = (props) => {
   const { results, edit } = props;
+  console.log("results", results);
   const { scale } = useScaling();
 
   return (
@@ -120,7 +141,7 @@ const ResultsCard: FunctionComponent<ResultsCardProps> = (props) => {
         borderRadius: 16,
         padding: 9,
         backgroundColor: "#AFBDC2",
-        width: 276,
+        width: 300,
         height: 290,
         gap: 10,
         transform: [{ scale }],
@@ -141,6 +162,7 @@ const ResultsCard: FunctionComponent<ResultsCardProps> = (props) => {
         }}
         contentContainerStyle={{
           gap: 5,
+          marginTop: 10,
         }}
         keyExtractor={(item) => item.id}
         data={results}

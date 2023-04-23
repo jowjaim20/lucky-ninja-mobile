@@ -14,6 +14,7 @@ import Color from "./slices/colorSlice";
 import showAddSlice from "./slices/showAddSlice";
 import allNumbers from "./slices/allNumbersSlice";
 import colorOptions from "./slices/colorOptionsSlice";
+import colorOptionsEuro from "./slices/colorOptionsEuroSlice";
 
 // ...
 
@@ -27,6 +28,7 @@ const reducers = combineReducers({
   showAdd: showAddSlice,
   allNumbers: allNumbers,
   colorOptions: colorOptions,
+  colorOptionsEuro: colorOptionsEuro,
 });
 
 const persistConfig = {

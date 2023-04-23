@@ -13,8 +13,11 @@ interface NumberContainerProps {
 }
 const NumberContainer: FunctionComponent<NumberContainerProps> = (props) => {
   const { filtered, newArray, currentIndex } = props;
+  console.log("filtered", filtered);
   const picks = useAppSelector((state) => state.picks);
-  const { maxCount } = useAppSelector((state) => state.currentGame.currentGame);
+  const { maxNumber, maxNumberEuro } = useAppSelector(
+    (state) => state.currentGame.currentGame
+  );
 
   const { handleSetNumbers } = useSetPicks({ notAdd: true, notClick: false });
 
@@ -59,13 +62,19 @@ const NumberContainer: FunctionComponent<NumberContainerProps> = (props) => {
               <BallController
                 key={`${num}${index}`}
                 {...{ currentIndex, number: num, prevResults: newArray }}
-                render={(hex, clicked, onClick) => (
+                render={(hex, clicked, onClick, _, hexEuro) => (
                   <Ball
                     ripple={{ color: hex, borderless: true }}
                     onClick={handleSetNumbers}
                     clicked={false}
                     title={num}
-                    hex={picks.numbers.length === maxCount ? "#fff" : hex}
+                    hex={
+                      filtered[filtered.length - 1] === maxNumber
+                        ? hex
+                        : filtered[filtered.length - 1] === maxNumberEuro
+                        ? hexEuro
+                        : "#fff"
+                    }
                   />
                 )}
               />

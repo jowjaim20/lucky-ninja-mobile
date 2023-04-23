@@ -22,6 +22,8 @@ const NewPicks: React.FunctionComponent<NewPicksProps> = (props) => {
     specialNumberMax,
   } = useAppSelector((state) => state.currentGame.currentGame);
   const colorOptions = useAppSelector((state) => state.colorOptions);
+  const colorOptionsEuro = useAppSelector((state) => state.colorOptionsEuro);
+
   const { scale } = useScaling();
 
   return (
@@ -48,6 +50,11 @@ const NewPicks: React.FunctionComponent<NewPicksProps> = (props) => {
         }}
       >
         {picks.numbers.map((obj, idx) => {
+          return (
+            <Ball scale={scale} key={idx} title={obj.number} hex={obj.hex} />
+          );
+        })}
+        {picks.numbersEuro?.map((obj, idx) => {
           return (
             <Ball scale={scale} key={idx} title={obj.number} hex={obj.hex} />
           );
@@ -98,6 +105,17 @@ const NewPicks: React.FunctionComponent<NewPicksProps> = (props) => {
         }}
       >
         {colorOptions.map((hex, idx) => (
+          <View
+            key={`${hex}${idx}`}
+            style={{
+              width: 10 * scale,
+              height: 10 * scale,
+              borderRadius: 50,
+              backgroundColor: hex,
+            }}
+          ></View>
+        ))}
+        {colorOptionsEuro.map((hex, idx) => (
           <View
             key={`${hex}${idx}`}
             style={{

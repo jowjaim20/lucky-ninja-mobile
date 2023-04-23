@@ -1,6 +1,10 @@
 import React from "react";
 import { setClicked } from "../redux/slices/clickedSlice";
-import { addNumber, addSpecialNumber } from "../redux/slices/picksSlice";
+import {
+  addNumber,
+  addNumberEuro,
+  addSpecialNumber,
+} from "../redux/slices/picksSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 
 const useSetPicks = ({
@@ -23,8 +27,23 @@ const useSetPicks = ({
       notAdd && dispatch(addNumber({ number: num, hex }));
     } else {
       const includes = picks.numbers.find((nums) => nums.number === num);
+      const includesEuro = picks.numbersEuro?.find(
+        (nums) => nums.number === num
+      );
+
+      console.log("currentGame.maxCountEuro", currentGame.maxCountEuro);
+
       if (!includes && currentGame.maxCount !== picks.numbers.length) {
         notAdd && dispatch(addNumber({ number: num, hex }));
+      }
+
+      if (
+        currentGame.maxCount === picks.numbers.length &&
+        !includesEuro &&
+        currentGame.maxCountEuro !== picks.numbersEuro?.length &&
+        currentGame.maxCountEuro
+      ) {
+        notAdd && dispatch(addNumberEuro({ number: num, hex }));
       }
     }
 

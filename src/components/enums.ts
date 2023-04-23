@@ -1,5 +1,6 @@
 export interface Result {
   numbers: number[];
+  numbersEuro?: number[];
   specialNumber: number;
   id: string;
 }
@@ -17,6 +18,7 @@ export interface NumWithColor {
 }
 export interface Saved {
   numbers: NumWithColor[];
+  numbersEuro?: NumWithColor[];
   specialNumber: number;
   date: number;
 }
@@ -25,12 +27,15 @@ export interface Game {
   id: string;
   name: string;
   maxNumber: number;
-  previousResults: Result[];
   maxCount: number;
+  maxNumberEuro?: number;
+  maxCountEuro?: number;
+  previousResults: Result[];
   repeat: boolean;
   startZero: boolean;
   specialNumberMax: number;
   saved: Saved[];
+  link?: string;
 }
 
 export type LuckyGames = Game[];

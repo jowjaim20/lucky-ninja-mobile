@@ -43,17 +43,33 @@ const AllNumbersCardController = (props: AllNumbersCardControllerProps) => {
   const currentFrequency = useAppSelector((state) => state.frequency);
   const [filtered, setfiltered] = useState<number[]>(allNumbers);
   const picks = useAppSelector((state) => state.picks);
-  const { previousResults, maxCount, specialNumberMax } = useAppSelector(
-    (state) => state.currentGame.currentGame
-  );
+  const {
+    previousResults,
+    maxCount,
+    specialNumberMax,
+    maxNumberEuro,
+    maxCountEuro,
+  } = useAppSelector((state) => state.currentGame.currentGame);
 
   useEffect(() => {
+    const mxNumEuro = maxNumberEuro ? maxNumberEuro : 0;
     const filteredAllNumbers = allNumbers.filter(
       (num) => num <= specialNumberMax
     );
 
+    const filteredAllNumbersEuro = allNumbers.filter((num) => num <= mxNumEuro);
+    console.log("filteredAllNumbersEuro", filteredAllNumbersEuro);
+
+    if (
+      picks.numbers.length === maxCount &&
+      picks.numbersEuro?.length !== maxCountEuro &&
+      maxCountEuro
+    )
+      setfiltered(filteredAllNumbersEuro);
+
     if (picks.numbers.length === maxCount && specialNumberMax !== 0)
       setfiltered(filteredAllNumbers);
+
     if (picks.numbers.length === 0) setfiltered(allNumbers);
   }, [picks, specialNumberMax]);
 
@@ -63,6 +79,7 @@ const AllNumbersCardController = (props: AllNumbersCardControllerProps) => {
     if (picks.numbers.length === maxCount) {
       dispatch(
         addResult({
+          numbersEuro: picks.numbersEuro?.map((obj) => obj.number),
           numbers: picks.numbers.map((obj) => obj.number),
           specialNumber: picks.specialNumber,
         })
@@ -77,6 +94,7 @@ const AllNumbersCardController = (props: AllNumbersCardControllerProps) => {
     if (picks.numbers.length === maxCount) {
       dispatch(
         insertResult({
+          numbersEuro: picks.numbersEuro?.map((obj) => obj.number),
           numbers: picks.numbers.map((obj) => obj.number),
           specialNumber: picks.specialNumber,
         })
@@ -92,6 +110,7 @@ const AllNumbersCardController = (props: AllNumbersCardControllerProps) => {
       addPicksTosaved({
         numbers: picks.numbers,
         specialNumber: picks.specialNumber,
+        numbersEuro: picks.numbersEuro,
         date: date.getTime(),
       })
     );

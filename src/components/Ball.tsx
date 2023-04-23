@@ -21,6 +21,7 @@ interface BallProps {
   ripple?: { color: string; borderless: boolean };
   size?: number;
   scale?: number;
+  isEuro?: boolean;
 }
 
 const Ball: React.FunctionComponent<BallProps> = ({
@@ -31,12 +32,13 @@ const Ball: React.FunctionComponent<BallProps> = ({
   ripple,
   size = 40,
   scale = 1,
+  isEuro = false,
 }) => {
   const clickedStyle = {
     bg: {
       width: size * scale,
       height: size * scale,
-      borderColor: !clicked ? "#0D3341" : "#0D3341",
+      borderColor: isEuro ? "#fff" : !clicked ? "#0D3341" : "#0D3341",
       borderTopWidth: 2.5 * scale,
       borderLeftWidth: 2.5 * scale,
       borderRightWidth: 2.5 * scale,

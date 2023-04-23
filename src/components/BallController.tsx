@@ -14,7 +14,8 @@ interface BallControllerProps {
     hex: string,
     clicked: boolean,
     onClick: (num: number) => void,
-    activeSet: boolean
+    activeSet: boolean,
+    hexEuro?: string
   ) => JSX.Element;
   notAdd?: boolean;
   notClick?: boolean;
@@ -35,13 +36,11 @@ const BallController: React.FunctionComponent<BallControllerProps> = (
   const activeSetIndex = useAppSelector((state) => state.activeSet);
 
   const currentFrequency = useAppSelector((state) => state.frequency);
-  const { getXDraws } = useHandleXDraws();
+  const { getXDraws, getXDrawsEuro } = useHandleXDraws();
   const isClicked = clicked === number;
   const activeSet = activeSetIndex === prevResults[currentIndex]?.id;
 
-  console.log("ballController");
   const getHex = useMemo(() => {
-    console.log("getHex");
     const filteredFrequency = currentFrequency.frequency.find((freq) =>
       getXDraws({
         number,
@@ -55,9 +54,24 @@ const BallController: React.FunctionComponent<BallControllerProps> = (
     return filteredFrequency?.hex || "#999999"; //change default once done
   }, [prevResults]);
 
-  const hex = getHex;
+  const getHexEuro = useMemo(() => {
+    const filteredFrequency = currentFrequency.frequency.find((freq) =>
+      getXDrawsEuro({
+        number,
+        prevResults,
+        currentIndex,
+        frequency: freq.frequency,
+        range: freq.range,
+      })
+    );
 
-  return render(hex, isClicked, () => {}, activeSet);
+    return filteredFrequency?.hex || "#999999"; //change default once done
+  }, [prevResults]);
+
+  const hex = getHex;
+  const hexEuro = getHexEuro;
+
+  return render(hex, isClicked, () => {}, activeSet, hexEuro);
 };
 
 export default BallController;
