@@ -61,7 +61,7 @@ const Home = () => {
     generate();
     setCount((prev) => prev + 1);
     if (count === 40) {
-      dispatch(toggleAdd());
+      // dispatch(toggleAdd());
       setCount(0);
     }
   };

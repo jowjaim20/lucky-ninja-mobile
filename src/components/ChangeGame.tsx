@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   changeGame,
   clear,
@@ -32,6 +32,7 @@ const ChangeGame: React.FunctionComponent<{
 }> = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const { games } = useAppSelector((state) => state.currentGame);
+  const [count, setCount] = useState(0);
   const currentGame = useAppSelector((state) => state.currentGame.currentGame);
 
   const handleDeleteGame = (id: string) => {
@@ -39,13 +40,21 @@ const ChangeGame: React.FunctionComponent<{
   };
 
   const handleChangeGame = (game: Game) => {
-    navigation.navigate("Home");
     dispatch(resetPicks());
-    // dispatch(toggleAdd()); // open once app is famous
     dispatch(updateGame(currentGame));
     dispatch(resetColorOption());
 
     dispatch(changeGame(game));
+    setCount((prev) => prev + 1);
+    if (count === 2) {
+      dispatch(toggleAdd());
+      setCount(0);
+      setTimeout(() => {
+        navigation.navigate("Home");
+      }, 3000);
+    } else {
+      navigation.navigate("Home");
+    }
   };
 
   return (
