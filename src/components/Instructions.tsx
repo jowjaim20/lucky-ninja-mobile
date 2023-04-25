@@ -218,7 +218,7 @@ const Instructions: FunctionComponent<InstructionProps> = (props) => {
                   />
                 </ImageWrapper>
                 <Text style={styles.text}>
-                  6. Save the combination the you have generated or manually
+                  6. Save the combination that you have generated or manually
                   picked. Get the tickets and wait for tonights draw!
                 </Text>
                 <ImageWrapper>
@@ -363,14 +363,18 @@ const Instructions: FunctionComponent<InstructionProps> = (props) => {
                   include in the next draw.
                 </Text>
 
-                <Text style={[styles.text, { color: "#e27602" }]}>
+                <Text style={styles.text}>
+                  Thank you for using the app. Good Luck!
+                </Text>
+
+                {/* <Text style={[styles.text, { color: "#e27602" }]}>
                   *Disclaimer: Lottery is a game of chance and no one knows the
                   upcoming result. The app may contain inaccurate information
                   and we are not eligible for any damages it may cause. This app
                   is not connected to any lottery games and does not promote any
                   gambling games. The creator and team is not eligible for
                   anything that this app may affect. Use it responsibly.
-                </Text>
+                </Text> */}
               </View>
             </View>
           </ScrollView>

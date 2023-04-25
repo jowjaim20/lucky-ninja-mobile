@@ -66,6 +66,7 @@ export const CurrentGame = createSlice({
         maxCountEuro: action.payload.maxCountEuro,
         maxNumberEuro: action.payload.maxNumberEuro,
         link: action.payload.link,
+        key: action.payload.key || "",
       };
       state.games.push(newGame);
     },

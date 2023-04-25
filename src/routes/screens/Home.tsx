@@ -60,7 +60,7 @@ const Home = () => {
   const handleCount = () => {
     generate();
     setCount((prev) => prev + 1);
-    if (count === 9) {
+    if (count === 40) {
       dispatch(toggleAdd());
       setCount(0);
     }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Settings } from "react-native";
+import { Alert, Settings } from "react-native";
 
 import {
   Platform,
@@ -15,11 +15,12 @@ import {
   ScrollView,
   Dimensions,
   Switch,
+  Linking,
 } from "react-native";
 import AddGame from "../../components/AddGame";
 import AllNumbersCard from "../../components/AllNumbersCard";
 import Ball from "../../components/Ball";
-import { Result } from "../../components/enums";
+import { Result, gameKeys } from "../../components/enums";
 import Picks from "../../components/Picks";
 import ResultsCard from "../../components/ResultsCard";
 import ResultsCard2 from "../../components/ResultsCard2";
@@ -32,6 +33,8 @@ import { useAppDispatch, useAppSelector } from "../../redux/store";
 import NewPicks from "../../components/NewPicks";
 import {
   ChartIcon,
+  ExternalLink,
+  InfoICon,
   LuckyNinjaLogo,
   PenIcon,
   RefreshIcon,
@@ -41,22 +44,34 @@ import AllNumbersCardController from "../../components/AllNumbersCardController"
 import EditResults from "../../components/EditResults";
 import PastColorsModal from "../../components/PastColorsModal";
 import useScaling from "../../hooks/useScaling";
+import axios from "axios";
 
 const Main = () => {
   const dispatch = useAppDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [disable, setDisable] = useState(false);
 
   const currentFrequency = useAppSelector((state) => state.frequency);
   const { scale } = useScaling();
   // const picks = useAppSelector((state) => state.picks);
 
   const { countColors } = useCountColor();
-  const { maxNumber, previousResults, maxCount, name, repeat, id, startZero } =
-    useAppSelector((state) => state.currentGame.currentGame);
+  const {
+    maxNumber,
+    previousResults,
+    maxCount,
+    name,
+    repeat,
+    id,
+    startZero,
+    link,
+    key,
+  } = useAppSelector((state) => state.currentGame.currentGame);
   console.log("maxNumber", maxNumber);
 
   const counts = countColors(previousResults);
+  const isKeyAvailable = gameKeys.find((thisKey) => thisKey === key);
 
   const handleDeleteResult = (id: string) => {
     dispatch(deleteResult(id));
@@ -75,6 +90,35 @@ const Main = () => {
     (_, i) => (startZero ? i : i + 1)
   );
 
+  const fetchData = async () => {
+    try {
+      const data = await axios.get(
+        "https://jowjaim20.github.io/luckyninjagames/games.json",
+        {
+          headers: {
+            "Cache-Control": "no-cache",
+          },
+        }
+      );
+      const gameFetch = data.data.find((game) => game.key === key);
+      console.log("gameFetch", gameFetch);
+
+      gameFetch && dispatch(updateArray(gameFetch.previousResults));
+      Alert.alert("Game is updated!");
+      setDisable(false);
+    } catch (error) {
+      Alert.alert("Something went wrong!. Please contact support");
+
+      setDisable(false);
+      console.log("error", error);
+    }
+  };
+
+  const handleUpdateArray = () => {
+    setDisable(true);
+    fetchData();
+  };
+
   const halfWindowsWidth = Dimensions.get("window").height * 0.1;
   return (
     <View
@@ -82,6 +126,102 @@ const Main = () => {
         flex: 0.9,
       }}
     >
+      <View
+        style={{
+          elevation: 20,
+        }}
+      >
+        <View
+          style={{
+            padding: 12,
+            backgroundColor: "#0D3341",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 30,
+              fontWeight: "bold",
+              color: "#AFBDC2",
+            }}
+          >
+            {name}
+          </Text>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 20,
+            }}
+          >
+            {isKeyAvailable && (
+              <View
+                style={{
+                  width: 38,
+                  height: 38,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Pressable
+                  onPress={() => {
+                    handleUpdateArray();
+                  }}
+                  disabled={disable}
+                  android_ripple={{ color: "#0D3341", borderless: true }}
+                >
+                  <View
+                    style={{
+                      width: 80,
+                      backgroundColor: disable ? "#AFBDC2" : "#fff",
+                      paddingHorizontal: 10,
+                      paddingVertical: 5,
+                      borderRadius: 12,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: "500",
+                        color: disable ? "#fff" : "#0D3341",
+                      }}
+                    >
+                      Update
+                    </Text>
+                  </View>
+                </Pressable>
+              </View>
+            )}
+            <View
+              style={{
+                width: 38,
+                height: 38,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Pressable
+                onPress={() => {
+                  Linking.openURL(
+                    link || `https://google.com/search?q=${name}`
+                  );
+                }}
+                android_ripple={{ color: "#0D3341", borderless: true }}
+              >
+                <ExternalLink />
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </View>
       {!edit ? (
         <View>
           <NewPicks ninjaTitle="Ninja Analyzer" />

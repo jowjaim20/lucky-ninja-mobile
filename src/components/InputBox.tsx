@@ -40,7 +40,6 @@ const InputBox = <T extends Path<U>, U extends FieldValues>(
     errors,
     rules,
   } = props;
-  console.log("errors", errors);
 
   return (
     <View>

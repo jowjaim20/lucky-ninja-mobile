@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import {
   StyleSheet,
   Alert,
@@ -17,6 +17,7 @@ import NinjaSwitch, { SwitchProps } from "./Switch";
 import { LuckyNinjaLogo, XIcon } from "../utils/svg";
 import { gamesArray, powerBall } from "./data";
 import { Result } from "./enums";
+import useFethData from "../hooks/useFethData";
 
 export type names =
   | "name"
@@ -123,7 +124,9 @@ interface AddGameProps {
 
 const AddGame: FunctionComponent<AddGameProps> = (props) => {
   const { modalVisible, setModalVisible } = props;
+  const { games } = useFethData(modalVisible);
   const [prevResult, setPrevResult] = useState<Result[]>([]);
+  const [key, setKey] = useState("");
 
   const dispatch = useAppDispatch();
 
@@ -160,6 +163,7 @@ const AddGame: FunctionComponent<AddGameProps> = (props) => {
         maxNumberEuro: +data.maxNumberEuro,
         link: data.link,
         previousResults: prevResult,
+        key: key,
       })
     );
     Alert.alert("Game Added");
@@ -251,6 +255,7 @@ const AddGame: FunctionComponent<AddGameProps> = (props) => {
                     specialNumberMax: 0,
                   });
                   setPrevResult([]);
+                  setKey("");
                 }}
               >
                 <View
@@ -264,24 +269,25 @@ const AddGame: FunctionComponent<AddGameProps> = (props) => {
                   <Text style={{}}>RESET</Text>
                 </View>
               </Pressable>
-              {gamesArray.map((game) => {
+              {games.map((game) => {
                 return (
                   <Pressable
                     key={game.id}
                     onPress={() => {
                       reset({
-                        maxCount: game.maxCount,
-                        maxNumber: game.maxNumber,
+                        maxCount: game.maxCount || 0,
+                        maxNumber: game.maxNumber || 0,
                         maxCountEuro: game.maxCountEuro || 0,
                         maxNumberEuro: game.maxNumberEuro || 0,
-                        name: game.name,
-                        repeat: game.repeat,
-                        startZero: game.startZero,
+                        name: game.name || "",
+                        repeat: game.repeat || false,
+                        startZero: game.startZero || false,
                         link: game.link || "",
 
-                        specialNumberMax: game.specialNumberMax,
+                        specialNumberMax: game.specialNumberMax || 0,
                       });
                       setPrevResult(game.previousResults);
+                      setKey(game.key || "");
                     }}
                   >
                     <View

@@ -46,7 +46,6 @@ interface CardProps {
 
 const Card: FunctionComponent<CardProps> = (props) => {
   const { currentGame, handleChangeGame, handleDeleteGame, game } = props;
-  console.log("game", game);
   const [edit, setEdit] = useState(false);
   return (
     <View

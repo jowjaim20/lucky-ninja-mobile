@@ -41,7 +41,7 @@ const ChangeGame: React.FunctionComponent<{
   const handleChangeGame = (game: Game) => {
     navigation.navigate("Home");
     dispatch(resetPicks());
-    dispatch(toggleAdd());
+    // dispatch(toggleAdd()); // open once app is famous
     dispatch(updateGame(currentGame));
     dispatch(resetColorOption());
 

@@ -36,6 +36,7 @@ export interface Game {
   specialNumberMax: number;
   saved: Saved[];
   link?: string;
+  key?: string;
 }
 
 export type LuckyGames = Game[];
@@ -51,6 +52,17 @@ const game: Game = {
   specialNumberMax: 26,
   saved: [],
 };
+
+export const gameKeys = [
+  "mega",
+  "powerBall",
+  "euroMillions",
+  "642lotto",
+  "645lotto",
+  "649lotto",
+  "655lotto",
+  "658lotto",
+];
 
 export interface Result {
   numbers: number[];

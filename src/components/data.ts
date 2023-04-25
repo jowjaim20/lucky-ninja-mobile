@@ -166,6 +166,7 @@ export const mockFrequency: MockFrequency[] = [
 
 export const megamillions = {
   id: "mega",
+  key: "mega",
   maxCount: 5,
   maxNumber: 70,
   link: "https://www.usamega.com/mega-millions/results",
@@ -230,8 +231,10 @@ export const megamillions = {
   specialNumberMax: 25,
   saved: [],
 };
+
 export const ph655 = {
   id: "655lotto",
+  key: "655lotto",
   maxCount: 6,
   maxNumber: 55,
   maxCountEuro: 0,
@@ -433,6 +436,7 @@ export const ph655 = {
 
 export const ph658 = {
   id: "658lotto",
+  key: "658lotto",
   maxCount: 6,
   maxNumber: 58,
   maxCountEuro: 0,
@@ -649,6 +653,7 @@ export const ph658 = {
 
 export const ph649 = {
   id: "649lotto",
+  key: "649lotto",
   maxCount: 6,
   maxNumber: 49,
   maxCountEuro: 0,
@@ -891,6 +896,7 @@ export const ph649 = {
 
 export const ph642 = {
   id: "642lotto",
+  key: "642lotto",
   maxCount: 6,
   maxNumber: 42,
   maxCountEuro: 0,
@@ -1132,6 +1138,7 @@ export const ph642 = {
 
 export const ph645 = {
   id: "645lotto",
+  key: "645lotto",
   maxCount: 6,
   maxNumber: 45,
   maxCountEuro: 0,
@@ -1193,6 +1200,7 @@ export const ph645 = {
 
 export const powerBall = {
   id: "powerBall",
+  key: "powerBall",
   maxCount: 5,
   maxNumber: 69,
   maxCountEuro: 0,
@@ -1257,6 +1265,7 @@ export const powerBall = {
 
 export const euroMillions: Game = {
   id: "euroMillions",
+  key: "euroMillions",
   maxCount: 5,
   maxNumber: 50,
   maxCountEuro: 2,

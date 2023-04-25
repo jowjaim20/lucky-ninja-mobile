@@ -12,6 +12,9 @@
     },
     "preview": {
       "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
       "ios": {
         "resourceClass": "m1-medium"
       }
@@ -23,6 +26,10 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "../LuckyNinjaKeys/pc-api-6785803870516502872-457-b4d75d7b1028.json"
+      }
+    }
   }
 }
