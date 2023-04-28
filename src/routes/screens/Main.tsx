@@ -18,6 +18,7 @@ import {
   Linking,
 } from "react-native";
 import AddGame from "../../components/AddGame";
+import base64 from "react-native-base64";
 import AllNumbersCard from "../../components/AllNumbersCard";
 import Ball from "../../components/Ball";
 import { Result, gameKeys } from "../../components/enums";
@@ -91,12 +92,16 @@ const Main = () => {
   );
 
   const fetchData = async () => {
+    const username = "thiistheway";
+    const password = "winteriscoming";
+
     try {
       const data = await axios.get(
-        "https://jowjaim20.github.io/luckyninjagames/games.json",
+        "https://dull-gray-chick-tam.cyclic.app/states",
         {
           headers: {
             "Cache-Control": "no-cache",
+            Authorization: "Basic " + base64.encode(username + ":" + password),
           },
         }
       );
@@ -107,6 +112,7 @@ const Main = () => {
       Alert.alert("Game is updated!");
       setDisable(false);
     } catch (error) {
+      console.log("error", error);
       Alert.alert("Something went wrong!. Please contact support");
 
       setDisable(false);

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import base64 from "react-native-base64";
+
 import axios from "axios";
 
 const useFethData = (open) => {
@@ -7,12 +9,17 @@ const useFethData = (open) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const username = "thiistheway";
+      const password = "winteriscoming";
+
       try {
         const data = await axios.get(
-          "https://jowjaim20.github.io/luckyninjagames/games.json",
+          "https://dull-gray-chick-tam.cyclic.app/states",
           {
             headers: {
               "Cache-Control": "no-cache",
+              Authorization:
+                "Basic " + base64.encode(username + ":" + password),
             },
           }
         );
