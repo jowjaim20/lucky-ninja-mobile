@@ -46,12 +46,12 @@ const ChangeGame: React.FunctionComponent<{
 
     dispatch(changeGame(game));
     setCount((prev) => prev + 1);
-    if (count === 2) {
+    if (count === 1) {
       dispatch(toggleAdd());
       setCount(0);
       setTimeout(() => {
         navigation.navigate("Home");
-      }, 3000);
+      }, 1000);
     } else {
       navigation.navigate("Home");
     }
