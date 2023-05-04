@@ -62,6 +62,7 @@ export const gameKeys = [
   "649lotto",
   "655lotto",
   "658lotto",
+  "LotoBonheur",
 ];
 
 export interface Result {

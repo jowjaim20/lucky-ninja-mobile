@@ -97,7 +97,7 @@ const Main = () => {
 
     try {
       const data = await axios.get(
-        "https://dull-gray-chick-tam.cyclic.app/states",
+        `https://dull-gray-chick-tam.cyclic.app/games/${key}`,
         {
           headers: {
             "Cache-Control": "no-cache",
@@ -105,8 +105,7 @@ const Main = () => {
           },
         }
       );
-      const gameFetch = data.data.find((game) => game.key === key);
-      console.log("gameFetch", gameFetch);
+      const gameFetch = data.data;
 
       gameFetch && dispatch(updateArray(gameFetch.previousResults));
       Alert.alert("Game is updated!");
