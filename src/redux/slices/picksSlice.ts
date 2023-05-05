@@ -4,17 +4,20 @@ import { Result } from "../../components/enums";
 interface Pick {
   number: number;
   hex: string;
+  lock?: boolean;
 }
 
 interface PicksProps {
   numbers: Pick[];
   numbersEuro?: Pick[];
   specialNumber: number;
+  specialNumberLock?: boolean;
 }
 const initialState: PicksProps = {
   numbers: [],
   numbersEuro: [],
   specialNumber: 0,
+  specialNumberLock: false,
 };
 export const Picks = createSlice({
   name: "picks",
@@ -23,6 +26,22 @@ export const Picks = createSlice({
     addNumber: (state, action: PayloadAction<Pick>) => {
       state.numbers.push(action.payload);
     },
+
+    setLock: (state, action: PayloadAction<{ pick: Pick; index: number }>) => {
+      state.numbers.splice(action.payload.index, 1, action.payload.pick);
+    },
+
+    setLockEuro: (
+      state,
+      action: PayloadAction<{ pick: Pick; index: number }>
+    ) => {
+      state.numbersEuro?.splice(action.payload.index, 1, action.payload.pick);
+    },
+
+    setLockSpecialNumber: (state, action: PayloadAction<boolean>) => {
+      state.specialNumberLock = action.payload;
+    },
+
     addNumberEuro: (state, action: PayloadAction<Pick>) => {
       if (state.numbersEuro) state.numbersEuro.push(action.payload);
     },
@@ -51,4 +70,7 @@ export const {
   addSpecialNumber,
   addNumberEuro,
   setPicksEuro,
+  setLock,
+  setLockEuro,
+  setLockSpecialNumber,
 } = Picks.actions;

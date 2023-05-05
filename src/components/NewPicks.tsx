@@ -1,15 +1,21 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { useAppSelector } from "../redux/store";
+import { useAppDispatch, useAppSelector } from "../redux/store";
 import Ball from "./Ball";
 import { LuckyNinjaLogo } from "../utils/svg";
 import useScaling from "../hooks/useScaling";
+import {
+  setLock,
+  setLockEuro,
+  setLockSpecialNumber,
+} from "../redux/slices/picksSlice";
 
 interface NewPicksProps {
   ninjaTitle: string;
 }
 const NewPicks: React.FunctionComponent<NewPicksProps> = (props) => {
   const { ninjaTitle } = props;
+  const dispatch = useAppDispatch();
   const picks = useAppSelector((state) => state.picks);
   const {
     maxNumber,
@@ -51,20 +57,51 @@ const NewPicks: React.FunctionComponent<NewPicksProps> = (props) => {
       >
         {picks.numbers.map((obj, idx) => {
           return (
-            <Ball scale={scale} key={idx} title={obj.number} hex={obj.hex} />
+            <Ball
+              onClick={() =>
+                dispatch(
+                  setLock({
+                    pick: { hex: obj.hex, number: obj.number, lock: !obj.lock },
+                    index: idx,
+                  })
+                )
+              }
+              scale={scale}
+              key={idx}
+              clicked={obj.lock}
+              title={obj.number}
+              hex={obj.hex}
+            />
           );
         })}
         {picks.numbersEuro?.map((obj, idx) => {
           return (
-            <Ball scale={scale} key={idx} title={obj.number} hex={obj.hex} />
+            <Ball
+              onClick={() =>
+                dispatch(
+                  setLockEuro({
+                    pick: { hex: obj.hex, number: obj.number, lock: !obj.lock },
+                    index: idx,
+                  })
+                )
+              }
+              scale={scale}
+              key={idx}
+              clicked={obj.lock}
+              title={obj.number}
+              hex={obj.hex}
+            />
           );
         })}
         {picks?.specialNumber !== 0 && specialNumberMax && (
           <Ball
+            onClick={() =>
+              dispatch(setLockSpecialNumber(!picks?.specialNumberLock))
+            }
             scale={scale}
-            onClick={() => {}}
             title={picks.specialNumber || 0}
-            hex="#fff"
+            clicked={picks?.specialNumberLock}
+            hex={"#fff"}
           />
         )}
         {picks.numbers.length === 0 && (

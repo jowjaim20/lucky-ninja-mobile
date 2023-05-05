@@ -53,6 +53,7 @@ const Home = () => {
     (_, i) => (startZero ? i : i + 1)
   );
   const dispatch = useAppDispatch();
+  const GOOGLE_PACKAGE_NAME = "com.jowjaim20.luckyNinja";
 
   const { generate } = useGenerateNumbers();
   const [count, setCount] = useState(0);
@@ -60,7 +61,18 @@ const Home = () => {
   const handleCount = () => {
     generate();
     setCount((prev) => prev + 1);
-    if (count === 40) {
+    if (count === 20) {
+      Alert.alert("Rate us", "Would you like to share your review with us?", [
+        {
+          text: "Sure",
+          onPress: () => {
+            Linking.openURL(
+              `https://play.google.com/store/apps/details?id=${GOOGLE_PACKAGE_NAME}`
+            ).catch((err) => alert("Please check for Google Play Store"));
+          },
+        },
+        { text: "No Thanks!", onPress: () => {} },
+      ]);
       // dispatch(toggleAdd());
       setCount(0);
     }

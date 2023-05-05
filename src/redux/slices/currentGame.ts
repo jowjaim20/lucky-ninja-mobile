@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import uuid from "react-native-uuid";
 import { Game, LuckyGames, Result, Saved } from "../../components/enums";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { gamesArray, megamillions, powerBall } from "../../components/data";
+import { gamesArray, megamillions } from "../../components/data";
 
 interface InitState {
   games: Game[];

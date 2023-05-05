@@ -21,6 +21,7 @@ const useGenerateNumbers = () => {
     maxCountEuro,
     maxNumberEuro,
   } = useAppSelector((state) => state.currentGame.currentGame);
+  const picks = useAppSelector((state) => state.picks);
   const games = useAppSelector((state) => state.currentGame.games);
   const options = useAppSelector((state) => state.colorOptions);
   const optionsEuro = useAppSelector((state) => state.colorOptionsEuro);
@@ -54,88 +55,115 @@ const useGenerateNumbers = () => {
   const currentFrequency = useAppSelector((state) => state.frequency);
 
   const generate = () => {
-    const numArr: { number: number; hex: string }[] = [];
-    const numArrEuro: { number: number; hex: string }[] = [];
+    const numArr: { number: number; hex: string; lock: boolean }[] = [];
+    const numArrEuro: { number: number; hex: string; lock: boolean }[] = [];
 
     let specialNumber = 0;
 
     while (numArr.length !== maxCount) {
-      const number = startZero
-        ? Math.trunc(Math.random() * (maxNumber + 1))
-        : Math.trunc(Math.random() * maxNumber) + 1;
-      // const number = 6;
+      if (picks.numbers[numArr.length]?.lock) {
+        numArr.push({
+          number: picks.numbers[numArr.length].number,
+          hex: picks.numbers[numArr.length].hex,
+          lock: picks.numbers[numArr.length].lock || false,
+        });
+      } else {
+        const number = startZero
+          ? Math.trunc(Math.random() * (maxNumber + 1))
+          : Math.trunc(Math.random() * maxNumber) + 1;
+        // const number = 6;
 
-      const getHex = () => {
-        console.log("getHex");
-        const filteredFrequency = currentFrequency.frequency.find((freq) =>
-          getXDraws({
-            number,
-            prevResults: newArray,
-            currentIndex: -1,
-            frequency: freq.frequency,
-            range: freq.range,
-          })
-        );
-        return filteredFrequency?.hex || "#999999"; //change default once done
-      };
+        const getHex = () => {
+          console.log("getHex");
+          const filteredFrequency = currentFrequency.frequency.find((freq) =>
+            getXDraws({
+              number,
+              prevResults: newArray,
+              currentIndex: -1,
+              frequency: freq.frequency,
+              range: freq.range,
+            })
+          );
+          return filteredFrequency?.hex || "#999999"; //change default once done
+        };
 
-      const hex = getHex();
+        const hex = getHex();
 
-      const isHex =
-        options[numArr.length] === hex || options[numArr.length] === undefined;
+        const isHex =
+          options[numArr.length] === hex ||
+          options[numArr.length] === undefined;
 
-      console.log("isHex", isHex);
+        console.log("isHex", isHex);
 
-      if (!numArr.find((nums) => nums.number === number) && !repeat && isHex) {
-        numArr.push({ number: number, hex: hex });
+        if (
+          !numArr.find((nums) => nums.number === number) &&
+          !repeat &&
+          isHex
+        ) {
+          numArr.push({ number: number, hex: hex, lock: false });
+        }
+
+        if (repeat && isHex)
+          numArr.push({ number: number, hex: hex, lock: false });
       }
-
-      if (repeat && isHex) numArr.push({ number: number, hex: hex });
     }
 
     while (maxCountEuro && numArrEuro.length !== maxCountEuro) {
-      const number = startZero
-        ? Math.trunc(Math.random() * (numberEuro + 1))
-        : Math.trunc(Math.random() * numberEuro) + 1;
-      // const number = 6;
+      if (picks.numbersEuro && picks.numbersEuro[numArrEuro.length]?.lock) {
+        numArrEuro.push({
+          number: picks.numbersEuro[numArrEuro.length].number,
+          hex: picks.numbersEuro[numArrEuro.length].hex,
+          lock: picks.numbersEuro[numArrEuro.length].lock || false,
+        });
+      } else {
+        const number = startZero
+          ? Math.trunc(Math.random() * (numberEuro + 1))
+          : Math.trunc(Math.random() * numberEuro) + 1;
+        // const number = 6;
 
-      const getHex = () => {
-        console.log("getHex");
-        const filteredFrequency = currentFrequency.frequency.find((freq) =>
-          getXDrawsEuro({
-            number,
-            prevResults: newArrayEuro,
-            currentIndex: -1,
-            frequency: freq.frequency,
-            range: freq.range,
-          })
-        );
-        return filteredFrequency?.hex || "#999999"; //change default once done
-      };
+        const getHex = () => {
+          console.log("getHex");
+          const filteredFrequency = currentFrequency.frequency.find((freq) =>
+            getXDrawsEuro({
+              number,
+              prevResults: newArrayEuro,
+              currentIndex: -1,
+              frequency: freq.frequency,
+              range: freq.range,
+            })
+          );
+          return filteredFrequency?.hex || "#999999"; //change default once done
+        };
 
-      const hex = getHex();
+        const hex = getHex();
 
-      const isHex =
-        optionsEuro[numArrEuro.length] === hex ||
-        optionsEuro[numArrEuro.length] === undefined;
+        const isHex =
+          optionsEuro[numArrEuro.length] === hex ||
+          optionsEuro[numArrEuro.length] === undefined;
 
-      console.log("isHex", isHex);
+        console.log("isHex", isHex);
 
-      if (
-        !numArrEuro.find((nums) => nums.number === number) &&
-        !repeat &&
-        isHex
-      ) {
-        numArrEuro.push({ number: number, hex: hex });
+        if (
+          !numArrEuro.find((nums) => nums.number === number) &&
+          !repeat &&
+          isHex
+        ) {
+          numArrEuro.push({ number: number, hex: hex, lock: false });
+        }
+
+        if (repeat && isHex)
+          numArrEuro.push({ number: number, hex: hex, lock: false });
       }
-
-      if (repeat && isHex) numArrEuro.push({ number: number, hex: hex });
     }
 
     if (specialNumberMax !== 0) {
-      const number = Math.trunc(Math.random() * specialNumberMax) + 1;
+      if (picks.specialNumberLock) {
+        specialNumber = picks.specialNumber;
+      } else {
+        const number = Math.trunc(Math.random() * specialNumberMax) + 1;
 
-      specialNumber = number;
+        specialNumber = number;
+      }
     }
     console.log("specialNumber", specialNumber);
 
