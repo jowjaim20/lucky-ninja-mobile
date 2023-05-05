@@ -15,6 +15,7 @@ import showAddSlice from "./slices/showAddSlice";
 import allNumbers from "./slices/allNumbersSlice";
 import colorOptions from "./slices/colorOptionsSlice";
 import colorOptionsEuro from "./slices/colorOptionsEuroSlice";
+import Rate from "./slices/rateSlice";
 
 // ...
 
@@ -29,12 +30,13 @@ const reducers = combineReducers({
   allNumbers: allNumbers,
   colorOptions: colorOptions,
   colorOptionsEuro: colorOptionsEuro,
+  rate: Rate,
 });
 
 const persistConfig = {
   key: "currentGame",
   storage: AsyncStorage,
-  whitelist: ["currentGame"],
+  whitelist: ["currentGame", "rate"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

@@ -36,13 +36,17 @@ import SocialSites from "../../components/SocialSites";
 import ColorMaster from "../../components/ColorMaster";
 import useScaling from "../../hooks/useScaling";
 import Instructions from "../../components/Instructions";
+import { setRate } from "../../redux/slices/rateSlice";
 
 const Home = () => {
   const picks = useAppSelector((state) => state.picks);
+  const rate = useAppSelector((state) => state.rate);
+
   const { scale } = useScaling();
 
   const { maxNumber, previousResults, maxCount, name, repeat, id, startZero } =
     useAppSelector((state) => state.currentGame.currentGame);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [instructonModal, setInstructonModal] = useState(false);
 
@@ -62,17 +66,19 @@ const Home = () => {
     generate();
     setCount((prev) => prev + 1);
     if (count === 20) {
-      Alert.alert("Rate us", "Would you like to share your review with us?", [
-        {
-          text: "Sure",
-          onPress: () => {
-            Linking.openURL(
-              `https://play.google.com/store/apps/details?id=${GOOGLE_PACKAGE_NAME}`
-            ).catch((err) => alert("Please check for Google Play Store"));
+      if (!rate)
+        Alert.alert("Rate us", "Would you like to share your review with us?", [
+          {
+            text: "Sure",
+            onPress: () => {
+              dispatch(setRate(true));
+              Linking.openURL(
+                `https://play.google.com/store/apps/details?id=${GOOGLE_PACKAGE_NAME}`
+              ).catch((err) => alert("Please check for Google Play Store"));
+            },
           },
-        },
-        { text: "No Thanks!", onPress: () => {} },
-      ]);
+          { text: "No Thanks!", onPress: () => {} },
+        ]);
       // dispatch(toggleAdd());
       setCount(0);
     }
