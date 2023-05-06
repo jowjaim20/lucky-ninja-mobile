@@ -53,18 +53,6 @@ const game: Game = {
   saved: [],
 };
 
-export const gameKeys = [
-  "mega",
-  "powerBall",
-  "euroMillions",
-  "642lotto",
-  "645lotto",
-  "649lotto",
-  "655lotto",
-  "658lotto",
-  "LotoBonheur",
-];
-
 export interface Result {
   numbers: number[];
   specialNumber: number;

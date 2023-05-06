@@ -21,7 +21,7 @@ import AddGame from "../../components/AddGame";
 import base64 from "react-native-base64";
 import AllNumbersCard from "../../components/AllNumbersCard";
 import Ball from "../../components/Ball";
-import { Result, gameKeys } from "../../components/enums";
+import { Result } from "../../components/enums";
 import Picks from "../../components/Picks";
 import ResultsCard from "../../components/ResultsCard";
 import ResultsCard2 from "../../components/ResultsCard2";
@@ -72,7 +72,7 @@ const Main = () => {
   console.log("maxNumber", maxNumber);
 
   const counts = countColors(previousResults);
-  const isKeyAvailable = gameKeys.find((thisKey) => thisKey === key);
+  const isKeyAvailable = key !== "";
 
   const handleDeleteResult = (id: string) => {
     dispatch(deleteResult(id));
