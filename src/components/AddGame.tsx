@@ -15,9 +15,9 @@ import { useForm } from "react-hook-form";
 import InputBox, { InputBoxProps } from "./InputBox";
 import NinjaSwitch, { SwitchProps } from "./Switch";
 import { LuckyNinjaLogo, XIcon } from "../utils/svg";
-import { gamesArray, powerBall } from "./data";
 import { Result } from "./enums";
 import useFethData from "../hooks/useFethData";
+import useUpdateToken from "../hooks/useUpdateToken";
 
 export type names =
   | "name"

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "14289124965",
+    "project_id": "lucky-ninja",
+    "storage_bucket": "lucky-ninja.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14289124965:android:e7477332e4f716727d508c",
+        "android_client_info": {
+          "package_name": "com.jowjaim20.luckyNinja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "14289124965-cce6uptmnbts2is55ebat8mr0hk9o67d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcHS9kUdDDFTl71xBix4_BywisJBEcC34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "14289124965-cce6uptmnbts2is55ebat8mr0hk9o67d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

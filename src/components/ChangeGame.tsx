@@ -26,6 +26,7 @@ import { resetPicks, setPicks } from "../redux/slices/picksSlice";
 import { NavigationProp } from "@react-navigation/native";
 import GameCard from "./GameCard";
 import { resetColorOption } from "../redux/slices/colorOptionsSlice";
+import useUpdateToken from "../hooks/useUpdateToken";
 
 const ChangeGame: React.FunctionComponent<{
   navigation: NavigationProp<any, any>;
@@ -40,6 +41,7 @@ const ChangeGame: React.FunctionComponent<{
   };
 
   const handleChangeGame = (game: Game) => {
+    console.log("game", game);
     dispatch(resetPicks());
     dispatch(updateGame(currentGame));
     dispatch(resetColorOption());

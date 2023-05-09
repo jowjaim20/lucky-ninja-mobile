@@ -13,24 +13,7 @@ import {
   Dimensions,
   Switch,
 } from "react-native";
-import AddGame from "./components/AddGame";
-import AllNumbersCard from "./components/AllNumbersCard";
-import Ball from "./components/Ball";
-import BallController from "./components/BallController";
-import ChangeGame from "./components/ChangeGame";
-import { Result } from "./components/enums";
-import Picks from "./components/Picks";
-import ResultsCard from "./components/ResultsCard";
-import useCountColor from "./hooks/useCountColor";
-import useModifyArray from "./hooks/useModifyArray";
-import { setClicked } from "./redux/slices/clickedSlice";
-import {
-  addGame,
-  addResult,
-  deleteResult,
-  updateArray,
-} from "./redux/slices/currentGame";
-import { addNumber, resetPicks } from "./redux/slices/picksSlice";
+import * as Notifications from "expo-notifications";
 import { useAppDispatch, useAppSelector } from "./redux/store";
 import { ClockIcon, FireIcon, HomeIcon, SettingsIcon } from "./utils/svg";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -46,6 +29,7 @@ import {
   InterstitialAd,
   AdEventType,
 } from "react-native-google-mobile-ads";
+import useNotifications from "./hooks/useNotifications";
 
 const adUnitId = __DEV__
   ? TestIds.BANNER
@@ -64,6 +48,13 @@ const Tab = createBottomTabNavigator();
 
 const NinjaApp = () => {
   const showAdd = useAppSelector((state) => state.showAdd);
+  const games = useAppSelector((state) => state.currentGame.games);
+
+  const {
+    handleNotification,
+    handleNotificationResponse,
+    registerForPushNotificationsAsync,
+  } = useNotifications();
 
   useEffect(() => {
     const unsubscribe = interstitial.addAdEventListener(
@@ -79,6 +70,27 @@ const NinjaApp = () => {
     // Unsubscribe from events on unmount
     return unsubscribe;
   }, [showAdd]);
+
+  useEffect(() => {
+    registerForPushNotificationsAsync();
+
+    const handleNotificationListener =
+      Notifications.addNotificationReceivedListener(handleNotification);
+
+    const responseListener =
+      Notifications.addNotificationResponseReceivedListener(
+        handleNotificationResponse
+      );
+
+    return () => {
+      if (responseListener)
+        Notifications.removeNotificationSubscription(responseListener);
+      if (handleNotificationListener)
+        Notifications.removeNotificationSubscription(
+          handleNotificationListener
+        );
+    };
+  }, [games]);
   return (
     <SafeAreaView
       style={[

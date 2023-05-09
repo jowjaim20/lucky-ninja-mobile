@@ -5,6 +5,7 @@
     "version": "1.0.8",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "com.jowjaim20.luckyNinja",
     "userInterfaceStyle": "light",
     "backgroundColor": "#D5D9DA",
     "splash": {
@@ -22,7 +23,8 @@
         "backgroundColor": "#234451"
       },
       "versionCode": 9,
-      "package": "com.jowjaim20.luckyNinja"
+      "package": "com.jowjaim20.luckyNinja",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
