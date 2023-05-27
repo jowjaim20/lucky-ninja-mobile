@@ -93,15 +93,27 @@ const PastColorsModal: FunctionComponent<PastColorModalProps> = (props) => {
                 marginTop: -30,
               }}
             >
-              <Text
-                style={{
-                  color: "#031E29",
-                  fontSize: 16,
-                  fontWeight: "bold",
-                }}
-              >
-                Ninja Time Machine
-              </Text>
+              {previousResults[currentIndex]?.date ? (
+                <Text
+                  style={{
+                    color: "#031E29",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {previousResults[currentIndex]?.date}
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    color: "#031E29",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Ninja Time Machine
+                </Text>
+              )}
             </View>
             <View
               style={{

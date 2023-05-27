@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Platform,
-  Pressable,
   SafeAreaView,
   View,
   StatusBar,
-  Text,
   StyleSheet,
-  TextInput,
-  Button,
-  ScrollView,
-  Dimensions,
-  Switch,
+  Alert,
 } from "react-native";
 import * as Notifications from "expo-notifications";
 import { useAppDispatch, useAppSelector } from "./redux/store";
@@ -30,6 +24,15 @@ import {
   AdEventType,
 } from "react-native-google-mobile-ads";
 import useNotifications from "./hooks/useNotifications";
+import {
+  changeGame,
+  updateArray,
+  updateGame,
+} from "./redux/slices/currentGame";
+import axios from "axios";
+import base64 from "react-native-base64";
+import { resetColorOption } from "./redux/slices/colorOptionsSlice";
+import { resetPicks } from "./redux/slices/picksSlice";
 
 const adUnitId = __DEV__
   ? TestIds.BANNER
@@ -47,14 +50,39 @@ const interstitial = InterstitialAd.createForAdRequest(adUnitId1, {
 const Tab = createBottomTabNavigator();
 
 const NinjaApp = () => {
+  const dispatch = useAppDispatch();
   const showAdd = useAppSelector((state) => state.showAdd);
   const games = useAppSelector((state) => state.currentGame.games);
+  const currentGame = useAppSelector((state) => state.currentGame.currentGame);
 
-  const {
-    handleNotification,
-    handleNotificationResponse,
-    registerForPushNotificationsAsync,
-  } = useNotifications();
+  const fetchData = async (key: string) => {
+    const username = "thiistheway";
+    const password = "winteriscoming";
+
+    try {
+      const data = await axios.get(
+        `https://dull-gray-chick-tam.cyclic.app/games/${key}`,
+        {
+          headers: {
+            "Cache-Control": "no-cache",
+            Authorization: "Basic " + base64.encode(username + ":" + password),
+          },
+        }
+      );
+      const gameFetch = data.data;
+
+      gameFetch && dispatch(updateArray(gameFetch.previousResults));
+      console.log("test");
+    } catch (error) {
+      console.log("error", error);
+      Alert.alert("Something went wrong!. Please contact support");
+
+      console.log("error", error);
+    }
+  };
+
+  const { handleNotification, registerForPushNotificationsAsync } =
+    useNotifications();
 
   useEffect(() => {
     const unsubscribe = interstitial.addAdEventListener(
@@ -79,7 +107,20 @@ const NinjaApp = () => {
 
     const responseListener =
       Notifications.addNotificationResponseReceivedListener(
-        handleNotificationResponse
+        (response: Notifications.NotificationResponse) => {
+          const data: { key?: string } =
+            response.notification.request.content.data;
+          console.log("data", data);
+          const game = games.find((game) => game.key === data.key);
+
+          if (game) {
+            dispatch(resetPicks());
+            dispatch(updateGame(currentGame));
+            dispatch(resetColorOption());
+            dispatch(changeGame(game || games[0]));
+            fetchData(data.key || "");
+          }
+        }
       );
 
     return () => {
@@ -227,32 +268,6 @@ const NinjaApp = () => {
           />
         </Tab.Navigator>
       </NavigationContainer>
-
-      {/* <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          marginTop: "auto",
-          padding: 5,
-          backgroundColor: "#2b2b2b",
-          borderTopWidth: 0.2,
-          borderLeftWidth: 0.2,
-          borderRightWidth: 0.2,
-          borderColor: "#7b7b7b22",
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10,
-        }}
-      >
-        <Pressable>
-          <HomeIcon />
-        </Pressable>
-        <Pressable>
-          <FireIcon />
-        </Pressable>
-        <ClockIcon />
-        <SettingsIcon />
-      </View> */}
     </SafeAreaView>
   );
 };

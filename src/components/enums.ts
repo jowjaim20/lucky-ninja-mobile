@@ -3,6 +3,8 @@ export interface Result {
   numbersEuro?: number[];
   specialNumber: number;
   id: string;
+  date?: string;
+  price?: string;
 }
 
 export interface Frequency {
