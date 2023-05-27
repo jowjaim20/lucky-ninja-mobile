@@ -47,17 +47,6 @@ const RowItem = (props: { item: Result; currIndex: number }) => {
           >
             Winning Combination
           </Text>
-          {item?.price && (
-            <Text
-              style={{
-                color: "#fff",
-                fontSize: 18,
-                fontWeight: "600",
-              }}
-            >
-              {item?.price}
-            </Text>
-          )}
 
           {item?.date && (
             <Text
@@ -68,6 +57,18 @@ const RowItem = (props: { item: Result; currIndex: number }) => {
               }}
             >
               {item?.date}
+            </Text>
+          )}
+
+          {item?.price && (
+            <Text
+              style={{
+                color: "#fff",
+                fontSize: 18,
+                fontWeight: "600",
+              }}
+            >
+              {item?.price}
             </Text>
           )}
         </View>
