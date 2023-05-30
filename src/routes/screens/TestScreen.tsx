@@ -149,7 +149,7 @@ const TestScreen = () => {
         flex: 0.9,
       }}
     >
-      <RowItem item={lastest} currIndex={0} />
+      {lastest && <RowItem item={lastest} currIndex={0} />}
       <ScrollView style={{}}>
         <View
           style={{

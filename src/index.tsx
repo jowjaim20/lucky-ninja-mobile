@@ -24,15 +24,10 @@ import {
   AdEventType,
 } from "react-native-google-mobile-ads";
 import useNotifications from "./hooks/useNotifications";
-import {
-  changeGame,
-  updateArray,
-  updateGame,
-} from "./redux/slices/currentGame";
-import axios from "axios";
-import base64 from "react-native-base64";
+import { changeGame, updateGame } from "./redux/slices/currentGame";
 import { resetColorOption } from "./redux/slices/colorOptionsSlice";
 import { resetPicks } from "./redux/slices/picksSlice";
+import { fetchData } from "./utils/fetch";
 
 const adUnitId = __DEV__
   ? TestIds.BANNER
@@ -55,32 +50,6 @@ const NinjaApp = () => {
   const games = useAppSelector((state) => state.currentGame.games);
   const currentGame = useAppSelector((state) => state.currentGame.currentGame);
 
-  const fetchData = async (key: string) => {
-    const username = "thiistheway";
-    const password = "winteriscoming";
-
-    try {
-      const data = await axios.get(
-        `https://dull-gray-chick-tam.cyclic.app/games/${key}`,
-        {
-          headers: {
-            "Cache-Control": "no-cache",
-            Authorization: "Basic " + base64.encode(username + ":" + password),
-          },
-        }
-      );
-      const gameFetch = data.data;
-
-      gameFetch && dispatch(updateArray(gameFetch.previousResults));
-      console.log("test");
-    } catch (error) {
-      console.log("error", error);
-      Alert.alert("Something went wrong!. Please contact support");
-
-      console.log("error", error);
-    }
-  };
-
   const { handleNotification, registerForPushNotificationsAsync } =
     useNotifications();
 
@@ -98,6 +67,10 @@ const NinjaApp = () => {
     // Unsubscribe from events on unmount
     return unsubscribe;
   }, [showAdd]);
+
+  useEffect(() => {
+    if (currentGame.key !== "") fetchData(currentGame.key || "", dispatch);
+  }, []);
 
   useEffect(() => {
     registerForPushNotificationsAsync();
@@ -118,7 +91,7 @@ const NinjaApp = () => {
             dispatch(updateGame(currentGame));
             dispatch(resetColorOption());
             dispatch(changeGame(game || games[0]));
-            fetchData(data.key || "");
+            fetchData(data.key || "", dispatch);
           }
         }
       );

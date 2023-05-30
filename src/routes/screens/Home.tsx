@@ -64,10 +64,17 @@ const Home = () => {
 
   const handleCount = () => {
     generate();
+  };
+
+  const handleAddSaved = () => {
+    const date = new Date();
+
     setCount((prev) => prev + 1);
-    if (count === 20) {
-      if (!rate)
-        Alert.alert("Rate us", "Would you like to share your review with us?", [
+    if (count === 2) {
+      Alert.alert(
+        "Rate us",
+        "Thank you for using Lucky Ninja. Would you like to share your review with us?",
+        [
           {
             text: "Sure",
             onPress: () => {
@@ -78,14 +85,18 @@ const Home = () => {
             },
           },
           { text: "No Thanks!", onPress: () => {} },
-        ]);
+        ]
+      );
       // dispatch(toggleAdd());
       setCount(0);
+    } else {
+      Alert.alert("Alert", "Added to saved numbers", [
+        {
+          text: "Ok",
+        },
+      ]);
     }
-  };
 
-  const handleAddSaved = () => {
-    const date = new Date();
     dispatch(
       addPicksTosaved({
         numbers: picks.numbers,
@@ -94,11 +105,6 @@ const Home = () => {
         date: date.getTime(),
       })
     );
-    Alert.alert("Alert", "Added to saved numbers", [
-      {
-        text: "Ok",
-      },
-    ]);
   };
   const handleClearPicks = () => {
     dispatch(resetPicks());

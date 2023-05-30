@@ -20,13 +20,12 @@ import {
 } from "react-native";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { Game } from "./enums";
-import { XIcon } from "../utils/svg";
 import { toggleAdd } from "../redux/slices/showAddSlice";
 import { resetPicks, setPicks } from "../redux/slices/picksSlice";
 import { NavigationProp } from "@react-navigation/native";
 import GameCard from "./GameCard";
 import { resetColorOption } from "../redux/slices/colorOptionsSlice";
-import useUpdateToken from "../hooks/useUpdateToken";
+import { fetchData } from "../utils/fetch";
 
 const ChangeGame: React.FunctionComponent<{
   navigation: NavigationProp<any, any>;
@@ -47,6 +46,7 @@ const ChangeGame: React.FunctionComponent<{
     dispatch(resetColorOption());
 
     dispatch(changeGame(game));
+    if (game.key !== "") fetchData(game.key || "", dispatch);
     setCount((prev) => prev + 1);
     if (count === 1) {
       dispatch(toggleAdd());
